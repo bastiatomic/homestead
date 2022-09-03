@@ -1,0 +1,8 @@
+body {
+    /*font-family: "Comfortaa", sans-serif;*/
+    font-family: "Open Sans", sans-serif;
+    background-color: rgb(240,240,240)
+}
+h1,h2,h3,p,div{
+    color: rgb(95,98,103)
+}
