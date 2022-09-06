@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Homestead</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/9.9.3/firebase-app-compat.js"></script>
+
+    <script src="app.js"></script>
+    <script async defer src="https://apis.google.com/js/api.js" onclick="onLoad_gapiLoaded()"></script> <!-- GAPI -->
+    <script async defer src="https://accounts.google.com/gsi/client"></script>
+
+  </head>
+
+  <body>
+
+    <h1>Protected by Google Identity</h1>
+    <button onclick="listMajors()">click me</button>
+    <div id="content"></div>
+
+    <div id="g_id_onload"
+    data-client_id="837767818302-cbn24e9j41t8bfhmosgvvs200q1t991g.apps.googleusercontent.com"
+    data-context="signin"
+    data-callback="handleCredentialResponse"
+    data-auto_select="true"
+    data-close_on_tap_outside="false">
+</div>
+
+
+
+  </body>
+</html>
+
