@@ -1,10 +1,8 @@
 window.onload = function() {
-  /*  google.accounts.id.initialize({
-        client_id: '837767818302-cbn24e9j41t8bfhmosgvvs200q1t991g.apps.googleusercontent.com',
-        callback: handleCredentialResponse
-      });
-      console.log("SHOW GIS")
-      google.accounts.id.prompt();*/
+   // google.accounts.id.initialize({
+     //   client_id: CLIENT_ID,
+       // callback: handleCredentialResponse
+      //})
 }
 
 
