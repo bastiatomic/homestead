@@ -1,25 +1,16 @@
 
-window.onload = function(){
-    
-}
 var tokenClient;
 var access_token;
-var clientId = '837767818302-cbn24e9j41t8bfhmosgvvs200q1t991g.apps.googleusercontent.com';
 
 const CLIENT_ID = '837767818302-cbn24e9j41t8bfhmosgvvs200q1t991g.apps.googleusercontent.com';
-const API_KEY = 'AIzaSyAlln1qR1gkv17woBHxo1Ti2TMa4zBFVjw';
+const API_KEY = 'AIzaSyCOcTe261vaOow-cZPbTiMkBeRANdOweeA';
 
-// Discovery doc URL for APIs used by the quickstart
 const DISCOVERY_DOC = ['https://sheets.googleapis.com/$discovery/rest?version=v4', 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
-
-// Authorization scopes required by the API; multiple scopes can be
-// included, separated by spaces.
 const SCOPES = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/calendar';
-
 
 function initTokenClient() {
     tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: clientId,
+        client_id: CLIENT_ID,
         scope: 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/calendar',
         prompt: 'none',
         callback: (tokenResponse) => {

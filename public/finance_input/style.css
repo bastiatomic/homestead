@@ -1,0 +1,39 @@
+.input_box {
+    position:relative;
+    padding: 0 0 20px;
+}
+
+input {
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 15px;
+    background-color: transparent;
+    width: 100%
+}
+
+label {
+    position: absolute;
+    top: -12px;
+    font-size: 13px;
+    left: 15px;
+    background: rgb(240,240,240);
+    padding: 2px;
+    color:gray;
+    font-weight: bold;
+}
+.button_box {
+    border: 1px solid gray;
+    border-radius: 10px;
+    height: 50px;
+    width: 100%
+}
+
+.button_box:hover {
+    filter: brightness(85%);
+    cursor: pointer;
+    
+}
+.center_box {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}

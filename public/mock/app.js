@@ -19,7 +19,7 @@ window.onload = function() {
 
 // TODO(developer): Set to client ID and API key from the Developer Console
 const CLIENT_ID = '837767818302-cbn24e9j41t8bfhmosgvvs200q1t991g.apps.googleusercontent.com';
-const API_KEY = 'AIzaSyAlln1qR1gkv17woBHxo1Ti2TMa4zBFVjw';
+const API_KEY = 'AIzaSyCOcTe261vaOow-cZPbTiMkBeRANdOweeA';
 
 // Discovery doc URL for APIs used by the quickstart
 const DISCOVERY_DOC = ['https://sheets.googleapis.com/$discovery/rest?version=v4', 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
