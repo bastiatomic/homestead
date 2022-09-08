@@ -1,131 +1,181 @@
-window.onload = function() {
-   // do stuff
-  for (let i = 6; i <= 22; i ++){
-  var ul = document.getElementById("time_list")
-  var li = document.createElement("li");
-  li.style.height = "58px"
-  li.appendChild(document.createTextNode(i+":00"));
-  ul.appendChild(li);
-  }
+var tokenClient;
+var access_token;
 
-  populate_headers()
+const CLIENT_ID = '837767818302-cbn24e9j41t8bfhmosgvvs200q1t991g.apps.googleusercontent.com';
+const API_KEY = 'AIzaSyCOcTe261vaOow-cZPbTiMkBeRANdOweeA';
+
+const DISCOVERY_DOC = ['https://sheets.googleapis.com/$discovery/rest?version=v4', 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
+const SCOPES = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/calendar';
+
+function initTokenClient() {
+    tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        prompt: 'none',
+        callback: (tokenResponse) => {
+            access_token = tokenResponse.access_token;
+        },
+    });
+    tokenClient.requestAccessToken();
+    //setTimeout(listMajors, 3000) //ToDo: make requests in 1000ms intervall
+
+}
+function onLoad_gapiLoaded() {
+gapi.load('client', intializeGapiClient);
+}
 
 
-  var mock_event1 = {
-    'summary': 'Gym',
-    'start': {
-      'dateTime': '2022-09-03T19:00:00+02:00',
-      'timeZone': 'Europe/Berlin'
-    },
-    'end': {
-      'dateTime': '2022-09-03T21:30:00+02:00',
-      'timeZone': 'Europe/Berlin'
+async function intializeGapiClient() {
+await gapi.client.init({
+apiKey: API_KEY,
+discoveryDocs: DISCOVERY_DOC,
+});
+console.log("GAPI LOADED")
+}
+function foo(){
+
+    getToken()
+}
+
+function getToken() {
+    // Re-entrant function to request user consent.
+    // Returns an access token to the callback specified in google.accounts.oauth2.initTokenClient
+    // Use a user gesture to call this function and obtain a new, valid access token
+    // when the previous token expires and a 401 status code is returned by Google API calls.
+    tokenClient.requestAccessToken();
+}
+
+async function listMajors() {
+let response;
+try {
+// Fetch first 10 files
+response = await gapi.client.sheets.spreadsheets.values.get({
+spreadsheetId: '1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio',
+range: 'database!A1:F100',
+});
+} catch (err) {
+document.getElementById('content').innerText = err.message;
+return;
+}
+const range = response.result;
+if (!range || !range.values || range.values.length == 0) {
+document.getElementById('content').innerText = 'No values found.';
+return;
+}
+// Flatten to string to display
+const output = range.values.reduce(
+(str, row) => `${str}${row[0]},${row[1]},${row[2]},${row[3]}, ${row[4]}, ${row[5]}\n`,`\n`);
+document.getElementById('content').innerText = output;
+}
+
+/* ----------------------------------
+    finance */
+
+function finance_submit(){
+    document.getElementById("submit_button").disabled = true;
+    setTimeout(function(){document.getElementById("submit_button").disabled = false;},1000)
+
+    var input = {
+        name: document.getElementById("input_name").value,
+        value: document.getElementById("input_value").value,
+        counterpart: document.getElementById("input_counterpart").value,
+        category: document.getElementById("input_category").value,
+        account: document.getElementById("input_account").value,
+        date: valid_date(document.getElementById("input_date").value),
     }
-  };
-  var mock_event2 = {
-    'summary': 'Gym',
-    'start': {
-      'dateTime': '2022-09-05T19:00:00+02:00',
-      'timeZone': 'Europe/Berlin'
-    },
-    'end': {
-      'dateTime': '2022-09-05T21:30:00+02:00',
-      'timeZone': 'Europe/Berlin'
-    }
-  };
 
-  var mock_event3 = {
-    'summary': 'Gym',
-    'start': {
-      'dateTime': '2022-09-07T19:00:00+02:00',
-      'timeZone': 'Europe/Berlin'
-    },
-    'end': {
-      'dateTime': '2022-09-07T21:30:00+02:00',
-      'timeZone': 'Europe/Berlin'
-    }
-  };
-
-  var mock_event4 = {
-    'summary': 'Mock_Title4',
-    'start': {
-      'date': '2015-09-04',
-      'timeZone': 'Europe/Berlin'
-    },
-    'end': {
-      'date': '2015-09-04',
-      'timeZone': 'Europe/Berlin'
-    }
-  };
-
- var events = [mock_event1, mock_event2, mock_event3]
-
-  for (let event of events){
-
-    if (event.start.dateTime != null){
-      // create an event box
-      var startMinutes = new Date(event.start.dateTime);
-      startMinutes = startMinutes.getHours()*60 + startMinutes.getMinutes() -6*60
-  
-      var endMinutes = new Date(event.end.dateTime);
-      endMinutes = endMinutes.getHours()*60 + endMinutes.getMinutes() -6*60
-  
-      var day_today = new Date().getDate()
-      var day_this = new Date(event.start.dateTime).getDate()
-      var date_distance = day_this - day_today
+    if(!valid_input(input)){
+        console.log("INPUT BUILD FAILED")
+        return
     } else {
-      // create an event from 6h - 22h
-      var startMinutes = 0
-      endMinutes =23*60 -6*60
+        console.log("INPUT BUILD VALID")
+        console.log(input)
 
-      var day_today = new Date().getDate()
-      var day_this = new Date(event.start.date).getDate()
-      var date_distance = day_this - day_today
+        //sending package to database
+        console.log("date: " + input.date)
+        const body = {
+            "values": [
+              [
+                input.date
+              ],
+              [
+                input.name
+              ],
+              [
+                Number(input.value)
+              ],
+              [
+                input.counterpart
+              ],
+              [
+                input.category
+              ],
+              [
+                input.account
+              ]
+            ],
+            "range": "mock_database!A:F",
+            "majorDimension": "COLUMNS"
+          };
+
+        try {
+            gapi.client.sheets.spreadsheets.values.append({
+            spreadsheetId: "1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio",
+            range: "mock_database!A:F",
+            valueInputOption: "RAW",
+            resource: body,
+            }).then((response) => {
+                console.log(response.result);
+            });
+        } catch (err) {
+            document.getElementById('content').innerText = err.message;
+            return;
+        }
+
     }
 
-   
-    create_bounding_box(event.summary, startMinutes, endMinutes, date_distance)
-
-  }
 }
 
-function create_bounding_box(name, startMinutes, endMinutes, date_distance){
-  //console.log("start:"+startMinutes+"; end: "+endMinutes)
-  var board_bounding_box = document.getElementById('events_board')
-  var new_box = document.createElement("div");
-  new_box.className = "bounding_box";
-  new_box.style.top = startMinutes + board_bounding_box.getBoundingClientRect().y
-  var days_distance_position_modifier = board_bounding_box.getBoundingClientRect().width/5
-  new_box.style.left = date_distance*days_distance_position_modifier+ board_bounding_box.getBoundingClientRect().x
-  new_box.style.height = (endMinutes-startMinutes)+"px"
-  new_box.style.width = days_distance_position_modifier*0.9
-  new_box.style.position = "absolute"
-  new_box.style.borderRadius = "5px"
-  var x = Math.floor(Math.random() * 256);
-  var y = Math.floor(Math.random() * 256);
-  var z = Math.floor(Math.random() * 256);
-  var bgColor = "rgb(" + x + "," + y + "," + z + ")";
-  new_box.style.backgroundColor = bgColor
-  new_box.innerHTML = name
+function valid_date(date_object){
+    var tmp_date
 
-  board_bounding_box.appendChild(new_box)
+    //no unique date provided
+    if (date_object == ""){
+        tmp_date =  new Date()
+    }
+
+    //date provided, time has to be generated
+    else if (typeof date_object === 'string' ){
+
+        tmp_date = new Date(date_object)
+        today1 = new Date()
+
+        tmp_date = new Date(tmp_date.getFullYear(), tmp_date.getMonth()+1, tmp_date.getDate(), today1.getHours(), today1.getMinutes(), today1.getSeconds())
+    }
+    tmp_date = GoogleDate(tmp_date)
+    console.log(tmp_date)
+    return tmp_date
 
 }
 
+function GoogleDate( JSdate ) { 
+    var D = new Date(JSdate) ;
+    var Null = new Date(Date.UTC(1899,11,30,0,0,0,0)) ; // the starting value for Google
+    return ((D.getTime()  - Null.getTime())/60000 - D.getTimezoneOffset()) / 1440 ;
+}
 
-function populate_headers(){
-  for (let i = 0; i<=4; i++){
-    var tmp_name = document.getElementById("day_"+i)
-    var tmp_date = new Date()
-
-    var today = new Date(tmp_date.setDate(tmp_date.getDate() + i))
-
-    d = today.getDate()
-    m = today.toLocaleString('default', { month: 'long' })
-    y = today.getFullYear()
-
-    tmp_name.innerHTML = d+". "+m+" "+y
-
-
-  }
+function valid_input(input_object){
+    if(input_object.name == ""){
+        return false
+    }
+    if(input_object.value == ""){
+        return false
+    }
+    if(input_object.counterpart == ""){
+        return false
+    }
+    if(input_object.category == "..."){
+        return false
+    }
+    return true;
 }

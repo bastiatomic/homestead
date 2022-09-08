@@ -1,49 +1,89 @@
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Homestead</title>
-
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/9.9.3/firebase-app-compat.js"></script>
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans">
-    <link rel="stylesheet" href="../global_style.css">
-    <link rel="stylesheet" href="style.css">
+<html>
+  <head>
+    <!-- Google Identity Service see https://developers.google.com/identity/oauth2/web/guides/migration-to-gis#gis-and-gapi <-->
+    <script async defer src="https://apis.google.com/js/api.js" onLoad="onLoad_gapiLoaded()"></script>
+    <script src="https://accounts.google.com/gsi/client" onload="initTokenClient()" async defer></script>
     <script src="app.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="global_style.css">
+    <script src="app.js"></script>
+  </head>
+  <body>      
+    <button onclick="onLoad_gapiLoaded();">load GAPI</button>
+    <button onclick="initTokenClient();">Login</button>  
+    <div id="content"></div>
 
-</head>
+    <nav>
 
-<body>
+    </nav>
 
-    <h1>hello to the dashboard</h1>
+    <div id="finance_input">
 
-    <div class="calendar_grid_container">
+      <div class="center_box">
 
-        <div class="time_numbers">
+        <div></div>
 
-            <ul id="time_list" style="list-style-type: none">
-            </ul>
-
+        <div>
+            <h1>Neue Transaktion hinzufügen</h1>
+            <div class="input_box">
+                <label>Name</label>
+                <input id="input_name" />
+            </div>
+            
+            <div class="input_box">
+                <label>Wert</label>
+                <input id="input_value" type="number"/>
+            </div>
+            
+            <div class="input_box">
+                <label>Andere Partei</label>
+                <input id="input_counterpart"/>
+            </div>
+            
+            <div class="input_box">
+              <select id="input_category" class="button_box">
+                <option> ... </option>
+                <option> Bildung </option>
+                <option> Diverses </option>
+                <option> Filme&Serien </option>
+                <option> Freizeit </option>
+                <option> Gehalt </option>
+                <option> Geschenke </option>
+                <option> Haushalt </option>
+                <option> Kleidung </option>
+                <option> Lebensmittel </option>
+                <option> Miete </option>
+                <option> Mobilfunk </option>
+                <option> Technik </option>
+                <option> Transport </option>
+              </select>
+                <label>Kategorie</label>
+            </div>
+            
+            <div class="input_box">
+              <select id="input_account" class="button_box">
+                <option>Deutsche Bank</option>
+                <option>Bargeld</option>
+                <option>PayPal</option>
+                <option>Commerzbank</option>
+              </select>
+                <label>Account</label>
+            </div>
+            
+            <div class="input_box">
+                <label>Datum</label>
+                <input id="input_date" type="date"/>
+            </div>
+            
+            <button class="button_box" id="submit_button" onclick="finance_submit()">💾 Speichern</button>
         </div>
 
-        <div class="days_header">
+        <div></div>
 
-            <table>
-                <tr>
-                    <td id="day_0">Today</td>
-                    <td id="day_1">Tomorrow</td>
-                    <td id="day_2">Today+2</td>
-                    <td id="day_3">Today+3</td>
-                    <td id="day_4">Today+4</td>
-                </tr>
-            </table>
-
-        </div>
-
-        <div class="events_board" id="events_board">
-
-        </div>
+      </div>
 
     </div>
 
-</body>
+  </body>
+</html>
