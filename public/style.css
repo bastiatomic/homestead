@@ -25,7 +25,3 @@ label {
     height: 50px;
     width: 100%  
 }
-.center_box {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-}
