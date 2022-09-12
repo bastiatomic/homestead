@@ -25,3 +25,23 @@ label {
     height: 50px;
     width: 100%  
 }
+
+.main_body{
+    display:grid;
+    grid-template-areas:    'technical technical'
+                            'navbar content';
+    grid-template-columns: 1fr 10fr;
+    grid-template-rows: 50px 100%;
+}
+
+.technical{
+    grid-area: technical;
+}
+
+.navbar{
+    grid-area: navbar;
+}
+
+.content{
+    grid-area: content;
+}

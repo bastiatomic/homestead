@@ -71,6 +71,10 @@ function finance_submit(){
     if(valid_input(input)){
         console.log("INPUT BUILD VALID")
 
+        document.getElementById("input_name").value = "";
+        document.getElementById("input_value").value = "";
+
+
         //sending package to database
         const body = {
             "values": [
@@ -93,21 +97,21 @@ function finance_submit(){
                 input.account
               ]
             ],
-            "range": "mock_database!A:F",
+            "range": "database!A:F",
             "majorDimension": "COLUMNS"
           };
 
         try {
             gapi.client.sheets.spreadsheets.values.append({
             spreadsheetId: "1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio",
-            range: "mock_database!A:F",
+            range: "database!A:F",
             valueInputOption: "RAW",
             resource: body,
             }).then((response) => {
                 console.log(response.result);
             });
         } catch (err) {
-            console.log("ERROR" + err.message);
+            console.log("ERROR " + err.message);
             return;
         }
        
