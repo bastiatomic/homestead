@@ -7,8 +7,8 @@ input,select {
     border: 1px solid gray;
     border-radius: 10px;
     padding: 15px;
-    background-color: transparent;
-    width: 100%
+    background-color: rgb(240,240,240);
+    width: 100%;
 }
 
 label {
@@ -17,6 +17,7 @@ label {
     font-size: 13px;
     left: 15px;
     background: rgb(240,240,240);
+    border-radius: 5px;
     padding: 2px;
     color:gray;
     font-weight: bold;
@@ -26,12 +27,18 @@ label {
     width: 100%  
 }
 
+
 .main_body{
     display:grid;
     grid-template-areas:    'technical technical'
                             'navbar content';
     grid-template-columns: 1fr 10fr;
     grid-template-rows: 50px 100%;
+
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
 }
 
 .technical{
@@ -42,6 +49,32 @@ label {
     grid-area: navbar;
 }
 
+.navbar button{
+    background-color: rgb(60,56,54);
+    color: white;
+    padding: 10%;
+    width: 100%;
+    text-align: left;
+    margin: 5px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    width: 90%
+}
+
+.navbar button:hover {
+    filter: brightness(85%);
+
+}
+
+
 .content{
     grid-area: content;
+}
+
+.navbar_img{
+    display: inline-block;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px
+
 }

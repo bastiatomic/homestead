@@ -6,6 +6,8 @@
     <script src="app.js"></script>
     <script src="visitHome.js"></script>
     <script src="visitFinanceInput.js"></script>
+    <script src="visitObjectives.js"></script>
+    <script src="visitFinance.js"></script>
 
     <title>Homestead</title>
 
@@ -14,7 +16,13 @@
     <link rel="stylesheet" href="global_style.css">
   </head>
 
-  <body class="main_body">  
+  
+  <video width="1920" height="1080" autoplay loop muted style="position: fixed;right: 0;bottom: 0;min-width: 100%;min-height: 100%;">
+    <source src="graphics/videoplayback.webm" type="video/webm">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="main_body">  
 
     <div class="technical">
 
@@ -23,11 +31,11 @@
       <button onclick="getToken('consent');">getToken(consent)</button>  
 
     </div>
-    
+        
     <nav class="navbar">
 
-      <button onclick="visitHome();">visitHome</button>  
-      <button onclick="visitProjects();">visitProjects</button>  
+      <button onclick="visitHome();"><img src="graphics/home.png" class="navbar_img"> Home</button>  
+      <button onclick="visitObjectives();">visitObjectives</button>  
       <button onclick="visitFinance();">visitFinance</button>  
       <button onclick="visitFinanceInput();">visitFinanceInput</button>  
 
@@ -38,5 +46,6 @@
       
     </div>
 
-  </body>
+
+  </div>
 </html>

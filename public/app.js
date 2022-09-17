@@ -1,3 +1,7 @@
+window.onload = () => {
+    visitFinance()
+  };
+
 var tokenClient;
 var access_token;
 
@@ -17,6 +21,7 @@ function initTokenClient(prompt_value) {
         callback: (tokenResponse) => {
             //ERROR: user interaction required
             access_token = tokenResponse.access_token;
+            console.log("Token generated! Scope: " + tokenResponse.scope)
             if (typeof tokenResponse.access_token == 'undefined'){
                 console.log("CALLING RE-ISSUE SERVICE ...")
                 setTimeout(getToken,1000)
