@@ -2,13 +2,15 @@
 <html>
   <head>
     <!-- Google Identity Service see https://developers.google.com/identity/oauth2/web/guides/migration-to-gis#gis-and-gapi <-->
-    <script async defer src="https://apis.google.com/js/api.js" onLoad="onLoad_gapiLoaded()"></script>
+    <script src="oauth2_login.js"></script> 
+    <script async defer src="https://apis.google.com/js/api.js" onLoad="gapi_onload()"></script>
     <script src="https://accounts.google.com/gsi/client" onload="initTokenClient('none')" async defer></script>
     <script src="app.js"></script>
     <script src="visitHome.js"></script>
     <script src="visitFinanceInput.js"></script>
     <script src="visitObjectives.js"></script>
     <script src="visitFinance.js"></script>
+
 
     <title>Homestead</title>
 
@@ -33,22 +35,21 @@
 
     <div class="technical">
 
-      <button onclick="onLoad_gapiLoaded();">load GAPI</button>
-      <button onclick="initTokenClient('none');">Login</button>  
-      <button onclick="getToken('consent');">getToken(consent)</button>  
-      <button onclick="location.href='./mock2'" type="button">mock2</button>
+      <button onclick="location.href='./mock2'" type="button">mocking</button>
       <span id="gapi_gis_status" style="background-color: red; border: 1px solid gray; border-radius: 10px;padding: 2px; margin: 5px">STATUS</span>
       
-      <span id="tokenInDocument"></span>
+      <button class="technical2" onclick="onLoad_gapiLoaded();">load GAPI</button>
+      <button class="technical2" onclick="initTokenClient('none');">Login</button>  
+      <button class="technical2" onclick="getToken('consent');">getToken(consent)</button>  
 
     </div>
         
     <nav class="navbar font1">
 
-      <button onclick="visitHome();"><img src="graphics/home.png" class="navbar_img"> Home</button>  
-      <button onclick="visitObjectives();">Objectives</button>  
-      <button onclick="visitFinance();">Finance</button>  
-      <button onclick="visitFinanceInput();">FinanceInput</button>  
+      <button onclick="visitHome();"> <img src="graphics/home.png" class="navbar_img"> Home</button>  
+      <button onclick="visitObjectives();"><img src="graphics/objectives.png" class="navbar_img"> Objectives</button>  
+      <button onclick="visitFinance();"> <img src="graphics/shards.png" class="navbar_img"> Finance</button>  
+      <button onclick="visitFinanceInput();"> <img src="graphics/finance_input.png" class="navbar_img"> FinanceInput</button>  
 
     </nav>
 

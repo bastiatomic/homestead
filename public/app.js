@@ -1,68 +1,6 @@
 window.onload = () => {
-    visitFinanceInput()
+
   };
-
-var tokenClient;
-var access_token;
-var activeGapi = false;
-var activeGis = false;
-
-const CLIENT_ID = '837767818302-cbn24e9j41t8bfhmosgvvs200q1t991g.apps.googleusercontent.com';
-const API_KEY = 'AIzaSyCOcTe261vaOow-cZPbTiMkBeRANdOweeA';
-const ACTIVATED_GOOGLE_LOGIN = true
-const DISCOVERY_DOC = ['https://sheets.googleapis.com/$discovery/rest?version=v4', 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
-const SCOPES = 'https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/gmail.labels';
-
-function initTokenClient(prompt_value) {
-
-    if(ACTIVATED_GOOGLE_LOGIN){
-        tokenClient = google.accounts.oauth2.initTokenClient({
-        client_id: CLIENT_ID,
-        scope: SCOPES,
-        prompt: prompt_value,
-        callback: (tokenResponse) => {
-            //ERROR: user interaction required
-            activeGis = true;
-            check_active_gapi_gis()
-            if (typeof tokenResponse.access_token == 'undefined'){
-                console.log("CALLING RE-ISSUE SERVICE ...")
-                setTimeout(getToken,1000)
-            }
-        },
-    });
-    tokenClient.requestAccessToken();
-    }
-
-}
-
-function onLoad_gapiLoaded() {
-    gapi.load('client', intializeGapiClient);
-}
-
-async function intializeGapiClient() {
-    await gapi.client.init({
-    apiKey: API_KEY,
-    discoveryDocs: DISCOVERY_DOC,
-    });
-    console.log("GAPI LOADED")
-    activeGapi = true;
-    check_active_gapi_gis()
-}
-
-function getToken() {
-
-    initTokenClient("consent")
-    console.log("RE-ISSUE TOKEN")
-    //tokenClient.requestAccessToken();
-}
-
-function check_active_gapi_gis(){
-    if(activeGapi && activeGis){
-        document.getElementById("gapi_gis_status").style.backgroundColor="green"
-    }
-
-}
-
 
 /* ----------------------------------
     finance */

@@ -60,13 +60,14 @@ label {
 .navbar button{
     background-color: rgb(60,56,54);
     color: white;
-    padding: 10%;
-    width: 100%;
+    padding: 1rem 5rem 1rem 1rem;
     text-align: left;
-    margin: 5px;
     border: 1px solid gray;
     border-radius: 5px;
-    width: 90%
+    width: 90%;
+    margin: 5px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .navbar button:hover {

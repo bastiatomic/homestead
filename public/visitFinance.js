@@ -1,5 +1,3 @@
-const spreadsheetId = '1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio'
-
 function visitFinance(){
     console.log("Welcome to Finance! Cleaning up ...")
     document.getElementById("content").innerHTML = ""

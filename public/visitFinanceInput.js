@@ -4,8 +4,8 @@ function visitFinanceInput() {
 
 	let code = "";
 	code += "<div id=\"finance_input\" style=\"display:flex; justify-content: center;\">\n";
-	code += "\t<div>\n";
-	code += "\t\t<h1>Neue Transaktion hinzufügen</h1>\n";
+	code += "\t<div style=\"width: 30%;\" >\n";
+	code += "\t\t<h1 style=\"text-align:center;\">Add New Transaction</h1>\n";
 	code += "\t\t<div class=\"input_box\">\n";
 	code += "\t\t\t<label>Name</label>\n";
 	code += "\t\t\t<input id=\"input_name\" />\n";
@@ -56,7 +56,7 @@ function visitFinanceInput() {
 	code += "\t\t\t<input id=\"input_date\" type=\"date\"/>\n";
 	code += "\t\t</div>\n";
 	code += "\t\t\n";
-	code += "\t\t<button class=\"button_box\" id=\"submit_button\" onclick=\"finance_submit()\">💾 Speichern</button>\n";
+	code += "\t\t<button class=\"button_box\" id=\"submit_button\" onclick=\"finance_submit()\">💾 Save</button>\n";
 	code += "\t</div>\n";
 	code += "  </div>\n";
     
