@@ -1,7 +1,11 @@
-body {
-    font-family: "Open Sans", sans-serif;
-
-}
 h1,h2,h3,p,div{
-    color: rgb(95,98,103)
+    color: rgb(242,242,242)
+}
+
+@font-face {
+    font-family: 'MyWebFont'; src: url('oita_regular.ttf')
+}
+
+body{
+    font-family: "MyWebFont";
 }

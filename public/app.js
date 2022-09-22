@@ -1,9 +1,11 @@
 window.onload = () => {
-    visitFinance()
+    visitFinanceInput()
   };
 
 var tokenClient;
 var access_token;
+var activeGapi = false;
+var activeGis = false;
 
 const CLIENT_ID = '837767818302-cbn24e9j41t8bfhmosgvvs200q1t991g.apps.googleusercontent.com';
 const API_KEY = 'AIzaSyCOcTe261vaOow-cZPbTiMkBeRANdOweeA';
@@ -20,8 +22,8 @@ function initTokenClient(prompt_value) {
         prompt: prompt_value,
         callback: (tokenResponse) => {
             //ERROR: user interaction required
-            access_token = tokenResponse.access_token;
-            console.log("Token generated! Scope: " + tokenResponse.scope)
+            activeGis = true;
+            check_active_gapi_gis()
             if (typeof tokenResponse.access_token == 'undefined'){
                 console.log("CALLING RE-ISSUE SERVICE ...")
                 setTimeout(getToken,1000)
@@ -29,8 +31,6 @@ function initTokenClient(prompt_value) {
         },
     });
     tokenClient.requestAccessToken();
-    //setTimeout(listMajors, 3000) //ToDo: make requests in 1000ms intervall
-
     }
 
 }
@@ -45,6 +45,8 @@ async function intializeGapiClient() {
     discoveryDocs: DISCOVERY_DOC,
     });
     console.log("GAPI LOADED")
+    activeGapi = true;
+    check_active_gapi_gis()
 }
 
 function getToken() {
@@ -52,6 +54,13 @@ function getToken() {
     initTokenClient("consent")
     console.log("RE-ISSUE TOKEN")
     //tokenClient.requestAccessToken();
+}
+
+function check_active_gapi_gis(){
+    if(activeGapi && activeGis){
+        document.getElementById("gapi_gis_status").style.backgroundColor="green"
+    }
+
 }
 
 
@@ -143,11 +152,9 @@ function valid_date(date_object){
         tmp_date = new Date(date_object)
         today1 = new Date()
 
-        tmp_date = new Date(tmp_date.getFullYear(), tmp_date.getMonth()+1, tmp_date.getDate(), today1.getHours(), today1.getMinutes(), today1.getSeconds())
+        tmp_date = new Date(tmp_date.getFullYear(), tmp_date.getMonth(), tmp_date.getDate(), today1.getHours(), today1.getMinutes(), today1.getSeconds())
     }
-    tmp_date = GoogleDate(tmp_date)
-    console.log(tmp_date)
-    return tmp_date
+    return GoogleDate(tmp_date)
 
 }
 
