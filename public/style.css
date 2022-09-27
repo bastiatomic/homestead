@@ -63,7 +63,7 @@ label {
     padding: 1rem 5rem 1rem 1rem;
     text-align: left;
     border: 1px solid gray;
-    border-radius: 5px;
+    border-radius: 20px;
     width: 90%;
     margin: 5px;
     white-space: nowrap;
@@ -86,4 +86,28 @@ label {
     width: 20px;
     height: 20px
 
+}
+
+tr{
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+td{
+    padding: 10px;
+    margin: 10px;
+}
+
+.obj_table{
+    width: 98%;
+    table-layout: "fixed";
+    border-collapse: collapse; 
+    background-color: rgb(60,56,54, 0.9);
+
+}
+
+th{
+    
+    border: 1px solid gray;
+    font-size: large;
+    text-align: left;
 }

@@ -56,7 +56,6 @@ function getValues(range) {
         result = response.result
         const numRows = result.values ? result.values.length : 0;
         console.log(`${numRows} rows retrieved.`);
-        printValues(response.result.values)
       });
     } catch (err) {
       console.log(err.message);

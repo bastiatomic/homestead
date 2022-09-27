@@ -27,7 +27,7 @@
 
   
   <video width="1920" height="1080" autoplay loop muted style="position: fixed;right: 0;bottom: 0;min-width: 100%;min-height: 100%;">
-    <source src="graphics/videoplayback.webm" type="video/webm">
+    <source src="graphics/hfw_orographic_placement.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
@@ -36,6 +36,7 @@
     <div class="technical">
 
       <button onclick="location.href='./mock2'" type="button">mocking</button>
+      <button  onclick="onLoad_mock();">load mock</button>
       <span id="gapi_gis_status" style="background-color: red; border: 1px solid gray; border-radius: 10px;padding: 2px; margin: 5px">STATUS</span>
       
       <button class="technical2" onclick="onLoad_gapiLoaded();">load GAPI</button>
@@ -55,7 +56,8 @@
 
     <div class="content" id="content">
 
-      <p style="font: 'MyWebFont'">Very Long Player Name</p>
+      <p style="font: 'MyWebFont'">Loading ...</p>
+        <img src="graphics/loadcat.gif">
 
       
     </div>

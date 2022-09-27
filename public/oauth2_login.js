@@ -14,6 +14,7 @@ function initTokenClient(prompt_value) {
     tokenClient = google.accounts.oauth2.initTokenClient({
     client_id: CLIENT_ID,
     scope: SCOPES,
+    ux_mode: 'popup',
     prompt: prompt_value,
         callback: (tokenResponse) => {
             //ERROR: user interaction required
@@ -49,12 +50,9 @@ function getToken() {
     console.log("RE-ISSUE TOKEN")
 }
 
-function myImageList(){
-    return access_token;
-}
-
-function myImageList2(){
-    return hello;
+function onLoad_mock(){
+    console.log(gapi.client)
+    //console.log(gapi.auth2.BasicProfile())
 }
 
 function check_active_gapi_gis(){
@@ -69,7 +67,7 @@ function check_active_gapi_gis(){
     }
 
         // init website
-        visitFinanceInput()
+        visitObjectives()
     }
 
 }
