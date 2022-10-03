@@ -151,3 +151,9 @@ th{
         display: none;
     }
 }
+
+.finance_component{
+    display:grid;
+    grid-template-columns: auto auto auto auto;
+
+}

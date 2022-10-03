@@ -3,6 +3,6 @@ function visitHome(){
 
     var heading = document.createElement("h1"); document.getElementById("content").appendChild(heading) //create element and add it instantly to DOM
 
-    heading.innerText ="Willkommen!"
+    heading.innerText ="Willkommen! DELETE OBJECTIVES IS NOT WORKING!"
 
 }

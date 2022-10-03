@@ -15,8 +15,8 @@ function visitFinance(){
     document.getElementById("content").appendChild(input1);
     document.getElementById("content").appendChild(node);
 
-    document.getElementById("content").appendChild(document.getElementById("finance_groups"))
-    document.getElementById("finance_groups").style.display = "block"
+    document.getElementById("content").appendChild(document.getElementById("finance_component"))
+    document.getElementById("finance_component").style.display = "block"
 
     fetch_groups()
 
@@ -48,7 +48,9 @@ function send_request(data1){
         return;
       }
 
-      setTimeout(getValues('search!A5:F25'),500)
+      setTimeout(() => {
+        getValues('search!A5:F25');
+      }, "1500")
 
 }
 
@@ -58,8 +60,10 @@ function getValues(range) {
         spreadsheetId: spreadsheetId,
         range: range,
       }).then((response) => {
-        console.log(response)
+        
         result = response.result
+        console.log(result)
+        printValues(result.values)
         const numRows = result.values ? result.values.length : 0;
         console.log(`${numRows} rows retrieved.`);
       });
@@ -115,5 +119,37 @@ function sheetsAPI_appendRow(data, range, responseFunction){
 }
 
 function fetch_groups(){
+  console.log("executing fetch_groups()")
+
+  sheetsAPI_getRows("groups!A:C", printGroups)
+}
+
+function sheetsAPI_getRows(range, responseFunction) { // responseFunction uses the result
+  try {
+    gapi.client.sheets.spreadsheets.values.get({
+      spreadsheetId: spreadsheetId,
+      range: range,
+    }).then((response) => {
+      result = response.result;
+      responseFunction(result)
+    });
+  } catch (err) {
+    console.log(err.message);
+    return;
+  }
+}
+
+function printGroups(valuesArray){
+  valuesArray = valuesArray.values
   
+  for (let i = 0; i < valuesArray.length; i++){
+    table1 = document.getElementById("finance_groups_table");
+    var row = table1.insertRow()
+    var cell0 = row.insertCell(0);
+    var cell1 = row.insertCell(1);
+    var cell2 = row.insertCell(2);
+    cell0.innerHTML = valuesArray[i][0]
+    cell1.innerHTML = valuesArray[i][1]
+    cell2.innerHTML = valuesArray[i][2]
+  }
 }
