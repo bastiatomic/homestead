@@ -15,6 +15,12 @@ function visitFinance(){
     document.getElementById("content").appendChild(input1);
     document.getElementById("content").appendChild(node);
 
+    document.getElementById("content").appendChild(document.getElementById("finance_groups"))
+    document.getElementById("finance_groups").style.display = "block"
+
+    fetch_groups()
+
+
 }
 
 function fetch_request_input(){
@@ -72,4 +78,42 @@ function printValues(valuesArray){
         document.getElementById("content").appendChild(new_element);
 
     }
+}
+
+function sheetsAPI_appendRow(data, range, responseFunction){
+  // data as [[0],[1], [2], [3]]
+  //range example: database!A:F;  'A-F' will result in 6 arguments from data
+  
+  //debug
+  console.log("----------")
+  console.log("sheetsAPI_appendRow()")
+  console.log(data)
+  console.log("with range: " + range)
+  console.log("----------")
+
+  const body = {
+      "values": data,
+      "range": range,
+      "majorDimension": "COLUMNS"
+    };
+
+  try {
+      gapi.client.sheets.spreadsheets.values.append({
+      spreadsheetId: spreadsheetId,
+      range: range,
+      valueInputOption: "RAW",
+      resource: body,
+      }).then((response) => {
+          console.log(response.result);
+          responseFunction()
+      });
+  } catch (err) {
+      console.log("ERROR " + err.message);
+      return;
+  }
+
+}
+
+function fetch_groups(){
+  
 }
