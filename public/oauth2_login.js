@@ -3,6 +3,7 @@ var tokenClient;
 var access_token;
 var activeGapi = false;
 var activeGis = false;
+var mocking_use_login = true
 
 const CLIENT_ID = '837767818302-cbn24e9j41t8bfhmosgvvs200q1t991g.apps.googleusercontent.com';
 const API_KEY = 'AIzaSyCOcTe261vaOow-cZPbTiMkBeRANdOweeA';
@@ -11,28 +12,35 @@ const SCOPES = 'https://www.googleapis.com/auth/spreadsheets https://www.googlea
 
 function initTokenClient(prompt_value) {
 
-    tokenClient = google.accounts.oauth2.initTokenClient({
-    client_id: CLIENT_ID,
-    scope: SCOPES,
-    ux_mode: 'popup',
-    prompt: prompt_value,
-        callback: (tokenResponse) => {
-            //ERROR: user interaction required
-            activeGis = true;
-            check_active_gapi_gis()
-            if (typeof tokenResponse.access_token == 'undefined'){
-                console.log("CALLING RE-ISSUE SERVICE ...")
-                setTimeout(getToken,1000)
-            }
-        },
-    }); 
-tokenClient.requestAccessToken();
+    if(mocking_use_login){
+        tokenClient = google.accounts.oauth2.initTokenClient({
+            client_id: CLIENT_ID,
+            scope: SCOPES,
+            prompt: prompt_value,
+                callback: (tokenResponse) => {
+                    access_token = tokenResponse
+                    console.log(access_token)
+                    //ERROR: user interaction required
+                    activeGis = true;
+                    check_active_gapi_gis()
+                    if (typeof tokenResponse.access_token == 'undefined'){
+                        console.log("CALLING RE-ISSUE SERVICE ...")
+                        setTimeout(getToken,1000)
+                    }
+                },
+            }); 
+            // call to the GIS backend (popup screen)
+            tokenClient.requestAccessToken();
+    }
+    visitHome()
 
 }
 
 function gapi_onload() {
     gapi.load('client', gapi_init_client);
 }
+
+
 
 async function gapi_init_client() {
     await gapi.client.init({
@@ -50,10 +58,6 @@ function getToken() {
     console.log("RE-ISSUE TOKEN")
 }
 
-function onLoad_mock(){
-    console.log(gapi.client)
-    //console.log(gapi.auth2.BasicProfile())
-}
 
 function check_active_gapi_gis(){
     if(activeGapi && activeGis){
@@ -64,10 +68,8 @@ function check_active_gapi_gis(){
         const elements = document.getElementsByClassName("technical2");
         while(elements.length > 0){
             elements[0].parentNode.removeChild(elements[0]);
-    }
+        }
 
-        // init website
-        visitObjectives()
     }
 
 }
