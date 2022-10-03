@@ -1,4 +1,6 @@
-
+body{
+    background-color: yellowgreen;
+}
 .input_box {
     position:relative;
     padding: 0 0 20px;
@@ -36,7 +38,6 @@ label {
     box-sizing:border-box;
 }
 
-
 .main_body{
     display:grid;
     grid-template-areas:    'technical technical'
@@ -49,6 +50,8 @@ label {
     left: 0px;
     width: 100%;
 }
+
+
 
 .technical{
     grid-area: technical;
@@ -126,4 +129,25 @@ th{
     position:relative;
     padding: 0 0 20px;
     box-sizing:border-box;
+}
+
+@media only screen and (max-width: 900px) {
+    body{
+        background-color: red;
+    }
+    .main_body{
+        display:grid;
+        grid-template-areas:    'navbar'
+                                'content';
+
+        grid-template-columns: 1fr;
+        grid-template-rows: 50px 100%;
+ /* this prevents a scrollbar*/
+    }
+    .navbar button{
+        width: 20%
+    }
+    .navbar_img{
+        display: none;
+    }
 }
