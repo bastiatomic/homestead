@@ -1,3 +1,4 @@
+
 .input_box {
     position:relative;
     padding: 0 0 20px;
@@ -43,7 +44,7 @@ label {
     grid-template-columns: 1fr 10fr;
     grid-template-rows: 50px 100%;
 
-    position: fixed;
+    position: fixed; /* this prevents a scrollbar*/
     top: 0px;
     left: 0px;
     width: 100%;
@@ -102,7 +103,6 @@ td{
     table-layout: "fixed";
     border-collapse: collapse; 
     background-color: rgb(60,56,54, 0.9);
-
 }
 
 th{
@@ -110,4 +110,10 @@ th{
     border: 1px solid gray;
     font-size: large;
     text-align: left;
+}
+
+.table-scroll {
+    height:80vh;
+    overflow:auto;  
+    margin-top:20px;
 }

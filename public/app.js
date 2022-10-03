@@ -4,7 +4,6 @@ window.onload = () => {
 
 /* ----------------------------------
     finance */
-
 function finance_submit(){
     document.getElementById("submit_button").disabled = true;
     setTimeout(function(){document.getElementById("submit_button").disabled = false;},1000)
@@ -55,7 +54,7 @@ function finance_submit(){
 
         try {
             gapi.client.sheets.spreadsheets.values.append({
-            spreadsheetId: "1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio",
+            spreadsheetId: spreadsheetId,
             range: "database!A:F",
             valueInputOption: "RAW",
             resource: body,

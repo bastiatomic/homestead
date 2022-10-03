@@ -10,6 +10,7 @@
     <script src="visitFinanceInput.js"></script>
     <script src="visitObjectives.js"></script>
     <script src="visitFinance.js"></script>
+    <script src="googleSheetsApi.js"></script>
 
 
     <title>Homestead</title>
@@ -17,51 +18,47 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="global_style.css">
 
-    <style>
-      
-  
-  </style>
-  
-
   </head>
 
-  
-  <video width="1920" height="1080" autoplay loop muted style="position: fixed;right: 0;bottom: 0;min-width: 100%;min-height: 100%;">
-    <source src="graphics/hfw_orographic_placement.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
+  <body>
 
-  <div class="main_body">  
+    <video width="1920" height="1080" autoplay loop muted style="position: fixed;right: 0;bottom: 0;min-width: 100%;min-height: 100%;">
+      <source src="graphics/hfw_orographic_placement.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
 
-    <div class="technical">
+    <div class="main_body" id="main_body">  
 
-      <button onclick="location.href='./mock2'" type="button">mocking</button>
-      <button  onclick="onLoad_mock();">load mock</button>
-      <span id="gapi_gis_status" style="background-color: red; border: 1px solid gray; border-radius: 10px;padding: 2px; margin: 5px">STATUS</span>
-      
-      <button class="technical2" onclick="onLoad_gapiLoaded();">load GAPI</button>
-      <button class="technical2" onclick="initTokenClient('none');">Login</button>  
-      <button class="technical2" onclick="getToken('consent');">getToken(consent)</button>  
+      <div class="technical">
 
-    </div>
+        <button onclick="location.href='./mock2'" type="button">mocking</button>
+        <button  onclick="onLoad_mock();">load mock</button>
+        <span id="gapi_gis_status" style="background-color: red; border: 1px solid gray; border-radius: 10px;padding: 2px; margin: 5px">STATUS</span>
         
-    <nav class="navbar font1">
+        <button class="technical2" onclick="onLoad_gapiLoaded();">load GAPI</button>
+        <button class="technical2" onclick="initTokenClient('none');">Login</button>  
+        <button class="technical2" onclick="getToken('consent');">getToken(consent)</button>  
 
-      <button onclick="visitHome();"> <img src="graphics/home.png" class="navbar_img"> Home</button>  
-      <button onclick="visitObjectives();"><img src="graphics/objectives.png" class="navbar_img"> Objectives</button>  
-      <button onclick="visitFinance();"> <img src="graphics/shards.png" class="navbar_img"> Finance</button>  
-      <button onclick="visitFinanceInput();"> <img src="graphics/finance_input.png" class="navbar_img"> FinanceInput</button>  
+      </div>
+          
+      <nav class="navbar font1">
 
-    </nav>
+        <button onclick="visitHome();"> <img src="graphics/home.png" class="navbar_img"> Home</button>  
+        <button onclick="visitObjectives();"><img src="graphics/objectives.png" class="navbar_img"> Objectives</button>  
+        <button onclick="visitFinance();"> <img src="graphics/shards.png" class="navbar_img"> Finance</button>  
+        <button onclick="visitFinanceInput();"> <img src="graphics/finance_input.png" class="navbar_img"> FinanceInput</button>  
 
-    <div class="content" id="content">
+      </nav>
 
-      <p style="font: 'MyWebFont'">Loading ...</p>
-        <img src="graphics/loadcat.gif">
+      <div class="content" id="content">
 
-      
+        <p style="font: 'MyWebFont'">Loading ...</p>
+          <img src="graphics/loadcat.gif">
+
+        
+      </div>
+
+
     </div>
-
-
-  </div>
+  </body>
 </html>
