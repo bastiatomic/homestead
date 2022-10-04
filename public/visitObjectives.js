@@ -82,7 +82,9 @@ function sheetsAPI_deleteRow(sheetId, rowId) {
 
 function objectiveSolved(sheetId, rowId){
 
-  sheetsAPI_appendRow([[valuesArray[rowId-1][0]],[valuesArray[rowId-1][1]],[valuesArray[rowId-1][2]], [newGoogleDate(valuesArray[rowId-1][3])]], "obj_solved!A:C", null)
+  splitter = valuesArray[rowId-1][3].split(".")
+  newDate = new Date(splitter[2],splitter[1]-1,splitter[0])
+  sheetsAPI_appendRow([[valuesArray[rowId-1][0]],[valuesArray[rowId-1][1]],[valuesArray[rowId-1][2]], [newGoogleDate(newDate)]], "obj_solved!A:C", null)
 
   sheetsAPI_deleteRow(sheetId, rowId)
 
