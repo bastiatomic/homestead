@@ -93,9 +93,15 @@
     <!--COMPONENT BUILDER | FINANCE -->
 
     <div id="finance_component" class="finance_component" style="display:none">
-      <div id="finance_budget"></div>
-      <div id="finance_search"></div>
-      <div id="finance_groups">
+
+      <div id="finance_budget" ></div>
+
+      <div id="finance_search" class="default_bounding_box">
+        <input id="finance_search_input" placeholder="Type something ...">
+        <button onclick="fetch_request_input()">Send request</button>
+      </div>
+
+      <div id="finance_groups" class="default_bounding_box">
         <table id="finance_groups_table">
           <tr>
             <th>Date</th>
@@ -105,6 +111,7 @@
   
         </table>
       </div>
+
       <div id="finance_facts"></div>
 
       

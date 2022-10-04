@@ -142,7 +142,6 @@ th{
 
         grid-template-columns: 1fr;
         grid-template-rows: 50px 100%;
- /* this prevents a scrollbar*/
     }
     .navbar button{
         width: 20%
@@ -153,7 +152,14 @@ th{
 }
 
 .finance_component{
-    display:grid;
+   /* display:  is defined in the inital js-call when the object is shown*/
     grid-template-columns: auto auto auto auto;
+
+}
+
+.default_bounding_box{
+    background-color: rgb(60,56,54, 0.9);
+    border: 1px solid gray;
+    border-radius: 20px;
 
 }

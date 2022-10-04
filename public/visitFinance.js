@@ -2,21 +2,8 @@ function visitFinance(){
     console.log("Welcome to Finance! Cleaning up ...")
     document.getElementById("content").innerHTML = ""
 
-    const node = document.createElement("button");
-    node.appendChild(document.createTextNode("Send request"));
-    node.onclick = function() {fetch_request_input()};
-
-    const input1 = document.createElement("input");
-    input1.id = "input"
-    input1.value = "Gehalt"
-
-
-
-    document.getElementById("content").appendChild(input1);
-    document.getElementById("content").appendChild(node);
-
     document.getElementById("content").appendChild(document.getElementById("finance_component"))
-    document.getElementById("finance_component").style.display = "block"
+    document.getElementById("finance_component").style.display = "grid"
 
     fetch_groups()
 
@@ -24,7 +11,7 @@ function visitFinance(){
 }
 
 function fetch_request_input(){
-    send_request(document.getElementById("input").value)
+    send_request(document.getElementById("finance_search_input").value)
 }
 
 function send_request(data1){
@@ -79,7 +66,7 @@ function printValues(valuesArray){
         new_element.appendChild(document.createTextNode(valuesArray[i]));
 
 
-        document.getElementById("content").appendChild(new_element);
+        document.getElementById("finance_search").appendChild(new_element);
 
     }
 }
