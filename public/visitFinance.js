@@ -2,10 +2,12 @@ function visitFinance(){
     console.log("Welcome to Finance! Cleaning up ...")
     document.getElementById("content").innerHTML = ""
 
+
     document.getElementById("content").appendChild(document.getElementById("finance_component"))
     document.getElementById("finance_component").style.display = "grid"
 
     fetch_groups()
+
 
 
 }
@@ -15,8 +17,6 @@ function fetch_request_input(){
 }
 
 function send_request(data1){
-
-    console.log("Sending request ...")
 
       try {
         gapi.client.sheets.spreadsheets.values.update({
@@ -28,7 +28,6 @@ function send_request(data1){
         ]},
         }).then((response) => {
           const result = response.result;
-          console.log(`${result.updatedCells} cells updated.`);
         });
       } catch (err) {
        console.log(err.message);
@@ -49,10 +48,8 @@ function getValues(range) {
       }).then((response) => {
         
         result = response.result
-        console.log(result)
         printValues(result.values)
         const numRows = result.values ? result.values.length : 0;
-        console.log(`${numRows} rows retrieved.`);
       });
     } catch (err) {
       console.log(err.message);
@@ -74,13 +71,6 @@ function printValues(valuesArray){
 function sheetsAPI_appendRow(data, range, responseFunction){
   // data as [[0],[1], [2], [3]]
   //range example: database!A:F;  'A-F' will result in 6 arguments from data
-  
-  //debug
-  console.log("----------")
-  console.log("sheetsAPI_appendRow()")
-  console.log(data)
-  console.log("with range: " + range)
-  console.log("----------")
 
   const body = {
       "values": data,
@@ -95,7 +85,6 @@ function sheetsAPI_appendRow(data, range, responseFunction){
       valueInputOption: "RAW",
       resource: body,
       }).then((response) => {
-          console.log(response.result);
           responseFunction()
       });
   } catch (err) {
@@ -106,7 +95,6 @@ function sheetsAPI_appendRow(data, range, responseFunction){
 }
 
 function fetch_groups(){
-  console.log("executing fetch_groups()")
 
   sheetsAPI_getRows("groups!A:C", printGroups)
 }
@@ -138,5 +126,6 @@ function printGroups(valuesArray){
     cell0.innerHTML = valuesArray[i][0]
     cell1.innerHTML = valuesArray[i][1]
     cell2.innerHTML = valuesArray[i][2]
+
   }
 }

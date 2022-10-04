@@ -1,4 +1,5 @@
 var main_table;
+var valuesArray = [];
 
 function visitObjectives() {
     document.getElementById("content").innerHTML = ""
@@ -31,7 +32,7 @@ function obj_getValues(range) {
       }).then((response) => {
         result = response.result
         const numRows = result.values ? result.values.length : 0;
-        console.log(`${numRows} rows retrieved.`);
+        valuesArray = response.result.values
         obj_printValues(response.result.values)
       });
     } catch (err) {
@@ -40,9 +41,9 @@ function obj_getValues(range) {
     }
 }
 
-function obj_printValues(valuesArray){
+function obj_printValues(valuesArray1){
 
-  for (let i = 0; i < valuesArray.length; i++){
+  for (let i = 0; i < valuesArray1.length; i++){
     table1 = main_table;
     var row = table1.insertRow()
     row.id = "tableRow"+i;
@@ -50,15 +51,14 @@ function obj_printValues(valuesArray){
     var cell1 = row.insertCell(1);
     var cell2 = row.insertCell(2);
     var cell3 = row.insertCell(3);
-    cell0.innerHTML = "<img src='graphics/edit_alt.png' onclick='sheetsAPI_deleteRow("+1645068860+", "+(i+1)+")'>"
-    cell1.innerHTML = valuesArray[i][0]
-    cell2.innerHTML = valuesArray[i][1]
-    cell3.innerHTML = valuesArray[i][2]
+    cell0.innerHTML = "<img src='graphics/edit_alt.png' onclick='objectiveSolved("+1645068860+", "+(i+1)+")'>"
+    cell1.innerHTML = valuesArray1[i][0]
+    cell2.innerHTML = valuesArray1[i][1]
+    cell3.innerHTML = valuesArray1[i][2]
   }
 } 
 
 function sheetsAPI_deleteRow(sheetId, rowId) {
-  console.log("REMOVING FROM "+sheetId+": "+ (rowId))
 
     gapi.client.sheets.spreadsheets.batchUpdate({
       "spreadsheetId": spreadsheetId,
@@ -76,20 +76,21 @@ function sheetsAPI_deleteRow(sheetId, rowId) {
           }
         ]
       }
-    }).then(function(response) { main_table.innerHTML ="";   obj_getValues('obj_unsolved!A2:E'); console.log("Response", response);})
+    }).then(function(response) { main_table.innerHTML ="";   obj_getValues('obj_unsolved!A2:E');})
+
+}
+
+function objectiveSolved(sheetId, rowId){
+
+  sheetsAPI_appendRow([[valuesArray[rowId-1][0]],[valuesArray[rowId-1][1]],[valuesArray[rowId-1][2]], [newGoogleDate(valuesArray[rowId-1][3])]], "obj_solved!A:C", null)
+
+  sheetsAPI_deleteRow(sheetId, rowId)
 
 }
 
 function sheetsAPI_appendRow(data, range, responseFunction){
   // data as [[0],[1], [2], [3]]
   //range example: database!A:F;  'A-F' will result in 6 arguments from data
-  
-  //debug
-  console.log("----------")
-  console.log("sheetsAPI_appendRow()")
-  console.log(data)
-  console.log("with range: " + range)
-  console.log("----------")
 
   const body = {
       "values": data,
@@ -104,7 +105,6 @@ function sheetsAPI_appendRow(data, range, responseFunction){
       valueInputOption: "RAW",
       resource: body,
       }).then((response) => {
-          console.log(response.result);
           responseFunction()
       });
   } catch (err) {
@@ -119,7 +119,8 @@ function obj_send(){
   form_name = document.getElementById("obj_name").value
   form_category = document.getElementById("obj_category").value
   form_priority = document.getElementById("obj_priority").value
-  data = [[form_name], [form_category], [form_priority]]
+  form_createdAt = newGoogleDate("")
+  data = [[form_name], [form_category], [form_priority], [form_createdAt]]
 
   sheetsAPI_appendRow(data, range, obj_reload_table)
 }
@@ -127,4 +128,15 @@ function obj_send(){
 function obj_reload_table(){
   main_table.innerHTML = ""
   obj_getValues('obj_unsolved!A2:E');
+}
+
+function newGoogleDate(value){
+  var D;
+  if (!value){
+    D = new Date() ;
+  } else {
+    D = new Date(value) ;
+  }
+  var Null = new Date(Date.UTC(1899,11,30,0,0,0,0)) ; // the starting value for Google
+  return ((D.getTime()  - Null.getTime())/60000 - D.getTimezoneOffset()) / 1440 ;
 }
