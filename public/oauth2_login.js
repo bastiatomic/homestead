@@ -32,7 +32,7 @@ function initTokenClient(prompt_value) {
             // call to the GIS backend (popup screen)
             tokenClient.requestAccessToken();
     }
-    visitHome()
+
 
 }
 
@@ -62,13 +62,25 @@ function getToken() {
 function check_active_gapi_gis(){
     if(activeGapi && activeGis){
         document.getElementById("gapi_gis_status").style.backgroundColor="green"
-        document.getElementById("gapi_gis_status").innerText = "status: online"
+        document.getElementById("gapi_gis_status").innerText = "status: Welcome to Homestead"
         console.log("GAPI AND OAUTH2 SUCCESSFULL")
+
+        //do stuff
+        visitFinanceInput()
+        visitFinance()
+        visitObjectives()
+        visitHome()
+        document.getElementById("load_cat").innerHTML = ""
 
         const elements = document.getElementsByClassName("technical2");
         while(elements.length > 0){
             elements[0].parentNode.removeChild(elements[0]);
         }
+        let elements2 = document.getElementsByClassName("technical");
+        while(elements2.length > 0){
+            elements2[0].parentNode.removeChild(elements2[0]);
+        }
+
 
     }
 

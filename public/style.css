@@ -75,7 +75,7 @@ label {
 }
 
 .navbar button:hover {
-    filter: brightness(85%);
+    filter: brightness(130%);
 
 }
 
@@ -131,9 +131,30 @@ th{
     box-sizing:border-box;
 }
 
+.finance_component{
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+
+}
+
+.default_bounding_box{
+    background-color: rgb(60,56,54, 0.9);
+    border: 1px solid gray;
+    border-radius: 20px;
+
+}
+.obj_remove_button:hover{
+    cursor: pointer;
+    filter: brightness(130%);
+}
+.obj_remove_button{
+    border-radius: 10px;
+
+}
+
+
 @media only screen and (max-width: 900px) {
     body{
-        background-color: red;
+        background-color: white;
     }
     .main_body{
         display:grid;
@@ -142,6 +163,8 @@ th{
 
         grid-template-columns: 1fr;
         grid-template-rows: 50px 100%;
+
+        position: relative; /* this opens a scrollbar*/
     }
     .navbar button{
         width: 20%
@@ -149,17 +172,12 @@ th{
     .navbar_img{
         display: none;
     }
-}
-
-.finance_component{
-   /* display:  is defined in the inital js-call when the object is shown*/
-    grid-template-columns: auto auto auto auto;
-
-}
-
-.default_bounding_box{
-    background-color: rgb(60,56,54, 0.9);
-    border: 1px solid gray;
-    border-radius: 20px;
+    .finance_component{
+        grid-template-columns: 1fr;
+     
+    }
+    .background_video{
+        display: none;
+    }
 
 }

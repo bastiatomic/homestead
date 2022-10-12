@@ -11,6 +11,7 @@
     <script src="visitFinanceInput.js"></script>
     <script src="visitObjectives.js"></script>
     <script src="visitFinance.js"></script>
+    <script src="component_caller.js"></script>
 
 
     <title>Homestead</title>
@@ -22,7 +23,7 @@
 
   <body>
 
-    <video width="1920" height="1080" autoplay loop muted style="position: fixed;right: 0;bottom: 0;min-width: 100%;min-height: 100%;">
+    <video class="background_video" width="1920" height="1080" autoplay loop muted style="position: fixed;right: 0;bottom: 0;min-width: 100%;min-height: 100%;">
       <source src="graphics/hfw_orographic_placement.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
@@ -43,83 +44,156 @@
           
       <nav class="navbar font1">
 
-        <button onclick="visitHome();"> <img src="graphics/home.png" class="navbar_img"> Home</button>  
-        <button onclick="visitObjectives();"><img src="graphics/objectives.png" class="navbar_img"> Objectives</button>  
-        <button onclick="visitFinance();"> <img src="graphics/shards.png" class="navbar_img"> Finance</button>  
-        <button onclick="visitFinanceInput();"> <img src="graphics/finance_input.png" class="navbar_img"> FinanceInput</button>  
+        <button onclick="showHome();"> <img src="graphics/home.png" class="navbar_img"> Home</button>  
+        <button onclick="showObjectives();"><img src="graphics/objectives.png" class="navbar_img"> Objectives</button>  
+        <button onclick="showFinance();"> <img src="graphics/shards.png" class="navbar_img"> Finance</button>  
+        <button onclick="showFinanceInput();"> <img src="graphics/finance_input.png" class="navbar_img"> FinanceInput</button>  
 
       </nav>
 
       <div class="content" id="content">
 
-        <p style="font: 'MyWebFont'">Loading ...</p>
-          <img src="graphics/loadcat.gif">
 
+        <div id="load_cat">
+          <p style="font: 'MyWebFont'">Loading ...</p>
+            <img src="graphics/loadcat.gif">
+        </div>
+
+        <!--COMPONENT BUILDER | OBJECTIVES-->
+
+        <div id="objectives_form" style="display: none">
+          <br>
+          <br>
+          <table style="width: 100%">
+
+            <tr>
+              <td class="obj_input_box">
+                <label>Name</label>
+                <input type="text" id="obj_name">
+              </td>
+              <td class="obj_input_box">
+                <label>Kategorie</label>
+                <input type="text" id="obj_category"></td>
+              <td class="obj_input_box">
+                <label>Priorität</label>
+                <select id="obj_priority">
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
+              </select>
+            </td>
+            <td><button onclick="obj_send()">Send</button></td>
+            </tr>
+
+          </table>
+
+        </div>
+
+        <!--COMPONENT BUILDER | FINANCE -->
+
+        <div id="finance_component" class="finance_component" style="display:none">
+
+
+          <!--SPENDING CHART-->
+          <div id="finance_spending_chart" class="default_bounding_box">
+            <h1>spending chart</h1>
+          </div>
+
+          
+          <!--SEARCH-->
+          <div id="finance_search" class="default_bounding_box">
+            <input id="finance_search_input" placeholder="Type something ...">
+            <button onclick="fetch_request_input()">Send request</button>
+          </div>
+
+          <!--GROUPS-->
+          <div id="finance_groups" class="default_bounding_box">
+
+            <table id="finance_groups_table">
+              <tr>
+                <th>Date</th>
+                <th>Counterpart</th>
+                <th>Value</th>
+              </tr>
+      
+            </table>
+          </div>
+
+          
+          <!--FACTS-->
+          <div id="spending_facts" class="default_bounding_box">
+            <h1></h1>
+          </div>
+        </div>
+
+        <!--COMPONENT BUILDER | FINANCE INPUT-->
+
+        <div id="finance_input_component" style="display:none">
+
+          <div id=  "finance_input"   style=  "display:flex; justify-content: center"  >
+            <div style= "width: 30%"   >
+              <h1 style=  "text-align:center  ">Add New Transaction</h1>
+              <div class=  "input_box">
+                <label>Name</label>
+                <input id=  "input_name">
+              </div>
+              
+              <div class= "input_box">
+                <label>Wert</label>
+                <input id= "input_value"   type=  "number"/>
+              </div>
+              
+              <div class=  "input_box">
+                <label>Andere Partei</label>
+                <input id=  "input_counterpart"/>
+              </div>
+              
+              <div class=  "input_box">
+                <select id=  "input_category"   class=  "button_box">
+                <option> ... </option>
+                <option> Bildung </option>
+                <option> Diverses </option>
+                <option> Filme&Serien </option>
+                <option> Freizeit </option>
+                <option> Gehalt </option>
+                <option> Geschenke </option>
+                <option> Haushalt </option>
+                <option> Kleidung </option>
+                <option> Lebensmittel </option>
+                <option> Miete </option>
+                <option> Mobilfunk </option>
+                <option> Technik </option>
+                <option> Transport </option>
+                </select>
+                <label>Kategorie</label>
+              </div>
+              
+              <div class=  "input_box">
+                <select id=  "input_account"   class=  "button_box">
+                <option>Deutsche Bank</option>
+                <option>Bargeld</option>
+                <option>PayPal</option>
+                <option>Commerzbank</option>
+                </select>
+                <label>Account</label>
+              </div>
+              
+              <div class=  "input_box">
+                <label>Datum</label>
+                <input id=  "input_date" type="date">
+              </div>
+              
+              <button class=  "button_box"   id="submit_button"   onclick=  "finance_submit()  ">💾 Save</button>
+            </div>
+            </div>
+
+        </div>
         
       </div>
 
     </div>
 
-    <!--COMPONENT BUILDER | OBJECTIVES-->
-
-    <div id="objectives_form" style="display: none">
-      <br>
-      <br>
-      <table style="width: 100%">
-
-        <tr>
-          <td class="obj_input_box">
-            <label>Name</label>
-            <input type="text" id="obj_name">
-          </td>
-          <td class="obj_input_box">
-            <label>Kategorie</label>
-            <input type="text" id="obj_category"></td>
-          <td class="obj_input_box">
-            <label>Priorität</label>
-            <select id="obj_priority">
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-          </select>
-        </td>
-        <td><button onclick="obj_send()">Send</button></td>
-        </tr>
-
-      </table>
-
-    </div>
-
-    <!--COMPONENT BUILDER | FINANCE -->
-
-    <div id="finance_component" class="finance_component" style="display:none">
-
-      <div id="finance_budget">
-        <div id="finance_spending_by_category" class="default_bounding_box"></div>
-        <div id="finance_spending_by_counterpart" class="default_bounding_box"></div>
-      </div>
-
-      <div id="finance_search" class="default_bounding_box">
-        <input id="finance_search_input" placeholder="Type something ...">
-        <button onclick="fetch_request_input()">Send request</button>
-      </div>
-
-      <div id="finance_groups" class="default_bounding_box">
-        <table id="finance_groups_table">
-          <tr>
-            <th>Date</th>
-            <th>Counterpart</th>
-            <th>Value</th>
-          </tr>
-  
-        </table>
-      </div>
-
-      <div id="finance_facts"></div>
-
-      
-
-    </div>
+    
 
   </body>
 </html>

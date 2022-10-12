@@ -1,8 +1,7 @@
 function visitHome(){
-    document.getElementById("content").innerHTML = ""
-
-    var heading = document.createElement("h1"); document.getElementById("content").appendChild(heading) //create element and add it instantly to DOM
-
-    heading.innerText ="Welcome to Homestead!"
+    document.getElementById("objectives_form").style.display = "none"
+    document.getElementById("finance_component").style.display = "none"
+    document.getElementById("finance_input_component").style.display = "none"
+    console.log("All elements are well hidden now.")
 
 }

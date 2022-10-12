@@ -1,14 +1,8 @@
 function visitFinance(){
-    console.log("Welcome to Finance! Cleaning up ...")
-    document.getElementById("content").innerHTML = ""
+  visitHome()
+  document.getElementById("finance_component").style.display = "grid"
 
-
-    document.getElementById("content").appendChild(document.getElementById("finance_component"))
-    document.getElementById("finance_component").style.display = "grid"
-
-    fetch_groups()
-
-
+  fetch_groups()
 
 }
 

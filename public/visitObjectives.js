@@ -2,11 +2,11 @@ var main_table;
 var valuesArray = [];
 
 function visitObjectives() {
-    document.getElementById("content").innerHTML = ""
+  visitHome()
     console.log("WELCOME TO OBJECTIVES")
 
     //create element and add it instantly to DOM
-    div_wrapper = document.createElement("div");document.getElementById("content").appendChild(div_wrapper)
+    div_wrapper = document.createElement("div")
     div_wrapper.className = "table-scroll"
     main_table = document.createElement("table"); div_wrapper.appendChild(main_table)
     main_table.className = "obj_table";
@@ -16,9 +16,10 @@ function visitObjectives() {
     th = document.createElement('th');th.innerHTML = "Name";main_table.appendChild(th);
     th = document.createElement('th');th.innerHTML = "Category";main_table.appendChild(th);
     th = document.createElement('th');th.innerHTML = "Priority";main_table.appendChild(th);
+
+    document.getElementById("objectives_form").appendChild(div_wrapper)
     obj_getValues('obj_unsolved!A2:E')
 
-    document.getElementById("content").appendChild(document.getElementById("objectives_form"))
     document.getElementById("objectives_form").style.display = "block"
 
 }
@@ -51,7 +52,7 @@ function obj_printValues(valuesArray1){
     var cell1 = row.insertCell(1);
     var cell2 = row.insertCell(2);
     var cell3 = row.insertCell(3);
-    cell0.innerHTML = "<img src='graphics/edit_alt.png' onclick='objectiveSolved("+1645068860+", "+(i+1)+")'>"
+    cell0.innerHTML = "<img class='obj_remove_button' src='graphics/edit_alt.png' onclick='objectiveSolved("+1645068860+", "+(i+1)+")'>"
     cell1.innerHTML = valuesArray1[i][0]
     cell2.innerHTML = valuesArray1[i][1]
     cell3.innerHTML = valuesArray1[i][2]
