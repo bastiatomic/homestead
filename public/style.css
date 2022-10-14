@@ -40,8 +40,7 @@ label {
 
 .main_body{
     display:grid;
-    grid-template-areas:    'technical technical'
-                            'navbar content';
+    grid-template-areas: 'navbar content';
     grid-template-columns: 1fr 10fr;
     grid-template-rows: 50px 100%;
 
@@ -49,12 +48,6 @@ label {
     top: 0px;
     left: 0px;
     width: 100%;
-}
-
-
-
-.technical{
-    grid-area: technical;
 }
 
 .navbar{
@@ -104,12 +97,17 @@ td{
 .obj_table{
     width: 98%;
     table-layout: "fixed";
-    border-collapse: collapse; 
-    background-color: rgb(60,56,54, 0.9);
+    border-collapse: separate; 
+    border-spacing: 0 10px; 
 }
 
-th{
-    
+.obj_table td{
+    padding-bottom: 10px;
+    background-color: rgb(60,56,54, 0.9);
+
+}
+
+th{ 
     border: 1px solid gray;
     font-size: large;
     text-align: left;
@@ -149,6 +147,10 @@ th{
 .obj_remove_button{
     border-radius: 10px;
 
+}
+.obj_priority_box{
+    border-radius: 10px;
+    width: 20%;
 }
 
 

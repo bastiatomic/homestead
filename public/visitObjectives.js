@@ -12,13 +12,8 @@ function visitObjectives() {
     main_table.className = "obj_table";
     main_table.style.overflow="auto"
 
-    th = document.createElement('th');th.innerHTML = "     ";main_table.appendChild(th);
-    th = document.createElement('th');th.innerHTML = "Name";main_table.appendChild(th);
-    th = document.createElement('th');th.innerHTML = "Category";main_table.appendChild(th);
-    th = document.createElement('th');th.innerHTML = "Priority";main_table.appendChild(th);
-
     document.getElementById("objectives_form").appendChild(div_wrapper)
-    obj_getValues('obj_unsolved!A2:E')
+    obj_getValues('obj_unsolved!E2:I')
 
     document.getElementById("objectives_form").style.display = "block"
 
@@ -32,7 +27,6 @@ function obj_getValues(range) {
         range: range,
       }).then((response) => {
         result = response.result
-        const numRows = result.values ? result.values.length : 0;
         valuesArray = response.result.values
         obj_printValues(response.result.values)
       });
@@ -44,18 +38,35 @@ function obj_getValues(range) {
 
 function obj_printValues(valuesArray1){
 
+  currentCategory = ''
+
   for (let i = 0; i < valuesArray1.length; i++){
+
+    if(valuesArray[i][1] != currentCategory){ //create new header
+      currentCategory = valuesArray[i][1]
+
+      table1 = main_table;
+      var row = table1.insertRow()
+      var cell0 = row.insertCell(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(0);
+      cell0.innerHTML =""
+      cell1.innerHTML = valuesArray[i][1]
+      cell1.style.fontSize = "200%"
+      cell2.innerHTML =""
+    } 
+
     table1 = main_table;
     var row = table1.insertRow()
-    row.id = "tableRow"+i;
+    row.id = "tableRow"+i; //this shall not show up in headers!
     var cell0 = row.insertCell(0);
     var cell1 = row.insertCell(1);
     var cell2 = row.insertCell(2);
-    var cell3 = row.insertCell(3);
     cell0.innerHTML = "<img class='obj_remove_button' src='graphics/edit_alt.png' onclick='objectiveSolved("+1645068860+", "+(i+1)+")'>"
     cell1.innerHTML = valuesArray1[i][0]
-    cell2.innerHTML = valuesArray1[i][1]
-    cell3.innerHTML = valuesArray1[i][2]
+    cell2.innerHTML = valuesArray1[i][2]
+    cell2.className = "obj_priority_box"
+    cell2.style.backgroundColor = valuesArray1[i][4]
   }
 } 
 
@@ -77,7 +88,7 @@ function sheetsAPI_deleteRow(sheetId, rowId) {
           }
         ]
       }
-    }).then(function(response) { main_table.innerHTML ="";   obj_getValues('obj_unsolved!A2:E');})
+    }).then(function(response) { main_table.innerHTML ="";   obj_getValues('obj_unsolved!E2:I');})
 
 }
 
