@@ -1,0 +1,577 @@
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Charts Mock</title>
+</head>
+<div style="width: 400px; height: 400px">
+    <canvas id="myChart"></canvas>
+</div>
+
+
+<div style="width: 1280px; height: 720">
+  <canvas id="money_trend_by_start_date"></canvas>
+</div>es
+
+<button onclick="addRandomElement()">add random element</button>
+
+<script>
+
+let return_body = {
+  "range": "budget!G31:H39",
+  "majorDimension": "ROWS",
+  "values": [
+    [
+      "Filme&Serien",
+      "11"
+    ],
+    [
+      "Freizeit",
+      "226"
+    ],
+    [
+      "Haushalt",
+      "48"
+    ],
+    [
+      "Kleidung",
+      "21"
+    ],
+    [
+      "Lebensmittel",
+      "154",
+      "rgba(76, 175, 80, 1)"
+    ],
+    [
+      "Miete",
+      "472"
+    ],
+    [
+      "Mobilfunk",
+      "26"
+    ],
+    [
+      "Technik",
+      "51"
+    ],
+    [
+      "AVAILABLE",
+      "516"
+    ]
+  ]
+}
+return_body = clean_return_body(return_body)
+
+let returnBody_money_trend_by_start_date = {
+  "range": "facts!H2:I101",
+  "majorDimension": "ROWS",
+  "values": [
+    [
+      "2022-01-01",
+      "6872,25"
+    ],
+    [
+      "2022-01-03",
+      "6832,67"
+    ],
+    [
+      "2022-01-06",
+      "6780,1"
+    ],
+    [
+      "2022-01-09",
+      "6766,18"
+    ],
+    [
+      "2022-01-12",
+      "6995,14"
+    ],
+    [
+      "2022-01-15",
+      "8118,17"
+    ],
+    [
+      "2022-01-18",
+      "8107,56"
+    ],
+    [
+      "2022-01-21",
+      "8086,07"
+    ],
+    [
+      "2022-01-24",
+      "8072,46"
+    ],
+    [
+      "2022-01-26",
+      "8072,46"
+    ],
+    [
+      "2022-01-29",
+      "8025,69"
+    ],
+    [
+      "2022-02-01",
+      "7402,85"
+    ],
+    [
+      "2022-02-04",
+      "7402,85"
+    ],
+    [
+      "2022-02-07",
+      "7377,06"
+    ],
+    [
+      "2022-02-10",
+      "7514,97"
+    ],
+    [
+      "2022-02-13",
+      "7535,98"
+    ],
+    [
+      "2022-02-16",
+      "8720,91"
+    ],
+    [
+      "2022-02-18",
+      "8705"
+    ],
+    [
+      "2022-02-21",
+      "8681,99"
+    ],
+    [
+      "2022-02-24",
+      "8678"
+    ],
+    [
+      "2022-02-27",
+      "8654,6"
+    ],
+    [
+      "2022-03-02",
+      "7951,38"
+    ],
+    [
+      "2022-03-05",
+      "7517,05"
+    ],
+    [
+      "2022-03-08",
+      "7565,91"
+    ],
+    [
+      "2022-03-11",
+      "6952,16"
+    ],
+    [
+      "2022-03-14",
+      "8115"
+    ],
+    [
+      "2022-03-16",
+      "8107,16"
+    ],
+    [
+      "2022-03-19",
+      "8094,17"
+    ],
+    [
+      "2022-03-22",
+      "8038,24"
+    ],
+    [
+      "2022-03-25",
+      "8008,05"
+    ],
+    [
+      "2022-03-28",
+      "7988,44"
+    ],
+    [
+      "2022-03-31",
+      "7988,28"
+    ],
+    [
+      "2022-04-03",
+      "7691,29"
+    ],
+    [
+      "2022-04-06",
+      "7659,37"
+    ],
+    [
+      "2022-04-08",
+      "7533,3"
+    ],
+    [
+      "2022-04-11",
+      "7506,03"
+    ],
+    [
+      "2022-04-14",
+      "8684,98"
+    ],
+    [
+      "2022-04-17",
+      "8684,98"
+    ],
+    [
+      "2022-04-20",
+      "8667,35"
+    ],
+    [
+      "2022-04-23",
+      "8635,66"
+    ],
+    [
+      "2022-04-26",
+      "8618,55"
+    ],
+    [
+      "2022-04-29",
+      "8564,02"
+    ],
+    [
+      "2022-05-01",
+      "8546,22"
+    ],
+    [
+      "2022-05-04",
+      "7975,83"
+    ],
+    [
+      "2022-05-07",
+      "7962,61"
+    ],
+    [
+      "2022-05-10",
+      "8167,6"
+    ],
+    [
+      "2022-05-13",
+      "9284,52"
+    ],
+    [
+      "2022-05-16",
+      "9266,32"
+    ],
+    [
+      "2022-05-19",
+      "9214"
+    ],
+    [
+      "2022-05-22",
+      "9193,9"
+    ],
+    [
+      "2022-05-25",
+      "9145,08"
+    ],
+    [
+      "2022-05-27",
+      "9134,64"
+    ],
+    [
+      "2022-05-30",
+      "9062,71"
+    ],
+    [
+      "2022-06-02",
+      "8345,96"
+    ],
+    [
+      "2022-06-05",
+      "8345,96"
+    ],
+    [
+      "2022-06-08",
+      "8131,41"
+    ],
+    [
+      "2022-06-11",
+      "8111,31"
+    ],
+    [
+      "2022-06-14",
+      "9179,13"
+    ],
+    [
+      "2022-06-17",
+      "8892,75"
+    ],
+    [
+      "2022-06-19",
+      "8885,62"
+    ],
+    [
+      "2022-06-22",
+      "8820,91"
+    ],
+    [
+      "2022-06-25",
+      "8793,65"
+    ],
+    [
+      "2022-06-28",
+      "8713,23"
+    ],
+    [
+      "2022-07-01",
+      "8053,15"
+    ],
+    [
+      "2022-07-04",
+      "7926,3"
+    ],
+    [
+      "2022-07-07",
+      "7903,23"
+    ],
+    [
+      "2022-07-10",
+      "8121,24"
+    ],
+    [
+      "2022-07-12",
+      "8212,99"
+    ],
+    [
+      "2022-07-15",
+      "9160,05"
+    ],
+    [
+      "2022-07-18",
+      "9148,9"
+    ],
+    [
+      "2022-07-21",
+      "8946,81"
+    ],
+    [
+      "2022-07-24",
+      "8927,52"
+    ],
+    [
+      "2022-07-27",
+      "8883,54"
+    ],
+    [
+      "2022-07-30",
+      "8842,64"
+    ],
+    [
+      "2022-08-02",
+      "8228,5"
+    ],
+    [
+      "2022-08-05",
+      "8100,98"
+    ],
+    [
+      "2022-08-07",
+      "8060,05"
+    ],
+    [
+      "2022-08-10",
+      "8268,98"
+    ],
+    [
+      "2022-08-13",
+      "9383,81"
+    ],
+    [
+      "2022-08-16",
+      "9256,24"
+    ],
+    [
+      "2022-08-19",
+      "9030,13"
+    ],
+    [
+      "2022-08-22",
+      "8852,6"
+    ],
+    [
+      "2022-08-25",
+      "8755,93"
+    ],
+    [
+      "2022-08-28",
+      "8759,97"
+    ],
+    [
+      "2022-08-30",
+      "8839,97"
+    ],
+    [
+      "2022-09-02",
+      "8206,35"
+    ],
+    [
+      "2022-09-05",
+      "8192,58"
+    ],
+    [
+      "2022-09-08",
+      "8397,63"
+    ],
+    [
+      "2022-09-11",
+      "8375,42"
+    ],
+    [
+      "2022-09-14",
+      "9830,11"
+    ],
+    [
+      "2022-09-17",
+      "9788,11"
+    ],
+    [
+      "2022-09-20",
+      "9742,8"
+    ],
+    [
+      "2022-09-22",
+      "9877,73"
+    ],
+    [
+      "2022-09-25",
+      "9828,98"
+    ],
+    [
+      "2022-09-28",
+      "9805,98"
+    ],
+    [
+      "2022-10-01",
+      "9772,82"
+    ],
+    [
+      "2022-10-04",
+      "9760,07"
+    ],
+    [
+      "2022-10-07",
+      "9745,12"
+    ],
+    [
+      "2022-10-10",
+      "9770,13"
+    ],
+    [
+      "2022-10-13",
+      "9735,89"
+    ]
+  ]
+}
+
+returnBody_money_trend_by_start_date = clean_money_trend_by_start_date(returnBody_money_trend_by_start_date)
+let x1 = returnBody_money_trend_by_start_date
+
+let tmp_labels = []
+let tmp_data = []
+let tmp_randColors = []
+
+return_body.forEach(element => {
+    tmp_labels.push(element.name)
+    tmp_data.push(element.value)
+    if(element.colorCode != null){
+        tmp_randColors.push(element.colorCode)
+    } else {
+        tmp_randColors.push(random_rgba())
+    }
+ 
+});
+
+let ctx2 = document.getElementById('myChart').getContext('2d')
+
+let myChart = new Chart(ctx2, add_chart_values("pie", tmp_labels, tmp_data, tmp_randColors) )
+
+let ctx3 = document.getElementById("money_trend_by_start_date").getContext("2d")
+
+console.log( x1.labels)
+console.log( x1.data)
+
+let money_trend_by_start_date = new Chart(ctx3, add_line_chart_values("line", x1.labels, x1.data, "rgb(61,102,87)") )
+
+
+function add_line_chart_values(type, labels_array, data_array, backgroundColor_array, options = {}){
+  return {
+    type: type,
+    data: {
+        labels: labels_array,
+        datasets: [{
+          label: "xxxx",
+          data: data_array,
+          backgroundColor: backgroundColor_array,
+          fill: true
+        }],
+        options: options
+    }
+  }
+}
+
+
+function add_chart_values(type, labels_array, data_array, backgroundColor_array, options = {}){
+  return {
+    type: type,
+    data: {
+        labels: labels_array,
+        datasets: [{
+            data: data_array,
+            backgroundColor: backgroundColor_array
+        }],
+        options: options
+    }
+  }
+}
+
+function clean_return_body(content){
+    let content2 = content.values
+    content3 = []
+
+    for (let i = 0; i < content2.length; i++){
+        content3.push({"name": content2[i][0], "value": parseInt(content2[i][1]), "colorCode": content2[i][2]})
+    }
+
+    return content3
+}
+function random_rgba() {
+    var o = Math.round, r = Math.random, s = 255;
+    return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + 1 + ')';
+}
+
+function addRandomElement(){
+  chart = myChart;
+
+  value = parseInt(Math.random()*10000)
+
+  chart.data.labels.push(value)
+  chart.data.datasets.forEach((dataset) => {
+      dataset.data.push(value);})
+
+  //chart.data.datasets.push({data: 20, backgroundColor: "rgb(20,20,20)"})
+
+  chart.update()
+}
+
+function clean_money_trend_by_start_date(object){
+  object2 = object.values
+
+  data2 = {
+    "labels": [],
+    "data": []
+  }
+
+ object2.forEach(element => {
+    data2.labels.push(element[0])
+    data2.data.push(parseInt(element[1]))
+
+  });
+
+  return data2
+}
+
+</script>
