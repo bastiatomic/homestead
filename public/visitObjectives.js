@@ -13,7 +13,7 @@ function visitObjectives() {
     main_table.style.overflow="auto"
 
     document.getElementById("objectives_form").appendChild(div_wrapper)
-    obj_getValues('obj_unsolved!E2:I')
+    obj_getValues('GET_obj_database')
 
     document.getElementById("objectives_form").style.display = "block"
 
@@ -88,7 +88,7 @@ function sheetsAPI_deleteRow(sheetId, rowId) {
           }
         ]
       }
-    }).then(function(response) { main_table.innerHTML ="";   obj_getValues('obj_unsolved!E2:I');})
+    }).then(function(response) { main_table.innerHTML ="";  obj_reload_table();}) //reload
 
 }
 
@@ -96,9 +96,9 @@ function objectiveSolved(sheetId, rowId){
 
   splitter = valuesArray[rowId-1][3].split(".")
   newDate = new Date(splitter[2],splitter[1]-1,splitter[0])
-  sheetsAPI_appendRow([[valuesArray[rowId-1][0]],[valuesArray[rowId-1][1]],[valuesArray[rowId-1][2]], [newGoogleDate(newDate)]], "obj_solved!A:C", null)
+  sheetsAPI_appendRow([[valuesArray[rowId-1][0]],[valuesArray[rowId-1][1]],[valuesArray[rowId-1][2]], [newGoogleDate(newDate)]], "obj_solved!A:D", null)
 
-  sheetsAPI_deleteRow(sheetId, rowId)
+  sheetsAPI_deleteRow(sheetId, rowId-1)
 
 }
 
@@ -129,7 +129,7 @@ function sheetsAPI_appendRow(data, range, responseFunction){
 }
 
 function obj_send(){
-  const range = "obj_unsolved!A:C"
+  const range = "obj_unsolved"
   form_name = document.getElementById("obj_name").value
   form_category = document.getElementById("obj_category").value
   form_priority = document.getElementById("obj_priority").value
@@ -137,11 +137,17 @@ function obj_send(){
   data = [[form_name], [form_category], [form_priority], [form_createdAt]]
 
   sheetsAPI_appendRow(data, range, obj_reload_table)
+
 }
 
 function obj_reload_table(){
+  console.log("VISIT_OBJECTIVES | reload table")
   main_table.innerHTML = ""
-  obj_getValues('obj_unsolved!A2:E');
+  sheetsAPI_sortSheet("1645068860")
+
+  setTimeout(() => {
+    obj_getValues('GET_obj_database');
+  }, 2000)
 }
 
 function newGoogleDate(value){
@@ -153,4 +159,40 @@ function newGoogleDate(value){
   }
   var Null = new Date(Date.UTC(1899,11,30,0,0,0,0)) ; // the starting value for Google
   return ((D.getTime()  - Null.getTime())/60000 - D.getTimezoneOffset()) / 1440 ;
+}
+
+//delete doesnt allow headers in the sheet!
+function sheetsAPI_sortSheet(sheetId){
+  try {
+    // Add additional requests (operations) ...
+    const batchUpdateRequest = {
+      "requests": [
+        {
+          "sortRange": {
+            "range": {
+              "sheetId": sheetId,
+              "startRowIndex": 0,
+              "endRowIndex": 1000,
+              "startColumnIndex": 0,
+              "endColumnIndex": 4
+            },
+            "sortSpecs": [
+              {
+                "dimensionIndex": 1,
+                "sortOrder": "ASCENDING"
+              }
+            ]
+          }
+        }
+      ]
+    };
+    gapi.client.sheets.spreadsheets.batchUpdate({
+      spreadsheetId: spreadsheetId,
+      resource: batchUpdateRequest,
+    }).then((response) => {console.log(response);
+    });
+  } catch (err) {
+    console.log(err);
+    return;
+  }
 }
