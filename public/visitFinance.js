@@ -4,6 +4,9 @@ function visitFinance(){
 
   fetch_groups()
 
+  //GET avg_month_distribution_by_budget_period
+  sheetsAPI_getRows("avg_month_distribution_by_budget_period", clean_line_input, "UNFORMATTED_VALUE")
+
 }
 
 function fetch_request_input(){
@@ -93,11 +96,12 @@ function fetch_groups(){
   sheetsAPI_getRows("groups!A:C", printGroups)
 }
 
-function sheetsAPI_getRows(range, responseFunction) { // responseFunction uses the result
+function sheetsAPI_getRows(range,responseFunction, valueRenderOption = "FORMATTED_VALUE" ) { // responseFunction uses the result
   try {
     gapi.client.sheets.spreadsheets.values.get({
       spreadsheetId: spreadsheetId,
       range: range,
+      valueRenderOption: valueRenderOption,
     }).then((response) => {
       result = response.result;
       responseFunction(result)
@@ -122,4 +126,62 @@ function printGroups(valuesArray){
     cell2.innerHTML = valuesArray[i][2]
 
   }
+}
+
+function render_chart(object){
+
+  node = document.getElementById("finance_spending_diagram").getContext("2d");
+  
+  let avg_month_distribution_with_leftover_by_budget_period_chart = new Chart(node, add_chart_values("pie", object.labels, object.data, object.backgroundColor) )
+
+  console.log(avg_month_distribution_with_leftover_by_budget_period_chart)
+  console.log(object)
+
+}
+
+function clean_line_input(object){
+
+  let object2 = object.values
+
+  console.log(object2)
+
+  data2 = {
+    "labels": [],
+    "data": [],
+    "backgroundColor": []
+  }
+
+ object2.forEach(element => {
+    data2.labels.push(element[0])
+    data2.data.push((element[1]))
+    if(element[2] != null){
+      data2.backgroundColor.push(element[2])
+    } else {
+      data2.backgroundColor.push(random_rgba())
+    }
+
+
+  });
+
+  return render_chart(data2)
+
+}
+
+function add_chart_values(type, labels_array, data_array, backgroundColor_array, options = {}){
+  return {
+    type: type,
+    data: {
+        labels: labels_array,
+        datasets: [{
+            data: data_array,
+            backgroundColor: backgroundColor_array
+        }],
+        options: options
+    }
+  }
+}
+
+function random_rgba() {
+  var o = Math.round, r = Math.random, s = 255;
+  return 'rgba(' + o(r()*s) + ',' + o(r()*s) + ',' + o(r()*s) + ',' + 1 + ')';
 }
