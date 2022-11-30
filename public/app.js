@@ -6,7 +6,11 @@ function showRecipes(){
     window.open("https://docs.google.com/spreadsheets/d/1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio/edit#gid=797264053")
 }
 function showNewNote(){
-    window.open("docs.new");
+
+    if(confirm("Clicking 'ok' will create a new Google Docs")){
+        window.open("https://docs.new");
+    }
+
 }
 
 /* ----------------------------------
