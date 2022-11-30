@@ -1,4 +1,14 @@
 
+function showGym(){
+    window.open("https://docs.google.com/document/d/10oi5P5nb2f_eQimivl129kXw4Dhxox8YtZfslXgkUGE/edit");
+}
+function showRecipes(){
+    window.open("https://docs.google.com/spreadsheets/d/1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio/edit#gid=797264053")
+}
+function showNewNote(){
+    window.open("docs.new");
+}
+
 /* ----------------------------------
     finance */
 function finance_submit(){
