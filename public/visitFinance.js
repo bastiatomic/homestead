@@ -162,7 +162,7 @@ function printGroups(valuesArray){
     var cell2 = row.insertCell(2);
     cell0.innerHTML = valuesArray[i][0]
     cell1.innerHTML = valuesArray[i][1]
-    cell2.innerHTML = valuesArray[i][2]
+    cell2.innerHTML = (valuesArray[i][2]).toFixed(2)
 
   }
 }

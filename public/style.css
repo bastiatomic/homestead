@@ -173,7 +173,7 @@ th{
 
 @media only screen and (max-width: 900px) {
     body{
-        background-color: red;
+        background-color: rgb(32,32,32);
     }
     .main_body{
         display:grid;

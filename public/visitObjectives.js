@@ -46,7 +46,6 @@ function obj_printValues(valuesArray1){
       currentCategory = valuesArray[i][1]
 
       table1 = document.getElementById("obj_table");
-      console.log(table1)
       var row = table1.insertRow()
       var cell0 = row.insertCell(0);
       var cell1 = row.insertCell(1)
@@ -86,15 +85,17 @@ function sheetsAPI_deleteRow(sheetId, rowId) {
           }
         ]
       }
-    }).then(function(response) { main_table.innerHTML ="";  obj_reload_table();}) //reload
+    }).then(function(response) { obj_reload_table();}) //reload
 
 }
 
 function objectiveSolved(sheetId, rowId){
 
-  splitter = valuesArray[rowId-1][3].split(".")
+  console.log(valuesArray[rowId-1][2])
+
+  splitter = valuesArray[rowId-1][2].split(".")
   newDate = new Date(splitter[2],splitter[1]-1,splitter[0])
-  sheetsAPI_appendRow([[valuesArray[rowId-1][0]],[valuesArray[rowId-1][1]],[valuesArray[rowId-1][2]], [newGoogleDate(newDate)]], "obj_solved!A:D", null)
+  sheetsAPI_appendRow([[valuesArray[rowId-1][0]],[valuesArray[rowId-1][1]],["null"], [newGoogleDate(newDate)]], "obj_solved!A:D", null)
 
   sheetsAPI_deleteRow(sheetId, rowId-1)
 
@@ -130,9 +131,8 @@ function obj_send(){
   const range = "obj_unsolved"
   form_name = document.getElementById("obj_name").value
   form_category = document.getElementById("obj_category").value
-  form_priority = document.getElementById("obj_priority").value
   form_createdAt = newGoogleDate("")
-  data = [[form_name], [form_category], [form_priority], [form_createdAt]]
+  data = [[form_name], [form_category], [form_createdAt]]
 
   sheetsAPI_appendRow(data, range, obj_reload_table)
 
@@ -140,7 +140,7 @@ function obj_send(){
 
 function obj_reload_table(){
   console.log("VISIT_OBJECTIVES | reload table")
-  main_table.innerHTML = ""
+  document.getElementById("obj_table").innerHTML = ""
   sheetsAPI_sortSheet("1645068860")
 
   setTimeout(() => {
