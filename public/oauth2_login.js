@@ -63,12 +63,17 @@ function check_active_gapi_gis(){
     if(activeGapi && activeGis){
         console.log("GAPI AND OAUTH2 SUCCESSFULL")
 
+        document.getElementById("load_cat").innerHTML = ""
+        console.log("To kill the cat ...")
+
         //do stuff
         visitFinanceInput()
         visitFinance()
         visitObjectives()
+
         visitHome()
-        document.getElementById("load_cat").innerHTML = ""
+        console.log("Cleared content after login")
+
 
     }
 

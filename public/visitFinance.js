@@ -2,8 +2,7 @@ function visitFinance(){
   visitHome()
   document.getElementById("finance_component").style.display = "grid"
 
-  fetch_groups()
-
+  sheetsAPI_getRows("groups!A:C", printGroups, "UNFORMATTED_VALUE")
   //GET avg_month_distribution_by_budget_period
   sheetsAPI_getRows("avg_month_distribution_by_budget_period", clean_line_input, "UNFORMATTED_VALUE")
 
@@ -135,11 +134,6 @@ function js_date_to_yymmdd(date_object){
   return ( ((date.getDate() > 9) ? date.getDate() : ('0' + date.getDate())) + "." +((date.getMonth() > 8) ? (date.getMonth() + 1) : ('0' + (date.getMonth() + 1))) + '.' + date.getFullYear());
   
   }
-
-function fetch_groups(){
-
-  sheetsAPI_getRows("groups!A:C", printGroups)
-}
 
 function sheetsAPI_getRows(range,responseFunction, valueRenderOption = "FORMATTED_VALUE" ) { // responseFunction uses the result
   try {

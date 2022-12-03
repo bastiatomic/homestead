@@ -3,19 +3,19 @@ var valuesArray = [];
 
 function visitObjectives() {
   visitHome()
-    console.log("WELCOME TO OBJECTIVES")
+  console.log("WELCOME TO OBJECTIVES")
 
-    //create element and add it instantly to DOM
-    div_wrapper = document.createElement("div")
-    div_wrapper.className = "table-scroll"
-    main_table = document.createElement("table"); div_wrapper.appendChild(main_table)
-    main_table.className = "obj_table";
-    main_table.style.overflow="auto"
+  /*create element and add it instantly to DOM
+  div_wrapper = document.getElementById("div")
+  main_table = document.getElementById("table");
+  div_wrapper.appendChild(main_table)
+  main_table.className = "obj_table";
+  main_table.style.overflow="auto"
 
-    document.getElementById("objectives_form").appendChild(div_wrapper)
-    obj_getValues('GET_obj_database')
+  document.getElementById("objectives_form").appendChild(div_wrapper)*/
+  obj_getValues('GET_obj_database')
 
-    document.getElementById("objectives_form").style.display = "block"
+  /*document.getElementById("objectives_form").style.display = "block"*/
 
 }
 
@@ -45,28 +45,26 @@ function obj_printValues(valuesArray1){
     if(valuesArray[i][1] != currentCategory){ //create new header
       currentCategory = valuesArray[i][1]
 
-      table1 = main_table;
+      table1 = document.getElementById("obj_table");
+      console.log(table1)
       var row = table1.insertRow()
       var cell0 = row.insertCell(0);
-      var cell1 = row.insertCell(0);
-      var cell2 = row.insertCell(0);
-      cell0.innerHTML =""
+      var cell1 = row.insertCell(1)
+      cell0.innerHTML = ""
       cell1.innerHTML = valuesArray[i][1]
       cell1.style.fontSize = "200%"
-      cell2.innerHTML =""
+ 
     } 
 
-    table1 = main_table;
+    table1 = document.getElementById("obj_table");
     var row = table1.insertRow()
     row.id = "tableRow"+i; //this shall not show up in headers!
     var cell0 = row.insertCell(0);
     var cell1 = row.insertCell(1);
-    var cell2 = row.insertCell(2);
     cell0.innerHTML = "<img class='obj_remove_button' src='graphics/edit_alt.png' onclick='objectiveSolved("+1645068860+", "+(i+1)+")'>"
+    cell0.style.width = "5%"
     cell1.innerHTML = valuesArray1[i][0]
-    cell2.innerHTML = valuesArray1[i][2]
-    cell2.className = "obj_priority_box"
-    cell2.style.backgroundColor = valuesArray1[i][4]
+
   }
 } 
 

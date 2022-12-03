@@ -17,6 +17,22 @@ input,select{
     box-sizing:border-box;
 }
 
+.finance_submit_button{
+    background-color: rgb(56,106,32);
+    border-radius: 20px;
+    width: 100%;
+    height: 40px;
+    top: 0px;
+    left: 0px;
+    border: none;
+    color: white;
+}
+
+.finance_submit_button:hover{
+    cursor: pointer;
+
+}
+
 button{
     font-family: inherit
 }
@@ -87,7 +103,6 @@ label {
 
 tr{
     border: 1px solid gray;
-    border-radius: 5px;
 }
 td{
     padding: 10px;
@@ -99,6 +114,7 @@ td{
     table-layout: "fixed";
     border-collapse: separate; 
     border-spacing: 0 10px; 
+    overflow:auto
 }
 
 .obj_table td{
@@ -126,7 +142,8 @@ th{
 .obj_input_box {
     position:relative;
     padding: 0 0 20px;
-    box-sizing:border-box;
+    width:30%;
+    float: left;
 }
 
 .finance_component{
@@ -156,7 +173,7 @@ th{
 
 @media only screen and (max-width: 900px) {
     body{
-        background-color: white;
+        background-color: red;
     }
     .main_body{
         display:grid;
@@ -164,7 +181,7 @@ th{
                                 'content';
 
         grid-template-columns: 1fr;
-        grid-template-rows: 50px 100%;
+        grid-template-rows: minmax(min-content, max-content);
 
         position: relative; /* this opens a scrollbar*/
     }

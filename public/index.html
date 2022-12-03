@@ -54,33 +54,28 @@
 
         <!--COMPONENT BUILDER | OBJECTIVES-->
 
-        <div id="objectives_form" style="display: none">
+         <div id="objectives_form" style="display: none">
           <br>
           <br>
-          <table style="width: 100%">
+       
+            <div class="obj_input_box">
+              <label>Name</label>
+              <input type="text" id="obj_name">
+            </div>
+            <div class="obj_input_box">
+              <label>Kategorie</label>
+              <input type="text" id="obj_category">
+            </div>
+          <div class="obj_input_box">
+            <button onclick="obj_send()" class="finance_submit_button">Send</button>
+          </div>
+          <br>
 
-            <tr>
-              <td class="obj_input_box">
-                <label>Name</label>
-                <input type="text" id="obj_name">
-              </td>
-              <td class="obj_input_box">
-                <label>Kategorie</label>
-                <input type="text" id="obj_category"></td>
-              <td class="obj_input_box">
-                <label>Priorität</label>
-                <select id="obj_priority">
-                <option value="Low">Low</option>
-                <option value="Medium">Medium</option>
-                <option value="High">High</option>
-              </select>
-            </td>
-            <td><button onclick="obj_send()">Send</button></td>
-            </tr>
-
-          </table>
+          <table id="obj_table" class="obj_table"></table>
 
         </div>
+
+        
 
         <!--COMPONENT BUILDER | FINANCE -->
 
