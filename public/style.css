@@ -58,7 +58,6 @@ label {
     display:grid;
     grid-template-areas: 'navbar content';
     grid-template-columns: 1fr 10fr;
-    grid-template-rows: 50px 100%;
 
     position: fixed; /* this prevents a scrollbar*/
     top: 0px;
@@ -111,10 +110,10 @@ td{
 
 .obj_table{
     width: 98%;
-    table-layout: "fixed";
-    border-collapse: separate; 
     border-spacing: 0 10px; 
-    overflow:auto
+
+ 
+
 }
 
 .obj_table td{
@@ -129,11 +128,6 @@ th{
     text-align: left;
 }
 
-.table-scroll {
-    height:80vh;
-    overflow:auto;  
-    margin-top:20px;
-}
 
 .objectives_label{
     all: initial;
@@ -142,7 +136,6 @@ th{
 .obj_input_box {
     position:relative;
     padding: 0 0 20px;
-    width:30%;
     float: left;
 }
 
