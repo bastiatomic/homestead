@@ -1,5 +1,7 @@
 body {
     background-color: black;
+    background-image: url("graphics/morning.jpg");
+    background-size: cover;
 }
 
 .input_box {
@@ -181,7 +183,8 @@ th {
 
 @media only screen and (max-width: 900px) {
     body {
-        background-color: rgb(32, 32, 255);
+        background-image: none;
+        background-color: rgb(32,32,32);
     }
 
     .main_body {
