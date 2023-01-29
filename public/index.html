@@ -40,8 +40,7 @@
       <button onclick="showObjectives();"><img src="graphics/objectives.png" class="navbar_img"> Objectives</button>
       <button onclick="showFinance();"> <img src="graphics/shards.png" class="navbar_img"> Finance</button>
       <button onclick="showFinanceInput();"> <img src="graphics/finance_input.png" class="navbar_img">
-        FinanceInput</button>
-      <button onclick='showNewNote()'> <img src="" class="navbar_img"> New Note</button>
+        New Transaction</button>
       <button onclick="showGym()"> <img src="graphics/gym.png" class="navbar_img"> Gym</button>
       <button onclick="showRecipes()"> <img src="graphics/cooking.png" class="navbar_img"> Cooking</button>
 
@@ -87,14 +86,21 @@
 
         <!--SPENDING CHART-->
         <div id="finance_spending_chart" class="default_bounding_box">
-          <canvas id="finance_spending_diagram"></canvas>
-          <canvas id="money_trend_by_start_date"></canvas>
+          <div style="width: 99%">
+            <canvas id="finance_spending_diagram"></canvas>
+          </div>
+          <div>
+            <canvas id="money_trend_by_start_date"></canvas>
+          </div>
+           
+          
+         
         </div>
 
 
         <!--SEARCH-->
         <div id="finance_search" class="default_bounding_box">
-          <div>
+          <div style="text-align:center">
             <input id="finance_search_input" placeholder="Type something ...">
             <div style="padding-top: 10px">
               <button onclick="fetch_request_input()" class="finance_submit_button">Send request</button>

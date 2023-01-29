@@ -58,9 +58,14 @@ function getValues(range) {
 function printValues(valuesArray){
     for(let i = 0; i < valuesArray.length; i++){
         new_element = document.createElement('div')
-        new_element.appendChild(document.createTextNode(valuesArray[i]));
+        p1 = document.createElement("div")
+        p2 = document.createElement("div")
 
+        p1.innerHTML =valuesArray[i][1] + " | " + valuesArray[i][2]
+        p2.innerHTML = valuesArray[i][0] + ", " + valuesArray[i][3] + " (" +valuesArray[i][4]+")"
+        
 
+        new_element.appendChild(p1); new_element.appendChild(p2); new_element.appendChild(document.createElement("br"));
         document.getElementById("finance_search").appendChild(new_element);
 
     }
