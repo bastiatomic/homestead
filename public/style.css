@@ -87,20 +87,17 @@ label {
 .navbar button {
     background-color: rgb(60, 56, 54);
     color: white;
-    padding: 1rem 5rem 1rem 1rem;
+    padding: 1rem 2rem 1rem 1rem;
     text-align: left;
     border: 1px solid gray;
     border-radius: 20px;
-    width: 70%;
+    width: 80%;
     margin: 5px;
     white-space: nowrap;
     overflow: hidden;
 }
 .navbar button:hover{
     cursor: pointer;
-}
-
-.navbar button:hover {
     filter: brightness(130%);
 }
 
@@ -170,17 +167,6 @@ th {
     filter: brightness(130%);
 }
 
-.obj_remove_button {
-    border-radius: 10px;
-
-}
-
-.obj_priority_box {
-    border-radius: 10px;
-    width: 20%;
-}
-
-
 @media only screen and (max-width: 900px) {
     body {
         background-image: none;
@@ -200,7 +186,7 @@ th {
     }
 
     .navbar button {
-        width: 20%
+        width: 40%
     }
 
     .navbar_img {
@@ -227,13 +213,20 @@ th {
     .obj_input_box {
         margin: 0px
     }
-
-    td {
-        word-wrap: break-word;
-        border: 2px solid green
-    }
     .content{
         width: 100vw;
     }
+    .obj_table{
+        table-layout: fixed;
+        width: 100vw;
+    }
+    td{
+        word-wrap: break-word;
+    }
+    td:nth-child(1) {
+        width: 15vw;
+        }
+    
+    
 
 }

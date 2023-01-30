@@ -62,6 +62,7 @@ function obj_printValues(valuesArray1){
     var cell1 = row.insertCell(1);
     cell0.innerHTML = "<img class='obj_remove_button' src='graphics/edit_alt.png' onclick='objectiveSolved("+1645068860+", "+(i+1)+")'>"
     cell1.innerHTML = valuesArray1[i][0]
+    cell0.classList.add("obj_remove_button")
 
   }
 } 
