@@ -1,4 +1,3 @@
-
 function showGym(){
     window.open("https://docs.google.com/document/d/10oi5P5nb2f_eQimivl129kXw4Dhxox8YtZfslXgkUGE/edit");
 }
@@ -120,3 +119,50 @@ function valid_input(input_object){
     }
     return true;
 }
+
+function showJournal(){
+    visitHome()
+    document.getElementById("journal_component").style.display = "grid"
+
+}
+
+function journalSubmit(){
+    date = document.getElementById("journal_date").value
+    content = document.getElementById("journal_content").value
+    
+
+    console.log(date)
+    console.log(content)
+
+    sheetsAPI_appendRow1([[date], [content]], "journal!A:B", journalSuccess);
+}
+
+function journalSuccess(){
+    console.log("SUCCESS")
+}
+
+function sheetsAPI_appendRow1(data, range, responseFunction){
+    // data as [[0],[1], [2], [3]]
+    //range example: database!A:F;  'A-F' will result in 6 arguments from data
+  
+    const body = {
+        "values": data,
+        "range": range,
+        "majorDimension": "COLUMNS"
+      };
+  
+    try {
+        gapi.client.sheets.spreadsheets.values.append({
+        spreadsheetId: spreadsheetId,
+        range: range,
+        valueInputOption: "RAW",
+        resource: body,
+        }).then((response) => {
+            responseFunction()
+        });
+    } catch (err) {
+        console.log("ERROR " + err.message);
+        return;
+    }
+  
+  }

@@ -38,6 +38,8 @@
         New Transaction</button>
       <button onclick="showGym()"> <img src="graphics/gym.png" class="navbar_img"> Gym</button>
       <button onclick="showRecipes()"> <img src="graphics/cooking.png" class="navbar_img"> Cooking</button>
+      <button onclick="showJournal()"> <img src="" class="navbar_img"> Journal</button>
+
 
     </nav>
 
@@ -177,6 +179,24 @@
             </div>
 
             <button class="finance_submit_button" id="submit_button" onclick="finance_submit()  ">💾 Save</button>
+
+      </div>
+
+       <!--COMPONENT BUILDER | JOURNAL-->
+      <div id="journal_component" style="display:none;">
+       
+        <br>
+        <div class="input_box">
+          <label for="fname">Datum</label>
+        <input type="date" id="journal_date" name="Datum" style="width: 30%"><br>
+        </div>
+
+        <div class="input_box">
+        <label for="lname">What happend today? Tell me</label>
+        <input type="text" id="journal_content" name="content" style="height: 50vh"><br>
+      </div>
+
+        <input type="submit" value="Submit" onclick="journalSubmit()">
 
       </div>
 
