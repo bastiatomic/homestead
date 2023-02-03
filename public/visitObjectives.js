@@ -91,39 +91,11 @@ function sheetsAPI_deleteRow(sheetId, rowId) {
 
 function objectiveSolved(sheetId, rowId){
 
-  console.log(valuesArray[rowId-1][2])
-
   splitter = valuesArray[rowId-1][2].split(".")
   newDate = new Date(splitter[2],splitter[1]-1,splitter[0])
   sheetsAPI_appendRow([[valuesArray[rowId-1][0]],[valuesArray[rowId-1][1]],["null"], [newGoogleDate(newDate)]], "obj_solved!A:D", null)
 
   sheetsAPI_deleteRow(sheetId, rowId-1)
-
-}
-
-function sheetsAPI_appendRow(data, range, responseFunction){
-  // data as [[0],[1], [2], [3]]
-  //range example: database!A:F;  'A-F' will result in 6 arguments from data
-
-  const body = {
-      "values": data,
-      "range": range,
-      "majorDimension": "COLUMNS"
-    };
-
-  try {
-      gapi.client.sheets.spreadsheets.values.append({
-      spreadsheetId: spreadsheetId,
-      range: range,
-      valueInputOption: "RAW",
-      resource: body,
-      }).then((response) => {
-          responseFunction()
-      });
-  } catch (err) {
-      console.log("ERROR " + err.message);
-      return;
-  }
 
 }
 
@@ -135,6 +107,9 @@ function obj_send(){
   data = [[form_name], [form_category], [form_createdAt]]
 
   sheetsAPI_appendRow(data, range, obj_reload_table)
+
+  document.getElementById("obj_name").value = ""
+  document.getElementById("obj_category").value = ""
 
 }
 

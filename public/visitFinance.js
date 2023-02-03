@@ -73,32 +73,6 @@ function printValues(valuesArray) {
   }
 }
 
-function sheetsAPI_appendRow(data, range, responseFunction) {
-  // data as [[0],[1], [2], [3]]
-  //range example: database!A:F;  'A-F' will result in 6 arguments from data
-
-  const body = {
-    "values": data,
-    "range": range,
-    "majorDimension": "COLUMNS"
-  };
-
-  try {
-    gapi.client.sheets.spreadsheets.values.append({
-      spreadsheetId: spreadsheetId,
-      range: range,
-      valueInputOption: "RAW",
-      resource: body,
-    }).then((response) => {
-      responseFunction()
-    });
-  } catch (err) {
-    console.log("ERROR " + err.message);
-    return;
-  }
-
-}
-
 function finance_process_line_chart(object) {
   let finance_money_history_data = object.values
 
