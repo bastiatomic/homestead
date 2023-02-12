@@ -70,6 +70,7 @@ function check_active_gapi_gis(){
         visitFinanceInput()
         visitFinance()
         visitObjectives()
+        loadRecipes()
 
         visitHome()
         console.log("Cleared content after login")

@@ -1,8 +1,32 @@
+//TODO: "gapi.client.sheets.spreadsheets" is only allowed to exist in sheetsAPI.js, nowhere else!
+
 function showGym(){
     window.open("https://docs.google.com/document/d/10oi5P5nb2f_eQimivl129kXw4Dhxox8YtZfslXgkUGE/edit");
 }
-function showRecipes(){
-    window.open("https://docs.google.com/spreadsheets/d/1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio/edit#gid=797264053")
+function loadRecipes(){
+    //window.open("https://docs.google.com/spreadsheets/d/1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio/edit#gid=797264053")
+    sheetsAPI_getValues("recipes!A:C", renderRecipes)
+}
+
+function renderRecipes(data){
+
+    for (let i = 1; i < data.length; i++) {
+
+        if(data[i][1] == ""){
+            data[i][1] = "favicon.ico"
+        }
+
+        table1 = document.getElementById("recipes_table");
+        var row = table1.insertRow()
+        var cell0 = row.insertCell(0);
+        var cell1 = row.insertCell(1);
+        var cell2 = row.insertCell(2);
+        cell0.innerHTML = data[i][0]
+        cell1.innerHTML = '<img src='+data[i][1]+' width="100" height="56">'
+        cell2.innerHTML = '<div><a href="'+data[i][2]+'">'+"Link"+'</a></div>';
+
+    }
+
 }
 
 /* ----------------------------------
@@ -12,6 +36,7 @@ function finance_submit(){
     setTimeout(function(){document.getElementById("submit_button").disabled = false;},1000)
 
     //flow: get initial object values
+    //TODO this var is created twice again but is bound to a variable. maybe check is separatly?
     var input = {
         name: document.getElementById("input_name").value,
         value: document.getElementById("input_value").value,
@@ -28,54 +53,16 @@ function finance_submit(){
         document.getElementById("input_name").value = "";
         document.getElementById("input_value").value = "";
 
-
         //sending package to database
-        const body = {
-            "values": [
-              [
-                input.date
-              ],
-              [
-                input.name
-              ],
-              [
-                Number(input.value)
-              ],
-              [
-                input.counterpart
-              ],
-              [
-                input.category
-              ],
-              [
-                input.account
-              ]
-            ],
-            "range": "database!A:F",
-            "majorDimension": "COLUMNS"
-          };
+        let data = [[input.date],[input.name],[Number(input.value)],[input.counterpart],[input.category],[input.account]]
 
-        try {
-            gapi.client.sheets.spreadsheets.values.append({
-            spreadsheetId: spreadsheetId,
-            range: "database!A:F",
-            valueInputOption: "RAW",
-            resource: body,
-            }).then((response) => {
-                console.log(response.result);
-            });
-        } catch (err) {
-            console.log("ERROR " + err.message);
-            return;
-        }
-       
+        sheetsAPI_appendRow(data, "database!A:F", null)
+
     } else {
         console.log("INPUT BUILD FAILED")
         window.alert("Some input is not valid. Kindly re-check your values.")
-        return
-
+   
     }
-
 }
 
 function valid_date(date_object){
@@ -120,12 +107,9 @@ function valid_input(input_object){
     return true;
 }
 
-
-
 function journalSubmit(){
     date = document.getElementById("journal_date").value
     content = document.getElementById("journal_content").value
-    
 
     console.log(date)
     console.log(content)
@@ -134,5 +118,5 @@ function journalSubmit(){
 }
 
 function journalSuccess(){
-    console.log("SUCCESS")
+    alert("JOURNAL ENTRY ADDED")
 }

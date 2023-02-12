@@ -3,6 +3,7 @@ function visitHome(){
     document.getElementById("finance_component").style.display = "none"
     document.getElementById("finance_input_component").style.display = "none"
     document.getElementById("journal_component").style.display = "none"
+    document.getElementById("recipes_component").style.display ="none"
     console.log("All elements are well hidden now.")
 
 }
@@ -32,5 +33,12 @@ function showJournal(){
     visitHome()
     console.log("WELCOME TO JOURNAL")
     document.getElementById("journal_component").style.display = "grid"
+
+}
+
+function showRecipes(){
+    visitHome()
+    console.log("WELCOME TO RECIPES")
+    document.getElementById("recipes_component").style.display = "grid"
 
 }
