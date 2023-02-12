@@ -81,13 +81,13 @@ function check_active_gapi_gis(){
 
 function successfull_login(){
     //document.getElementById("load_cat").innerHTML = ""
-    console.log("To kill the cat ...")
-    visitFinanceInput()
-    visitFinance()
-    visitObjectives()
-    loadRecipes()
-
-    visitHome()
-    console.log("Cleared content after login")
-
+    if(!mocking_use_login){
+        console.log("To kill the cat ...")
+        visitFinanceInput()
+        visitFinance()
+        visitObjectives()
+        loadRecipes()
+        visitHome()
+        console.log("Cleared content after login")
+    }
 }
