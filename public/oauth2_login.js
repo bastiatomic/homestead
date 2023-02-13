@@ -4,8 +4,18 @@ const prod_spreadsheet ={
 const mock_spreadsheet ={
     "id": "1qFlBuwopUtnxvVZ-K0_yZiQMhynqQobO2yUVZ6bS4yo",
 }
-const spreadsheetId = mock_spreadsheet.id
+const spreadsheetId = prod_spreadsheet.id
 const mocking_use_login = true
+
+const endpoints = {
+    "GET_finance_groups": "GET_finance_groups",
+    "GET_obj_database":"GET_obj_database",
+    "GET_recipes" : "GET_recipes",
+    "GET_search_results": "GET_search_results",
+    "API_SEARCH_PARAMETER": "API_SEARCH_PARAMETER",
+    "GET_objectives_unsolved": "GET_objectives_unsolved",
+    "GET_finance_database":"GET_finance_database"
+}
 
 var tokenClient;
 var access_token;
@@ -19,29 +29,26 @@ const SCOPES = 'https://www.googleapis.com/auth/spreadsheets https://www.googlea
 
 function initTokenClient(prompt_value) {
 
-    if(!false){
-        tokenClient = google.accounts.oauth2.initTokenClient({
-            client_id: CLIENT_ID,
-            scope: SCOPES,
-            prompt: prompt_value,
-                callback: (tokenResponse) => {
-                    access_token = tokenResponse
-                    console.log(access_token)
-                    //ERROR: user interaction required
-                    activeGis = true;
-                    check_active_gapi_gis()
-                    if (typeof tokenResponse.access_token == 'undefined'){
-                        console.log("CALLING RE-ISSUE SERVICE ...")
-                        setTimeout(getToken,1000)
-                    }
-                },
-            }); 
-            // call to the GIS backend (popup screen)
-            tokenClient.requestAccessToken();
-    } else{
-        console.log("USING MOCK BACKEND")
-        successfull_login()
-    }
+    
+    tokenClient = google.accounts.oauth2.initTokenClient({
+        client_id: CLIENT_ID,
+        scope: SCOPES,
+        prompt: prompt_value,
+            callback: (tokenResponse) => {
+                access_token = tokenResponse
+                console.log(access_token)
+                //ERROR: user interaction required
+                activeGis = true;
+                check_active_gapi_gis()
+                if (typeof tokenResponse.access_token == 'undefined'){
+                    console.log("CALLING RE-ISSUE SERVICE ...")
+                    setTimeout(getToken,1000)
+                }
+            },
+        }); 
+        // call to the GIS backend (popup screen)
+        tokenClient.requestAccessToken();
+    
 
 }
 
@@ -76,14 +83,14 @@ function check_active_gapi_gis(){
 }
 
 function successfull_login(){
-    //document.getElementById("load_cat").innerHTML = ""
-    if(mocking_use_login){
-        console.log("To kill the cat ...")
-        visitFinanceInput()
-        visitFinance()
-        visitObjectives()
-        loadRecipes()
-        visitHome()
-        console.log("Cleared content after login")
-    }
+    document.getElementById("load_cat").innerHTML = ""
+    
+    console.log("To kill the cat ...")
+    visitFinanceInput()
+    visitFinance()
+    visitObjectives()
+    loadRecipes()
+    visitHome()
+    console.log("Cleared content after login")
+    
 }

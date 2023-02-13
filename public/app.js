@@ -56,7 +56,7 @@ function finance_submit(){
         //sending package to database
         let data = [[input.date],[input.name],[Number(input.value)],[input.counterpart],[input.category],[input.account]]
 
-        sheetsAPI_appendRow(data, "database!A:F", null)
+        sheetsAPI_appendRow(data,endpoints.GET_finance_database, null)
 
     } else {
         console.log("INPUT BUILD FAILED")

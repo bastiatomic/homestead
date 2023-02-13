@@ -28,15 +28,19 @@ function sheetsAPI_appendRow(data, range, responseFunction) {
 //TODO: check correct append-syntax
 // TODO: is response or responseFunction used anywhere?
 
-function sheetsAPI_getValues(range, responseFunction) {
-    console.log("FETCHING: " + range)
+function sheetsAPI_getValues(range, responseFunction, valueRenderOption = "FORMATTED_VALUE") {
+    console.log("FETCHING: " + range + " as " + valueRenderOption)
     try {
         gapi.client.sheets.spreadsheets.values.get({
             spreadsheetId: spreadsheetId,
             range: range,
+            valueRenderOption: valueRenderOption,
         }).then((response) => {
 
-            responseFunction(response.result.values)
+            if(responseFunction){
+                responseFunction(response.result.values)
+            }
+            
         });
     } catch (err) {
         alert(err.message);
@@ -44,29 +48,21 @@ function sheetsAPI_getValues(range, responseFunction) {
     }
 }
 
-"sheetID: the active sheet; rowID: the row starting by 1"
-function sheetsAPI_deleteRow(sheetId, rowId, responseFunction) {
+function sheetsAPI_updateValues(range, values, responseFunction){
+    //values = [[x], [y], [z]]
+    console.log("UPDATING: " + range)
 
-    gapi.client.sheets.spreadsheets.batchUpdate({
-      "spreadsheetId": spreadsheetId,
-      "resource": {
-        "requests": [
-          {
-            "deleteDimension": {
-              "range": {
-                "sheetId": sheetId,
-                "dimension": "ROWS",
-                "startIndex": rowId,
-                "endIndex": rowId+1
-              }
-            }
-          }
-        ]
-      }
+    gapi.client.sheets.spreadsheets.values.update({
+        spreadsheetId: spreadsheetId,
+        range: range,
+        valueInputOption: 'RAW',
+        resource: {
+        "values": values
+        },
     }).then((response) => {
         if (responseFunction) {
             responseFunction()
+            
         }
     });
-
 }

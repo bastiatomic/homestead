@@ -5,44 +5,52 @@ function visitObjectives() {
   visitHome()
   console.log("WELCOME TO OBJECTIVES")
 
-  /*create element and add it instantly to DOM
-  div_wrapper = document.getElementById("div")
-  main_table = document.getElementById("table");
-  div_wrapper.appendChild(main_table)
-  main_table.className = "obj_table";
-  main_table.style.overflow="auto"
-
-  document.getElementById("objectives_form").appendChild(div_wrapper)*/
-  obj_getValues('GET_obj_database')
-
-  /*document.getElementById("objectives_form").style.display = "block"*/
+  obj_reload_table()
 
 }
 
+function obj_send() {
+  form_name = document.getElementById("obj_name").value
+  form_category = document.getElementById("obj_category").value
+  form_createdAt = newGoogleDate("")
+  data = [
+    [form_name],
+    [form_category],
+    [false],
+    [form_createdAt]
+  ]
 
-function obj_getValues(range) {
-    try {
-      gapi.client.sheets.spreadsheets.values.get({
-        spreadsheetId: spreadsheetId,
-        range: range,
-      }).then((response) => {
-        result = response.result
-        valuesArray = response.result.values
-        obj_printValues(response.result.values)
-      });
-    } catch (err) {
-      console.log(err.message);
-      return;
-    }
+  sheetsAPI_appendRow(data, "GET_objectives_list", obj_reload_table)
+
+  document.getElementById("obj_name").value = ""
+  document.getElementById("obj_category").value = ""
+
 }
 
-function obj_printValues(valuesArray1){
+function objectiveSolved(rowId) {
+
+  sheetsAPI_updateValues("objectives!C" + rowId, [
+    [true]
+  ], obj_reload_table)
+
+}
+
+function obj_reload_table() {
+  console.log("VISIT_OBJECTIVES | refresh table")
+  document.getElementById("obj_table").innerHTML = ""
+
+  setTimeout(() => {
+    sheetsAPI_getValues(endpoints.GET_objectives_unsolved, obj_printValues);
+  }, "500")
+}
+
+function obj_printValues(valuesArray) {
 
   currentCategory = ''
 
-  for (let i = 0; i < valuesArray1.length; i++){
+  for (let i = 1; i < valuesArray.length; i++) {
 
-    if(valuesArray[i][1] != currentCategory){ //create new header
+    if (valuesArray[i][1] != currentCategory) { //create new header
       currentCategory = valuesArray[i][1]
 
       table1 = document.getElementById("obj_table");
@@ -52,120 +60,29 @@ function obj_printValues(valuesArray1){
       cell0.innerHTML = ""
       cell1.innerHTML = valuesArray[i][1]
       cell1.style.fontSize = "200%"
- 
-    } 
+
+    }
 
     table1 = document.getElementById("obj_table");
     var row = table1.insertRow()
-    row.id = "tableRow"+i; //this shall not show up in headers!
+    row.id = "tableRow" + i; //this shall not show up in headers!
     var cell0 = row.insertCell(0);
     var cell1 = row.insertCell(1);
-    cell0.innerHTML = "<img class='obj_remove_button' src='graphics/edit_alt.png' onclick='objectiveSolved("+1645068860+", "+(i+1)+")'>"
-    cell1.innerHTML = valuesArray1[i][0]
+    cell0.innerHTML = "<img class='obj_remove_button' src='graphics/edit_alt.png' onclick='objectiveSolved(" + (valuesArray[i][2]) + ")'>"
+    cell1.innerHTML = valuesArray[i][0]
     cell0.classList.add("obj_remove_button")
+    //sheetsAPI_updateValues
 
   }
-} 
-
-function sheetsAPI_deleteRow(sheetId, rowId) {
-
-    gapi.client.sheets.spreadsheets.batchUpdate({
-      "spreadsheetId": spreadsheetId,
-      "resource": {
-        "requests": [
-          {
-            "deleteDimension": {
-              "range": {
-                "sheetId": sheetId,
-                "dimension": "ROWS",
-                "startIndex": rowId,
-                "endIndex": rowId+1
-              }
-            }
-          }
-        ]
-      }
-    }).then(function(response) { obj_reload_table();}) //reload
-
 }
 
-function objectiveSolved(sheetId, rowId){
-
-  splitter = valuesArray[rowId-1][2].split(".")
-  newDate = new Date(splitter[2],splitter[1]-1,splitter[0])
-  sheetsAPI_appendRow([[valuesArray[rowId-1][0]],[valuesArray[rowId-1][1]],["null"], [newGoogleDate(newDate)]], "obj_solved!A:D", null)
-
-  sheetsAPI_deleteRow(sheetId, rowId-1)
-
-}
-
-function obj_send(){
-  const range = "obj_unsolved"
-  form_name = document.getElementById("obj_name").value
-  form_category = document.getElementById("obj_category").value
-  form_createdAt = newGoogleDate("")
-  data = [[form_name], [form_category], [form_createdAt]]
-
-  sheetsAPI_appendRow(data, range, obj_reload_table)
-
-  document.getElementById("obj_name").value = ""
-  document.getElementById("obj_category").value = ""
-
-}
-
-function obj_reload_table(){
-  console.log("VISIT_OBJECTIVES | reload table")
-  document.getElementById("obj_table").innerHTML = ""
-  sheetsAPI_sortSheet("1645068860")
-
-  setTimeout(() => {
-    obj_getValues('GET_obj_database');
-  }, 2000)
-}
-
-function newGoogleDate(value){
+function newGoogleDate(value) {
   var D;
-  if (!value){
-    D = new Date() ;
+  if (!value) {
+    D = new Date();
   } else {
-    D = new Date(value) ;
+    D = new Date(value);
   }
-  var Null = new Date(Date.UTC(1899,11,30,0,0,0,0)) ; // the starting value for Google
-  return ((D.getTime()  - Null.getTime())/60000 - D.getTimezoneOffset()) / 1440 ;
-}
-
-//delete doesnt allow headers in the sheet!
-function sheetsAPI_sortSheet(sheetId){
-  try {
-    // Add additional requests (operations) ...
-    const batchUpdateRequest = {
-      "requests": [
-        {
-          "sortRange": {
-            "range": {
-              "sheetId": sheetId,
-              "startRowIndex": 0,
-              "endRowIndex": 1000,
-              "startColumnIndex": 0,
-              "endColumnIndex": 4
-            },
-            "sortSpecs": [
-              {
-                "dimensionIndex": 1,
-                "sortOrder": "ASCENDING"
-              }
-            ]
-          }
-        }
-      ]
-    };
-    gapi.client.sheets.spreadsheets.batchUpdate({
-      spreadsheetId: spreadsheetId,
-      resource: batchUpdateRequest,
-    }).then((response) => {console.log(response);
-    });
-  } catch (err) {
-    console.log(err);
-    return;
-  }
+  var Null = new Date(Date.UTC(1899, 11, 30, 0, 0, 0, 0)); // the starting value for Google
+  return ((D.getTime() - Null.getTime()) / 60000 - D.getTimezoneOffset()) / 1440;
 }

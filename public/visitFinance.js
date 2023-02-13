@@ -2,62 +2,29 @@ function visitFinance() {
   visitHome()
   document.getElementById("finance_component").style.display = "grid"
 
-  sheetsAPI_getRows("GET_finance_groups", printGroups, "UNFORMATTED_VALUE")
+  sheetsAPI_getValues("GET_finance_groups", printGroups, "UNFORMATTED_VALUE")
   //GET avg_month_distribution_by_budget_period
-  sheetsAPI_getRows("avg_month_distribution_by_budget_period", clean_line_input, "UNFORMATTED_VALUE")
+  sheetsAPI_getValues("avg_month_distribution_by_budget_period", clean_line_input, "UNFORMATTED_VALUE")
 
-  sheetsAPI_getRows("money_trend_by_start_date", finance_process_line_chart, "UNFORMATTED_VALUE")
+  sheetsAPI_getValues("money_trend_by_start_date", finance_process_line_chart, "UNFORMATTED_VALUE")
 
 }
 
 function fetch_request_input() {
-  send_request(document.getElementById("finance_search_input").value)
-}
-
-function send_request(data1) {
-
-  try {
-    gapi.client.sheets.spreadsheets.values.update({
-      spreadsheetId: spreadsheetId,
-      range: 'search!B1',
-      valueInputOption: 'RAW',
-      resource: {
-        "values": [
-          [data1]
-        ]
-      },
-    }).then((response) => {
-      const result = response.result;
-    });
-  } catch (err) {
-    console.log(err.message);
-    return;
-  }
+  sheetsAPI_updateValues(
+    endpoints.API_SEARCH_PARAMETER,
+    [[document.getElementById("finance_search_input").value]], null
+  )
 
   setTimeout(() => {
-    getValues('GET_search_results');
-  }, "1500")
+    sheetsAPI_getValues(endpoints.GET_search_results, printValues);
+  }, "500")
 
-}
-
-function getValues(range) {
-  try {
-    gapi.client.sheets.spreadsheets.values.get({
-      spreadsheetId: spreadsheetId,
-      range: range,
-    }).then((response) => {
-
-      result = response.result
-      printValues(result.values)
-      const numRows = result.values ? result.values.length : 0;
-    });
-  } catch (err) {
-    console.log(err.message);
-    return;
-  }
 }
 
 function printValues(valuesArray) {
+
+  document.getElementById("finance_search_results").innerHTML = ""
   for (let i = 0; i < valuesArray.length; i++) {
     new_element = document.createElement('div')
     p1 = document.createElement("div")
@@ -68,13 +35,13 @@ function printValues(valuesArray) {
 
 
     new_element.appendChild(p1); new_element.appendChild(p2); new_element.appendChild(document.createElement("br"));
-    document.getElementById("finance_search").appendChild(new_element);
+    document.getElementById("finance_search_results").appendChild(new_element);
 
   }
 }
 
 function finance_process_line_chart(object) {
-  let finance_money_history_data = object.values
+  let finance_money_history_data = object
 
   let finance_money_history_data_clean = {
     "labels": [],
@@ -117,23 +84,7 @@ function js_date_to_yymmdd(date_object) {
 
 }
 
-function sheetsAPI_getRows(range, responseFunction, valueRenderOption = "FORMATTED_VALUE") { // responseFunction uses the result
-  try {
-    gapi.client.sheets.spreadsheets.values.get({
-      spreadsheetId: spreadsheetId,
-      range: range,
-      valueRenderOption: valueRenderOption,
-    }).then((response) => {
-      responseFunction(response.result)
-    });
-  } catch (err) {
-    console.log(err.message);
-    return;
-  }
-}
-
 function printGroups(valuesArray) {
-  valuesArray = valuesArray.values
 
   for (let i = 0; i < valuesArray.length; i++) {
     table1 = document.getElementById("finance_groups_table");
@@ -161,7 +112,7 @@ function render_chart(object) {
 
 function clean_line_input(object) {
 
-  let object2 = object.values
+  let object2 = object
 
   //console.log(object2)
 
