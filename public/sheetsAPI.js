@@ -2,7 +2,7 @@
 function sheetsAPI_appendRow(data, range, responseFunction) {
     // data as [[0],[1], [2], [3]]
     //range example: database!A:D;  'A-D' will result in 4 arguments from data
-
+    console.log("APPENDING TO: " + range)
     try {
         gapi.client.sheets.spreadsheets.values.append({
             spreadsheetId: spreadsheetId,
@@ -29,6 +29,7 @@ function sheetsAPI_appendRow(data, range, responseFunction) {
 // TODO: is response or responseFunction used anywhere?
 
 function sheetsAPI_getValues(range, responseFunction) {
+    console.log("FETCHING: " + range)
     try {
         gapi.client.sheets.spreadsheets.values.get({
             spreadsheetId: spreadsheetId,

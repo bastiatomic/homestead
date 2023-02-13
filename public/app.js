@@ -5,7 +5,7 @@ function showGym(){
 }
 function loadRecipes(){
     //window.open("https://docs.google.com/spreadsheets/d/1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio/edit#gid=797264053")
-    sheetsAPI_getValues("recipes!A:C", renderRecipes)
+    sheetsAPI_getValues("GET_recipes", renderRecipes)
 }
 
 function renderRecipes(data){

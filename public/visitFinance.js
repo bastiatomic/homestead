@@ -2,7 +2,7 @@ function visitFinance() {
   visitHome()
   document.getElementById("finance_component").style.display = "grid"
 
-  sheetsAPI_getRows("groups!A:C", printGroups, "UNFORMATTED_VALUE")
+  sheetsAPI_getRows("GET_finance_groups", printGroups, "UNFORMATTED_VALUE")
   //GET avg_month_distribution_by_budget_period
   sheetsAPI_getRows("avg_month_distribution_by_budget_period", clean_line_input, "UNFORMATTED_VALUE")
 
@@ -35,7 +35,7 @@ function send_request(data1) {
   }
 
   setTimeout(() => {
-    getValues('search!A5:F25');
+    getValues('GET_search_results');
   }, "1500")
 
 }

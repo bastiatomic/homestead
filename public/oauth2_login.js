@@ -1,15 +1,11 @@
 const prod_spreadsheet ={
     "id": '1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio',
-    "mock": false
 }
-
 const mock_spreadsheet ={
-    "id": "1PZG8gQieUTsGf7f6W3jZfCqru86fA7-KBnLg_O3WJ4s",
-    "mock": true
+    "id": "1qFlBuwopUtnxvVZ-K0_yZiQMhynqQobO2yUVZ6bS4yo",
 }
-
 const spreadsheetId = mock_spreadsheet.id
-const mocking_use_login = mock_spreadsheet.mock
+const mocking_use_login = true
 
 var tokenClient;
 var access_token;
@@ -23,7 +19,7 @@ const SCOPES = 'https://www.googleapis.com/auth/spreadsheets https://www.googlea
 
 function initTokenClient(prompt_value) {
 
-    if(!mocking_use_login){
+    if(!false){
         tokenClient = google.accounts.oauth2.initTokenClient({
             client_id: CLIENT_ID,
             scope: SCOPES,
@@ -81,7 +77,7 @@ function check_active_gapi_gis(){
 
 function successfull_login(){
     //document.getElementById("load_cat").innerHTML = ""
-    if(!mocking_use_login){
+    if(mocking_use_login){
         console.log("To kill the cat ...")
         visitFinanceInput()
         visitFinance()
