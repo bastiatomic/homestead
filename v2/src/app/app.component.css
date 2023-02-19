@@ -1,0 +1,19 @@
+.main{
+    display: grid;
+    grid-template-areas: "nav content";
+    grid-template-columns: 15% 85%;
+}
+
+.nav{
+    height: 100%;
+    background-color: rgb(32,32,32);
+}
+.content{
+    background-image:url("../assets/ws_Anno_2070_1920x1080.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 98vh;
+    border-radius: 10px;
+}
