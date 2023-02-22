@@ -13,6 +13,20 @@
         </td>
     </tr>
     <tr>
+        <div *ngFor="let obj of objectives2">
+            {{obj.category}}
+            <div class="obj_box" *ngFor="let topic of obj.topics">
+               <button class="delete_button" (click)="delete2(topic.id)">X</button>{{topic.name}}
+
+            </div>
+        </div>
+    </tr>
+    
+</table>
+
+
+<!--
+    <tr>
         <div *ngFor="let obj of objectives">
             <div style="font-weight: bolder; font-size: x-large; margin: 30px 10px 10px 10px;" *ngIf="obj.id == -1; else elseBlock">
                 {{obj.category}}
@@ -26,4 +40,4 @@
             </ng-template>
         </div>
     </tr>
-</table>
+-->

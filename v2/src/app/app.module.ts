@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FinanceInputComponent } from './finance-input/finance-input.component';
 import { ObjectivesComponent } from './objectives/objectives.component';
+import { HttpClientModule } from '@angular/common/http';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 
 @NgModule({
@@ -18,7 +20,9 @@ import { ObjectivesComponent } from './objectives/objectives.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    HttpClientModule,
+    OAuthModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
