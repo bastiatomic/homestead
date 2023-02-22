@@ -21,7 +21,16 @@ export class ObjectivesService {
     { id: 6, name: "hello3", category: "active in ffm", createdAt: new Date(), solvedAt: new Date() }
   ]
 
+    /*
+  1 {
+    category: ...,
+    topics: []
+  }
+*/
   getObjectives() {
     return this.mock_objectives;
+  }
+  reload_page(a : Objectives[]){
+
   }
 }

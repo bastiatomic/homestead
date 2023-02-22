@@ -29,14 +29,12 @@ td {
 }
 label{
     position: absolute;
-    top: -5px;
+    top: 10px;
     font-size: 13px;
-    left: 20px;
+    left: 30px;
     background-color: rgb(32,32,32);
-    border-radius: 5px;
     padding: 2px;
     font-weight: bold;
-    border: 1px solid white;
 }
 input{
     border-radius: 10px;
