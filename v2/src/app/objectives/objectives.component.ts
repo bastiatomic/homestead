@@ -30,6 +30,7 @@ export class ObjectivesComponent {
   }
   delete(obj_id : number){
     this.objectives = this.objectives.filter(a => a.id !== obj_id)
+    //TODO: send to server
   }
 
 }
