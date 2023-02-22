@@ -1,1 +1,29 @@
-<p>objectives works!</p>
+<table>
+    <tr>
+        <td class="x">
+            <label>Task</label>
+            <input placeholder="Name..." type="text" [(ngModel)]="new_objective.name">
+        </td>
+        <td class="x">
+            <label>Category</label>
+            <input placeholder="Category..." type="text" [(ngModel)]="new_objective.category">
+        </td>
+        <td class="x">
+            <button class="m_button"(click)="send_request(new_objective)">Send request</button>
+        </td>
+    </tr>
+    <tr>
+        <div *ngFor="let obj of objectives">
+            <div style="font-weight: bolder; font-size: x-large; margin: 30px 10px 10px 10px;" *ngIf="obj.id == -1; else elseBlock">
+                {{obj.category}}
+            </div>
+            <ng-template #elseBlock>
+                <div class="obj_box">
+                    <button
+                        class="delete_button" (click)="delete(obj.id)">X
+                    </button> {{obj.name}}
+                </div>
+            </ng-template>
+        </div>
+    </tr>
+</table>

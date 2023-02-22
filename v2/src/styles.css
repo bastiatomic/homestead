@@ -6,6 +6,7 @@ body{
 }
 
 
-:host{
+*{
     font-family: Arial;
+    color: white
 }
