@@ -26,6 +26,12 @@ export class AppComponent {
   logout() {
     this.googleApi.signOut()
   }
+  async GET_sheetsAPI_getNamedRange(){ //working
+    const content = await lastValueFrom(this.googleApi.GET_sheetsAPI_getNamedRange("GET_finance_groups"))
+    console.log(content)
+
+  }
+  
 
   async getEmails() {
     if (!this.userInfo) {

@@ -42,6 +42,8 @@ export interface UserInfo {
 export class GoogleApiService {
 
   gmail = 'https://gmail.googleapis.com'
+  sheets = 'https://sheets.googleapis.com/v4/spreadsheets'; //API_BASE
+  spreadsheetId = '1qFlBuwopUtnxvVZ-K0_yZiQMhynqQobO2yUVZ6bS4yo'
 
   userProfileSubject = new Subject<UserInfo>()
 
@@ -75,6 +77,10 @@ export class GoogleApiService {
 
   emails(userId: string): Observable<any> {
     return this.httpClient.get(`${this.gmail}/gmail/v1/users/${userId}/messages`, { headers: this.authHeader() })
+  }
+
+  GET_sheetsAPI_getNamedRange(namedRange : String, ){
+    return this.httpClient.get(`${this.sheets}/${this.spreadsheetId}/values/${namedRange}?majorDimension=ROWS`, { headers: this.authHeader() })
   }
 
   getMail(userId: string, mailId: string): Observable<any> {
