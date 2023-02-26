@@ -1,28 +1,19 @@
 <div class="main">
 
-    <div class="nav">
-        <app-navbar ></app-navbar>
-    </div>
+  <div class="nav">
+    <app-navbar></app-navbar>
+  </div>
 
-   <!--
+  <!--
     <div class="content">
         <router-outlet ></router-outlet>
     </div>
-   --> 
+   -->
 
-    <div *ngIf="isLoggedIn()">
-        <div class="container">Hi and welcome!</div>
-        <div class="container">Name: {{ userInfo?.info?.name }}</div>
-        <div class="container"><img src="{{ userInfo?.info?.picture }}"></div>
-        <div class="container">
-          <button (click)="GET_sheetsAPI_getNamedRange()">List Emails</button>
-        </div>
-        <div class="container" *ngFor="let snippet of mailSnippets">
-          {{ snippet }}
-        </div>
-        <div class="container">
-          <button (click)="logout()">Logout from Google</button>
-        </div>
-      </div>
+  <div *ngIf="isLoggedIn()">
+    <div class="container">Hi and welcome!</div>
+    <div class="container">Name: {{ userInfo?.info?.name }}</div>
+
+  <router-outlet></router-outlet>
 
 </div>

@@ -13,7 +13,10 @@
         </td>
     </tr>
     <tr>
-        <div *ngFor="let obj of objectives2">
+        <button (click)="GET_sheetsAPI_getNamedRange('GET_objectives_unsolved')">get data</button>
+    </tr>
+    <tr>
+        <div *ngFor="let obj of objectives3">
             {{obj.category}}
             <div class="obj_box" *ngFor="let topic of obj.topics">
                <button class="delete_button" (click)="delete2(topic.id)">X</button>{{topic.name}}

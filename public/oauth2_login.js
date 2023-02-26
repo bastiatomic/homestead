@@ -9,12 +9,17 @@ const mocking_use_login = true
 
 const endpoints = {
     "GET_finance_groups": "GET_finance_groups",
-    "GET_obj_database":"GET_obj_database",
     "GET_recipes" : "GET_recipes",
     "GET_search_results": "GET_search_results",
     "API_SEARCH_PARAMETER": "API_SEARCH_PARAMETER",
     "GET_objectives_unsolved": "GET_objectives_unsolved",
-    "GET_finance_database":"GET_finance_database"
+    "GET_finance_database":"GET_finance_database",
+    "GET_objectives_list": "GET_objectives_list",
+    "GET_finance_groups": "GET_finance_groups",
+    "avg_month_distribution_by_budget_period": "avg_month_distribution_by_budget_period",
+    "money_trend_by_start_date": "money_trend_by_start_date",
+    "obj_true_row": "objectives!C",
+
 }
 
 var tokenClient;

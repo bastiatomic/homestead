@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { endWith, lastValueFrom } from 'rxjs';
 import { GoogleApiService, UserInfo } from './google-api.service';
 
 @Component({
@@ -26,25 +26,5 @@ export class AppComponent {
   logout() {
     this.googleApi.signOut()
   }
-  async GET_sheetsAPI_getNamedRange(){ //working
-    const content = await lastValueFrom(this.googleApi.GET_sheetsAPI_getNamedRange("GET_finance_groups"))
-    console.log(content)
-
-  }
   
-
-  async getEmails() {
-    if (!this.userInfo) {
-      return;
-    }
-
-    const userId = this.userInfo?.info.sub as string
-    const messages = await lastValueFrom(this.googleApi.emails(userId))
-    messages.messages.forEach( (element: any) => {
-      const mail = lastValueFrom(this.googleApi.getMail(userId, element.id))
-      mail.then( mail => {
-        this.mailSnippets.push(mail.snippet)
-      })
-    });
-  }
 }

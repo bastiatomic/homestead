@@ -2,11 +2,11 @@ function visitFinance() {
   visitHome()
   document.getElementById("finance_component").style.display = "grid"
 
-  sheetsAPI_getValues("GET_finance_groups", printGroups, "UNFORMATTED_VALUE")
+  sheetsAPI_getValues(endpoints.GET_finance_groups, printGroups, "UNFORMATTED_VALUE")
   //GET avg_month_distribution_by_budget_period
-  sheetsAPI_getValues("avg_month_distribution_by_budget_period", clean_line_input, "UNFORMATTED_VALUE")
+  sheetsAPI_getValues(endpoints.avg_month_distribution_by_budget_period, clean_line_input, "UNFORMATTED_VALUE")
 
-  sheetsAPI_getValues("money_trend_by_start_date", finance_process_line_chart, "UNFORMATTED_VALUE")
+  sheetsAPI_getValues(endpoints.money_trend_by_start_date, finance_process_line_chart, "UNFORMATTED_VALUE")
 
 }
 

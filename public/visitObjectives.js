@@ -20,7 +20,7 @@ function obj_send() {
     [form_createdAt]
   ]
 
-  sheetsAPI_appendRow(data, "GET_objectives_list", obj_reload_table)
+  sheetsAPI_appendRow(data, endpoints.GET_objectives_list, obj_reload_table)
 
   document.getElementById("obj_name").value = ""
   document.getElementById("obj_category").value = ""
@@ -29,7 +29,7 @@ function obj_send() {
 
 function objectiveSolved(rowId) {
 
-  sheetsAPI_updateValues("objectives!C" + rowId, [
+  sheetsAPI_updateValues(endpoints.obj_true_row + rowId, [
     [true]
   ], obj_reload_table)
 

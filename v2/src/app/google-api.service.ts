@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
-import { Observable, Subject } from 'rxjs';
-
+import { lastValueFrom, Observable, Subject } from 'rxjs';
 const authCodeFlowConfig: AuthConfig = {
   // Url of the Identity Provider
   issuer: 'https://accounts.google.com',
@@ -17,7 +16,7 @@ const authCodeFlowConfig: AuthConfig = {
   // clientId: 'server.code',
   clientId: '837767818302-cbn24e9j41t8bfhmosgvvs200q1t991g.apps.googleusercontent.com',
 
-  //  const API_KEY = 'AIzaSyCOcTe261vaOow-cZPbTiMkBeRANdOweeA';
+  
   //const DISCOVERY_DOC = ['https://sheets.googleapis.com/$discovery/rest?version=v4', 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
 
 
@@ -25,6 +24,7 @@ const authCodeFlowConfig: AuthConfig = {
   scope: 'openid profile email https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/gmail.labels',
 
   showDebugInformation: true,
+
 };
 
 export interface UserInfo {
@@ -44,6 +44,15 @@ export class GoogleApiService {
   gmail = 'https://gmail.googleapis.com'
   sheets = 'https://sheets.googleapis.com/v4/spreadsheets'; //API_BASE
   spreadsheetId = '1qFlBuwopUtnxvVZ-K0_yZiQMhynqQobO2yUVZ6bS4yo'
+
+
+  mailSnippets: string[] = []
+  userInfo?: UserInfo
+  API_KEY = 'AIzaSyCOcTe261vaOow-cZPbTiMkBeRANdOweeA'
+
+  API_ENDPOINTS = {
+    "x": "X"
+  }
 
   userProfileSubject = new Subject<UserInfo>()
 
@@ -75,16 +84,37 @@ export class GoogleApiService {
     });
   }
 
-  emails(userId: string): Observable<any> {
-    return this.httpClient.get(`${this.gmail}/gmail/v1/users/${userId}/messages`, { headers: this.authHeader() })
-  }
-
-  GET_sheetsAPI_getNamedRange(namedRange : String, ){
+  GET_sheetsAPI_by_named_range2(namedRange : String, ){
     return this.httpClient.get(`${this.sheets}/${this.spreadsheetId}/values/${namedRange}?majorDimension=ROWS`, { headers: this.authHeader() })
   }
 
-  getMail(userId: string, mailId: string): Observable<any> {
-    return this.httpClient.get(`${this.gmail}/gmail/v1/users/${userId}/messages/${mailId}`, { headers: this.authHeader() })
+  async sheetsAPI_GET_by_named_range(namedRange : String, ){ //working
+    const content = await lastValueFrom(this.GET_sheetsAPI_by_named_range2(namedRange))
+    console.log("API START")
+    console.log(content)
+    console.log("API END")
+    return content
+
+  }
+
+  async sheetsAPI_UPDATE_by_range(range: String, values: any){
+    console.log("UPDATE_sheetsAPI_by_cell("+range+")" )
+    this.httpClient.put(`${this.sheets}/${this.spreadsheetId}/values/${range}?includeValuesInResponse=true&valueInputOption=RAW&key=${this.API_KEY}`,
+      { "values": [values] },
+      { headers: this.authHeader() }).pipe()
+      .subscribe((response) => {
+        console.log(response); //value
+      });
+  }
+  //TODO: allign me
+  async sheetsAPI_APPEND_by_range(range: String, values_as_entire_row: any){
+    var valueInputOption = "RAW"
+    const url = `${this.sheets}/${this.spreadsheetId}/values/${range}:append?valueInputOption=${valueInputOption}`;
+    var data = values_as_entire_row;
+    this.httpClient.post(url, data, { headers: this.authHeader() })
+  .pipe().subscribe((response) => {
+    console.log(response); //response
+  });
   }
 
   isLoggedIn(): boolean {
@@ -101,3 +131,20 @@ export class GoogleApiService {
     })
   }
 }
+
+/**
+ * PUT https://sheets.googleapis.com/v4/spreadsheets/1qFlBuwopUtnxvVZ-K0_yZiQMhynqQobO2yUVZ6bS4yo/values/objectives!C458?includeValuesInResponse=true&valueInputOption=RAW&key=[YOUR_API_KEY] HTTP/1.1
+
+Authorization: Bearer [YOUR_ACCESS_TOKEN]
+Accept: application/json
+Content-Type: application/json
+
+{
+  "values": [
+    [
+      true
+    ]
+  ]
+}
+
+ */
