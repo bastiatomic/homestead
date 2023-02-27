@@ -24,12 +24,13 @@ export class ObjectivesComponent {
   constructor(
     private api: GoogleApiService) { }
 
-  send_request(a: any) {
+  async send_request(a: any) {
     //this.objectives3.push();
     //TODO: send to server
     console.log([[a.name],[a.category],["FALSE"],[this.GoogleDate(new Date())]])
-    this.api.sheetsAPI_APPEND_by_range("GET_objectives_list",[[a.name,a.category,false,this.GoogleDate(new Date())]])
-    location.reload(); //TODO: larger code may optimise performance
+    ;(await this.api.sheetsAPI_APPEND_by_range("GET_objectives_list", [[a.name, a.category, false, this.GoogleDate(new Date())]])).subscribe(() => {
+      console.log('Data appended successfully, now continue with the code...');
+    location.reload()});
   }
   async delete2(obj_id: number) {
     await this.api.sheetsAPI_UPDATE_by_range("objectives!C"+obj_id,[true])

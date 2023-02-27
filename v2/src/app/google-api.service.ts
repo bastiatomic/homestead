@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
-import { lastValueFrom, Observable, Subject } from 'rxjs';
+import { lastValueFrom, map, Observable, Subject } from 'rxjs';
 const authCodeFlowConfig: AuthConfig = {
   // Url of the Identity Provider
   issuer: 'https://accounts.google.com',
@@ -114,14 +114,15 @@ export class GoogleApiService {
   //TODO: allign me
   async sheetsAPI_APPEND_by_range(range: String, values_as_entire_row: any){
     var valueInputOption = "RAW"
-
-    this.httpClient.post(
+    return this.httpClient.post(
       `${this.sheets}/${this.spreadsheetId}/values/${range}:append?valueInputOption=${valueInputOption}`,
       { "values": values_as_entire_row},
       { headers: this.authHeader() })
-  .pipe().subscribe((response) => {
-    console.log(response); //response
-  });
+      .pipe(
+        map((response) => {
+        console.log('Data appended successfully:', response);
+        return response;
+      }))
   }
 
   isLoggedIn(): boolean {
