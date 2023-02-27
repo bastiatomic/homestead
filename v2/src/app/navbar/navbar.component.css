@@ -21,11 +21,3 @@ button>img{
     width: 20px;
     height: 20px
 }
-
-.nav{
-    overflow: hidden;
-    position: fixed;
-    top:0;
-    height: 100%;
-    width: 15vw;
-}

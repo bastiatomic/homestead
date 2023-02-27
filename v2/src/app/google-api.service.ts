@@ -43,10 +43,14 @@ export class GoogleApiService {
 
   gmail = 'https://gmail.googleapis.com'
   sheets = 'https://sheets.googleapis.com/v4/spreadsheets'; //API_BASE
-  spreadsheetId = '1qFlBuwopUtnxvVZ-K0_yZiQMhynqQobO2yUVZ6bS4yo'
 
+  spreadsheets = {
+    mock: {id: '1qFlBuwopUtnxvVZ-K0_yZiQMhynqQobO2yUVZ6bS4yo'},
+    prod: {id: "null"}
+  }
 
-  mailSnippets: string[] = []
+  spreadsheetId = this.spreadsheets.mock.id
+
   userInfo?: UserInfo
   API_KEY = 'AIzaSyCOcTe261vaOow-cZPbTiMkBeRANdOweeA'
 
@@ -76,6 +80,7 @@ export class GoogleApiService {
           oAuthService.initLoginFlow()
         } else {
           oAuthService.loadUserProfile().then( (userProfile) => {
+            console.log("using spreadsheet: "+ this.spreadsheetId)
             this.userProfileSubject.next(userProfile as UserInfo)
           })
         }
@@ -109,9 +114,11 @@ export class GoogleApiService {
   //TODO: allign me
   async sheetsAPI_APPEND_by_range(range: String, values_as_entire_row: any){
     var valueInputOption = "RAW"
-    const url = `${this.sheets}/${this.spreadsheetId}/values/${range}:append?valueInputOption=${valueInputOption}`;
-    var data = values_as_entire_row;
-    this.httpClient.post(url, data, { headers: this.authHeader() })
+
+    this.httpClient.post(
+      `${this.sheets}/${this.spreadsheetId}/values/${range}:append?valueInputOption=${valueInputOption}`,
+      { "values": values_as_entire_row},
+      { headers: this.authHeader() })
   .pipe().subscribe((response) => {
     console.log(response); //response
   });
@@ -131,20 +138,3 @@ export class GoogleApiService {
     })
   }
 }
-
-/**
- * PUT https://sheets.googleapis.com/v4/spreadsheets/1qFlBuwopUtnxvVZ-K0_yZiQMhynqQobO2yUVZ6bS4yo/values/objectives!C458?includeValuesInResponse=true&valueInputOption=RAW&key=[YOUR_API_KEY] HTTP/1.1
-
-Authorization: Bearer [YOUR_ACCESS_TOKEN]
-Accept: application/json
-Content-Type: application/json
-
-{
-  "values": [
-    [
-      true
-    ]
-  ]
-}
-
- */

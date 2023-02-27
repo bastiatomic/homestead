@@ -13,9 +13,6 @@
         </td>
     </tr>
     <tr>
-        <button (click)="GET_sheetsAPI_getNamedRange('GET_objectives_unsolved')">get data</button>
-    </tr>
-    <tr>
         <div *ngFor="let obj of objectives3">
             {{obj.category}}
             <div class="obj_box" *ngFor="let topic of obj.topics">
@@ -26,21 +23,3 @@
     </tr>
     
 </table>
-
-
-<!--
-    <tr>
-        <div *ngFor="let obj of objectives">
-            <div style="font-weight: bolder; font-size: x-large; margin: 30px 10px 10px 10px;" *ngIf="obj.id == -1; else elseBlock">
-                {{obj.category}}
-            </div>
-            <ng-template #elseBlock>
-                <div class="obj_box">
-                    <button
-                        class="delete_button" (click)="delete(obj.id)">X
-                    </button> {{obj.name}}
-                </div>
-            </ng-template>
-        </div>
-    </tr>
--->

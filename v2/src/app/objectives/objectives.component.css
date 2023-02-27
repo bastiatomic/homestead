@@ -49,10 +49,6 @@ input{
 input:hover{
     cursor: text;
 }
-.grid_container{
-    display: grid;
-    grid-template-rows: auto auto; /* ??? */
-}
 .x{
     position: relative;
     float: left;
