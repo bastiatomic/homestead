@@ -4,6 +4,16 @@
 
 }
 
+.content{
+    background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ),url("../assets/cover.webp");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    height: 98vh;
+    border-radius: 10px;
+}
+
 @media screen and (max-width: 900px) {
     .main{
         display: grid;
