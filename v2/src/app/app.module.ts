@@ -8,6 +8,10 @@ import { FinanceInputComponent } from './finance-input/finance-input.component';
 import { ObjectivesComponent } from './objectives/objectives.component';
 import { HttpClientModule } from '@angular/common/http';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { JournalComponent } from './journal/journal.component';
+import { CookingComponent } from './cooking/cooking.component';
+import { GymComponent } from './gym/gym.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -15,14 +19,18 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     AppComponent,
     NavbarComponent,
     FinanceInputComponent,
-    ObjectivesComponent
+    ObjectivesComponent,
+    JournalComponent,
+    CookingComponent,
+    GymComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    OAuthModule.forRoot()
+    OAuthModule.forRoot(),
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
