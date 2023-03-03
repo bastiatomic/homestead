@@ -5,7 +5,7 @@
 }
 
 .content{
-    background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) ),url("../assets/cover.webp");
+    background-color: rgb(32,32,32);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;

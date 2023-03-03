@@ -16,12 +16,8 @@ const authCodeFlowConfig: AuthConfig = {
   // clientId: 'server.code',
   clientId: '837767818302-cbn24e9j41t8bfhmosgvvs200q1t991g.apps.googleusercontent.com',
 
-  
-  //const DISCOVERY_DOC = ['https://sheets.googleapis.com/$discovery/rest?version=v4', 'https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest'];
-
-
   // set the scope for the permissions the client should request
-  scope: 'openid profile email https://www.googleapis.com/auth/gmail.readonly https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/gmail.labels',
+  scope: 'openid profile email  https://www.googleapis.com/auth/spreadsheets',
 
   showDebugInformation: true,
 
