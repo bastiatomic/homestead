@@ -36,9 +36,4 @@ function showJournal(){
 
 }
 
-function showRecipes(){
-    visitHome()
-    console.log("WELCOME TO RECIPES")
-    document.getElementById("recipes_component").style.display = "grid"
-
-}
+function showRecipes(){}

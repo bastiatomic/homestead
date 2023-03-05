@@ -4,8 +4,7 @@ function showGym(){
     window.open("https://docs.google.com/document/d/10oi5P5nb2f_eQimivl129kXw4Dhxox8YtZfslXgkUGE/edit");
 }
 function loadRecipes(){
-    //window.open("https://docs.google.com/spreadsheets/d/1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio/edit#gid=797264053")
-    sheetsAPI_getValues("GET_recipes", renderRecipes)
+    window.open("https://www.notion.so/Recipes-Cooking-8b8aeae2ee0a49409025720941949d69");
 }
 
 function renderRecipes(data){
