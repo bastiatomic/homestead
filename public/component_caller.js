@@ -30,9 +30,7 @@ function showObjectives(){
 
 
 function showJournal(){
-    visitHome()
-    console.log("WELCOME TO JOURNAL")
-    document.getElementById("journal_component").style.display = "grid"
+    window.open("https://www.notion.so/Journaling-habits-gratitude-a1c635871ce44374ade13978c7b7c6ae");
 
 }
 

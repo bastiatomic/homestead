@@ -94,7 +94,6 @@ function successfull_login(){
     visitFinanceInput()
     visitFinance()
     visitObjectives()
-    loadRecipes()
     visitHome()
     console.log("Cleared content after login")
     
