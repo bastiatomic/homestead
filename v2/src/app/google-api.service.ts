@@ -45,7 +45,7 @@ export class GoogleApiService {
     prod: {id: "1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio"}
   }
 
-  spreadsheetId = this.spreadsheets.mock.id
+  spreadsheetId = this.spreadsheets.prod.id
 
   userInfo?: UserInfo
   API_KEY = 'AIzaSyCOcTe261vaOow-cZPbTiMkBeRANdOweeA'
