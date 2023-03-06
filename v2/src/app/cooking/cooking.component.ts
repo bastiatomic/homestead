@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class CookingComponent {
 
+  ngOnInit(){
+    window.open("https://www.notion.so/Homestead-2950c93665ac4e5390348acaf8034205")
+  }
+
 }

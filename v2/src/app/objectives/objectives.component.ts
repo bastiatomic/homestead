@@ -1,8 +1,8 @@
 import { APP_ID, Component } from '@angular/core';
-import { Objectives } from '../Objectives';
-import { Objectives2 } from '../Objectives2';
 import { GoogleApiService } from '../google-api.service';
 import { topics } from '../topics';
+import { Object } from '../Objectives';
+import { ObjectivesService } from '../objectives.service';
 
 @Component({
   selector: 'app-objectives',
@@ -11,24 +11,26 @@ import { topics } from '../topics';
 })
 export class ObjectivesComponent {
 
-  objectives3: Objectives2[] = []
+  objectives3: Object[] = []
 
   new_objective = {
     name: "",
     category: "",
   }
   ngOnInit(){
-    this.GET_sheetsAPI_getNamedRange('GET_objectives_unsolved')
+    //this.GET_sheetsAPI_getNamedRange('GET_objectives_unsolved')
+    this.objectives3 = this.ObjectService.objectives_list
   }
 
   constructor(
-    private api: GoogleApiService) { }
+    private api: GoogleApiService, private ObjectService: ObjectivesService) { }
 
   async send_request(a: any) {
     //this.objectives3.push();
     //TODO: send to server
-    console.log([[a.name],[a.category],["FALSE"],[this.GoogleDate(new Date())]])
-    ;(await this.api.sheetsAPI_APPEND_by_range("GET_objectives_list", [[a.name, a.category, false, this.GoogleDate(new Date())]])).subscribe(() => {
+    console.log([[a.name],[a.category],["FALSE"],[this.GoogleDate(new Date())]]);
+
+    (await this.api.sheetsAPI_APPEND_by_range("GET_objectives_list", [[a.name, a.category, false, this.GoogleDate(new Date())]])).subscribe(() => {
       console.log('Data appended successfully, now continue with the code...');
     location.reload()});
   }
@@ -40,30 +42,7 @@ export class ObjectivesComponent {
     });
     
   }
-  async GET_sheetsAPI_getNamedRange(namedRange: String) {
-    var content = await this.api.sheetsAPI_GET_by_named_range(namedRange);
-    this.construct_obj2(content)
-
-  }
-  construct_obj2(content: any) {
-    content = content.values;
-    var current_topics: any[] = []
-    var current_header = content[0][1]
-
-    content.forEach((element: any) => {
-
-      if (element[1] == current_header) {
-        current_topics.push({ name: element[0], id: element[2] })
-      } else {
-        //construct new topic
-        this.objectives3.push({ category: current_header, topics: current_topics })
-
-        current_header = element[1]
-        current_topics = [{ name: element[0], id: element[2] }] //basically clears empty topics
-      }
-
-    });
-  }
+  
 
   GoogleDate( JSdate : Date ) { 
     var D = new Date(JSdate) ;

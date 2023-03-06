@@ -42,7 +42,7 @@ export class GoogleApiService {
 
   spreadsheets = {
     mock: {id: '1qFlBuwopUtnxvVZ-K0_yZiQMhynqQobO2yUVZ6bS4yo'},
-    prod: {id: "null"}
+    prod: {id: "1O25tNbNDdWpgTM3tswxrfhIxcmG4DKCyVy_0vmo2rio"}
   }
 
   spreadsheetId = this.spreadsheets.mock.id
@@ -86,6 +86,7 @@ export class GoogleApiService {
   }
 
   GET_sheetsAPI_by_named_range2(namedRange : String, ){
+    //DO NOT IMPLEMENT THIS METHODE IN OTHER SERVICES
     return this.httpClient.get(`${this.sheets}/${this.spreadsheetId}/values/${namedRange}?majorDimension=ROWS`, { headers: this.authHeader() })
   }
 

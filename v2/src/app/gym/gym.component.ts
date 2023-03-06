@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class GymComponent {
 
+  ngOnInit(){
+    window.open("https://docs.google.com/document/d/10oi5P5nb2f_eQimivl129kXw4Dhxox8YtZfslXgkUGE/edit")
+  }
+
 }

@@ -1,7 +1,6 @@
-export interface Objectives{
-    id: number,
-    name: String,
+import { topics } from "./topics"
+
+export interface Object{
     category: String,
-    createdAt: Date,
-    solvedAt: Date
+    topics: topics[]
 }

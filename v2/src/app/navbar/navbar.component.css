@@ -21,3 +21,13 @@ button>img{
     width: 20px;
     height: 20px
 }
+
+@media screen and (max-width: 900px) {
+    span{
+        visibility:hidden;
+    }
+    button{
+        width: 14%;
+    }
+
+  }

@@ -2,12 +2,67 @@
     font-family: Arial;
 }
 
-input,select, button{
-    background-color: transparent;
-    border: 1px solid white;
-    border-radius: 5px;
+.input_box {
+    position: relative;
+    padding: 0 0 50px;
 }
 
-button:hover{
+input,
+select {
+    border: 1px solid gray;
+    border-radius: 20px;
+    width: 100%;
+    height: 40px;
+    background-color: rgb(240, 240, 240);
+    text-indent: 12px;
+    background-color: transparent;
+}
+
+.finance_label_box{
+margin-bottom: 33px;
+position: relative;
+margin-right: 30px;
+}
+
+.finance_label_box label {
+    position: absolute;
+    top: -12px;
+    font-size: 13px;
+    left: 15px;
+    background: rgb(240, 240, 240);
+    border-radius: 5px;
+    padding: 2px;
+    color: gray;
+    font-weight: bold;
+}
+
+.finance_label_box option{
+    background-color: rgb(32,32,32);
+}
+
+button {
+    background-color: rgb(56, 106, 32);
+    border-radius: 20px;
+    width: 100%;
+    height: 40px;
+    top: 0px;
+    left: 0px;
+    border: none;
+    color: white;
+}
+#finance_search_input{
+    border-radius: 20px;
+    width: 95%;
+}
+
+button:hover {
     cursor: pointer;
+    background-color: rgb(217, 232, 203);
+    color: rgb(32, 32, 32);
+
+}
+
+.finance_input_header {
+    text-align: center;
+    color: rgb(32, 32, 32)
 }
