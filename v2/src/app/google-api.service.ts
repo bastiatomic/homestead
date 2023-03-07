@@ -50,10 +50,6 @@ export class GoogleApiService {
   userInfo?: UserInfo
   API_KEY = 'AIzaSyCOcTe261vaOow-cZPbTiMkBeRANdOweeA'
 
-  API_ENDPOINTS = {
-    "x": "X"
-  }
-
   userProfileSubject = new Subject<UserInfo>()
 
   constructor(private readonly oAuthService: OAuthService, private readonly httpClient: HttpClient) {
@@ -74,6 +70,7 @@ export class GoogleApiService {
         // else load user profile
         if (!oAuthService.hasValidAccessToken()) {
           oAuthService.initLoginFlow()
+         window.alert("OOPS")
         } else {
           oAuthService.loadUserProfile().then( (userProfile) => {
             console.log("using spreadsheet: "+ this.spreadsheetId)
@@ -85,20 +82,15 @@ export class GoogleApiService {
     });
   }
 
-  GET_sheetsAPI_by_named_range2(namedRange : String, ){
-    //DO NOT IMPLEMENT THIS METHODE IN OTHER SERVICES
-    return this.httpClient.get(`${this.sheets}/${this.spreadsheetId}/values/${namedRange}?majorDimension=ROWS`, { headers: this.authHeader() })
-  }
-
-  async sheetsAPI_GET_by_named_range(namedRange : String, ){ //working
-    const content = await lastValueFrom(this.GET_sheetsAPI_by_named_range2(namedRange))
-    console.log("API START")
-    console.log(content)
-    console.log("API END")
+  async sheetsAPI_GET_by_named_range(namedRange: String){ //working
+    const content = await lastValueFrom(
+      this.httpClient.get(`${this.sheets}/${this.spreadsheetId}/values/${namedRange}?majorDimension=ROWS`, { headers: this.authHeader() })
+    )
+    console.log("GET: " + namedRange)
     return content
-
   }
 
+  //ALIGN ME [values]
   async sheetsAPI_UPDATE_by_range(range: String, values: any){
     console.log("UPDATE_sheetsAPI_by_cell("+range+")" )
     this.httpClient.put(`${this.sheets}/${this.spreadsheetId}/values/${range}?includeValuesInResponse=true&valueInputOption=RAW&key=${this.API_KEY}`,
@@ -109,11 +101,11 @@ export class GoogleApiService {
       });
   }
   //TODO: allign me
-  async sheetsAPI_APPEND_by_range(range: String, values_as_entire_row: any){
+  async sheetsAPI_APPEND_by_range(range: String, values: any){
     var valueInputOption = "RAW"
     return this.httpClient.post(
       `${this.sheets}/${this.spreadsheetId}/values/${range}:append?valueInputOption=${valueInputOption}`,
-      { "values": values_as_entire_row},
+      { "values": values},
       { headers: this.authHeader() })
       .pipe(
         map((response) => {

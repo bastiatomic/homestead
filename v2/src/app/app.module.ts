@@ -11,7 +11,6 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { JournalComponent } from './journal/journal.component';
 import { CookingComponent } from './cooking/cooking.component';
 import { GymComponent } from './gym/gym.component';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -29,8 +28,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    OAuthModule.forRoot(),
-    MatSlideToggleModule,
+    OAuthModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
