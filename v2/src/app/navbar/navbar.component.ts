@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AppComponent } from '../app.component';
 
 @Component({
   selector: 'app-navbar',
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+
+  constructor(private api: AppComponent){}
+
+  nav_logout_mock(){
+    this.api.logout()
+  }
 
 }

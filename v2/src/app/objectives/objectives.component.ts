@@ -18,7 +18,7 @@ export class ObjectivesComponent {
     category: "",
   }
   ngOnInit(){
-    //this.GET_sheetsAPI_getNamedRange('GET_objectives_unsolved')
+    this.ObjectService.GET_sheetsAPI_getNamedRange('GET_objectives_unsolved')
     this.objectives3 = this.ObjectService.objectives_list
   }
 

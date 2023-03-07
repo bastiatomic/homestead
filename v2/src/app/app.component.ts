@@ -10,7 +10,8 @@ import { ObjectivesService } from './objectives.service';
 export class AppComponent {
 
   ngOnInit(){
-    this.objectService.GET_sheetsAPI_getNamedRange('GET_objectives_unsolved')
+    //this.objectService.GET_sheetsAPI_getNamedRange('GET_objectives_unsolved')
+    console.log(this.userInfo)
   }
 
   title = 'homestead';
