@@ -7,9 +7,14 @@ body{
 
 
 *{
-    font-family: Arial;
+    font-family: 'MyWebFont';
     color: white
 }
+body { 
+    margin: 0; 
+    /*font-family: Roboto, "Helvetica Neue", sans-serif; */}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@font-face {
+    font-family: 'MyWebFont'; 
+    src: url('assets/oita_regular.ttf')
+}

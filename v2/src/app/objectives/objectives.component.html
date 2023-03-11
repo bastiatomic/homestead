@@ -1,5 +1,6 @@
 <table>
     <tr>
+            
         <td class="x">
             <label>Task</label>
             <input placeholder="Type here" type="text" [(ngModel)]="new_objective.name">
@@ -11,13 +12,17 @@
         <td class="x">
             <button class="m_button"(click)="send_request(new_objective)">Send request</button>
         </td>
+
     </tr>
     <tr>
-        <div *ngFor="let obj of objectives3">
-            {{obj.category}}
-            <div class="obj_box" *ngFor="let topic of obj.topics">
-               <button class="delete_button" (click)="delete2(topic.id)">X</button>{{topic.name}}
+        <div>
+        
+            <div *ngFor="let obj of objectives3">
+                {{obj.category}}
+                <div class="obj_box" *ngFor="let topic of obj.topics">
+                <button class="delete_button" (click)="delete2(topic.id)">X</button>{{topic.name}}
 
+                </div>
             </div>
         </div>
     </tr>

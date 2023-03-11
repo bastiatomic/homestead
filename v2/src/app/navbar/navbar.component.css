@@ -1,11 +1,14 @@
-button{
-    word-break: keep-all;
-    padding: 10px;
-    border: 1px solid white;
-    border-radius: 10px;
-    width: 80%;
+
+
+button {
+    background-color: rgb(60, 56, 54);
+    color: white;
+    padding: 1rem;
+    text-align: left;
+    border: 2px solid white;
+    border-radius: 20px;
+    width: 90%;
     margin: 10px 0 10px 0;
-    background-color: transparent;
     white-space: nowrap;
     overflow: hidden;
 }

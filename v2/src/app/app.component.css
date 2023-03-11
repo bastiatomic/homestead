@@ -1,24 +1,42 @@
 .main{
     display: grid;
-    grid-template-columns: 15% 85%;
 
-}
-
-.content{
-    background-color: rgb(32,32,32);
+    background-image: url("../assets/2070_eco.jpg");
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
-    height: 98vh;
-    border-radius: 10px;
+}
+
+.content{
+    margin-left: 180px;
+}
+
+.top_nav{
+    
+  height: 100%;
+  width: 180px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+    
 }
 
 @media screen and (max-width: 900px) {
     .main{
         display: grid;
-        grid-template-rows: 15% 85%;
-        grid-template-columns:100vw;
+        background-image: none;
+        background-color: rgb(32,32,32);
+    }
+    .content {
+        margin-left: 0;
+    }
+    .top_nav{
+        width: auto;
+        position: relative;
     }
 
   }
