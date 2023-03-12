@@ -1,11 +1,6 @@
 .main{
     display: grid;
 
-    background-image: url("../assets/2070_eco.jpg");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
 }
 
 .content{
@@ -28,8 +23,6 @@
 @media screen and (max-width: 900px) {
     .main{
         display: grid;
-        background-image: none;
-        background-color: rgb(32,32,32);
     }
     .content {
         margin-left: 0;

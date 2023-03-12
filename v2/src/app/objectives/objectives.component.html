@@ -18,7 +18,8 @@
         <div>
         
             <div *ngFor="let obj of objectives3">
-                {{obj.category}}
+                <h3 style="margin-top: 40px; border: 1px solid white; background-color: rgba(60, 56, 54,0.5); border-radius: 10px"
+                > {{obj.category}} </h3>
                 <div class="obj_box" *ngFor="let topic of obj.topics">
                 <button class="delete_button" (click)="delete2(topic.id)">X</button>{{topic.name}}
 

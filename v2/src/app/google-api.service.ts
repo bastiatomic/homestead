@@ -2,6 +2,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 import { lastValueFrom, map, Observable, Subject } from 'rxjs';
+import { ObjectivesService } from './objectives.service';
+import { FinanceService } from './finance.service';
 const authCodeFlowConfig: AuthConfig = {
   // Url of the Identity Provider
   issuer: 'https://accounts.google.com',
@@ -52,7 +54,7 @@ export class GoogleApiService {
 
   userProfileSubject = new Subject<UserInfo>()
 
-  constructor(private readonly oAuthService: OAuthService, private readonly httpClient: HttpClient) {
+  constructor(private readonly oAuthService: OAuthService, private objS: ObjectivesService, private finS: FinanceService, private readonly httpClient: HttpClient) {
     // confiure oauth2 service
     oAuthService.configure(authCodeFlowConfig);
     // manually configure a logout url, because googles discovery document does not provide it
@@ -70,16 +72,24 @@ export class GoogleApiService {
         // else load user profile
         if (!oAuthService.hasValidAccessToken()) {
           oAuthService.initLoginFlow()
-         window.alert("OOPS")
         } else {
           oAuthService.loadUserProfile().then( (userProfile) => {
             console.log("using spreadsheet: "+ this.spreadsheetId)
             this.userProfileSubject.next(userProfile as UserInfo)
+            this.load_databases()
           })
         }
 
       })
     });
+  }
+  async load_databases(){
+    var content = await this.sheetsAPI_GET_by_named_range('GET_objectives_unsolved');
+    this.objS.construct_obj2(content)
+
+    var content = await this.sheetsAPI_GET_by_named_range('GET_finance_groups');
+    this.finS.construct_groups(content)
+
   }
 
   async sheetsAPI_GET_by_named_range(namedRange: String){ //working

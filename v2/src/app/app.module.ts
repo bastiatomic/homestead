@@ -11,6 +11,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { JournalComponent } from './journal/journal.component';
 import { CookingComponent } from './cooking/cooking.component';
 import { GymComponent } from './gym/gym.component';
+import { FinanceComponent } from './finance/finance.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { GymComponent } from './gym/gym.component';
     ObjectivesComponent,
     JournalComponent,
     CookingComponent,
-    GymComponent
+    GymComponent,
+    FinanceComponent
   ],
   imports: [
     BrowserModule,

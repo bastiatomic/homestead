@@ -7,15 +7,10 @@ import { Object } from './Objectives';
 })
 export class ObjectivesService {
 
-  constructor(private api: GoogleApiService) { }
+  constructor() { }
 
   objectives_list : Object[] = []
 
-  async GET_sheetsAPI_getNamedRange(namedRange: String) {
-    var content = await this.api.sheetsAPI_GET_by_named_range(namedRange);
-    this.construct_obj2(content)
-
-  }
   construct_obj2(content: any) {
     content = content.values;
     var current_topics: any[] = []
