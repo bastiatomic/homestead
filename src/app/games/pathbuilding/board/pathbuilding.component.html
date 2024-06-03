@@ -1,0 +1,40 @@
+<div style="grid-template-columns: 1;">
+
+
+  <tr *ngFor="let row of board.grid; let i = index">
+    <td *ngFor="let piece of row; let j = index">
+
+      <img
+        (click)="clickTile(j,i)"
+        [src]="'assets/legacy_assets/' + imageMapping[piece.bg] + '.png'"
+      />
+      
+    </td>
+  </tr>
+
+  <img 
+    style="position: absolute"
+    [style.transform]="'translate(' + character.position.x + 'px,' + character.position.y + 'px)'"
+    src="assets/cat.png">
+
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Stuff along the journey</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <img 
+      *ngFor="let arrow of arrowList" 
+      [src]="'assets/legacy_assets/arrow_' + arrow + '.png'"
+      (click)="selectArrow(arrow)">
+
+    </mat-card-content>
+
+    <mat-card-content>
+      Rewards left: {{rewardsLeft}}
+    </mat-card-content>
+
+  </mat-card>
+
+</div>

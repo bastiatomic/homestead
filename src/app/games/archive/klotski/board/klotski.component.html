@@ -1,0 +1,85 @@
+<div class="grid-container">
+  <div>
+    <mat-grid-list [cols]="localBoard.width" rowHeight="1:1">
+      <mat-grid-tile
+        *ngFor="let item of localBoard.board; let i = index"
+        class="block_box"
+        [ngStyle]="{
+        'background-color': materialColors[item],
+      }"
+        (click)="clickButton(i)"
+      > <div *ngIf="showTextColor && textColor">{{item}} | {{i}}</div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+
+  <div>
+    <mat-card>
+      <mat-card-actions>
+        <button
+        style="margin-right: 20px;"
+        mat-raised-button color="accent"
+        disabled="true"
+        >
+        <mat-icon aria-hidden="false" fontIcon="play_arrow"></mat-icon>
+        Load
+        </button>
+
+        <button style="margin-right: 20px;" mat-raised-button color="accent" (click)="solver(localBoard)">
+          <mat-icon aria-hidden="false" fontIcon="memory"></mat-icon>
+          Solve
+        </button>
+        <button mat-raised-button color="accent" (click)="reset()">
+          <mat-icon aria-hidden="false" fontIcon="history"></mat-icon>
+          GetLocalBoard(reset)
+        </button>
+
+      </mat-card-actions>
+
+
+    </mat-card>
+
+    <br>
+
+    <mat-card >
+      <mat-card-header>
+        <mat-card-title>{{localBoard.name? localBoard.name: "board name"}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        https://drive.google.com/file/d/16nwVVGyuy0Hq1Ao1XSruyl46DdacdwQK/view?usp=sharing
+      </mat-card-content>
+      <mat-card-actions>
+
+        <button *ngFor="let board of exampleBoards, let i = index"
+        style="margin-right: 20px;" mat-raised-button color="accent" (click)="loadBoard(board)">
+        <mat-icon aria-hidden="false" fontIcon="play_arrow"></mat-icon>
+          Example {{i+1}}
+        </button>
+
+      </mat-card-actions>
+    </mat-card>
+
+    <br>
+
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Metadata</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+          width: {{localBoard.width}} |
+          height: {{localBoard.height}} <br>
+          victoryId: {{localBoard.victoryId}} |
+          victoryIndex: {{localBoard.victoryIndex}} <br>
+          hash: {{localBoard.hash}} | <button mat-raised-button color="accent" (click)="showTextColor = !showTextColor">ids?</button>
+          <br>
+          time: {{timeConsumed}} ms
+          <br>
+          id1: {{id1}} | id2: {{id2}}
+
+      </mat-card-content>
+  
+    </mat-card>
+
+  </div>
+  
+</div>

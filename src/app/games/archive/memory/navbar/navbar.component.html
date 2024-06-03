@@ -1,0 +1,41 @@
+<mat-card style="margin-top: 20px;">
+  <!--<button
+    mat-raised-button
+    color="accent"
+    disabled="disabled"
+    (click)="newGame()"
+  >
+    New Game
+  </button>-->
+<div>
+    <button mat-raised-button color="accent" (click)="morePairs('add')">
+      +
+    </button>
+
+    <button mat-raised-button color="accent" (click)="morePairs('subtract')">
+      -
+    </button>
+
+  <!--<div class="designBorder">
+      <h3>Show/Hide all</h3>
+      <button mat-raised-button color="accent" (click)="deckSwap('show')">
+        Show
+      </button>
+      <button mat-raised-button color="accent" (click)="deckSwap('hide')">
+        Hide
+      </button>
+    </div>-->
+
+    <button mat-raised-button color="accent" (click)="startTimer()">
+      Start
+    </button>
+
+    <p style="color: white;">{{ timeLeft }} sec.</p>
+  </div>
+
+  <!--<mat-card-content style="color: white"
+    >Moves: {{ moves_amount }}</mat-card-content
+  >
+
+  <mat-card-content style="color: white">Pairs: {{ pairs }}</mat-card-content>-->
+</mat-card>

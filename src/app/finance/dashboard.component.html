@@ -1,0 +1,10 @@
+<app-finance-input></app-finance-input><br>
+
+<button (click)="getSearchResults()" >
+  getSearchResults
+</button>
+
+<div *ngFor="let item of searchResults">
+  {{item}}
+
+</div>
