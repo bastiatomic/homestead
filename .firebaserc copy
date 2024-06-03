@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "chess-adventure-spa": {
+      "hosting": {
+        "chess-adventure-spa": [
+          "chess-adventure-spa-bastian"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "chess-adventure-spa"
+  }
+}

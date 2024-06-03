@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "site": "homestead",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}
