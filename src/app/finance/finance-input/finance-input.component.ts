@@ -17,7 +17,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatNativeDateModule,
     MatDatepickerModule,  MatButtonModule, MatIcon, MatInputModule, MatFormFieldModule, FormsModule, MatSelectModule],
   templateUrl: './finance-input.component.html',
-  styleUrl: './finance-input.component.scss'
 })
 export class FinanceInputComponent {
 

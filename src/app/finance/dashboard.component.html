@@ -1,10 +1,19 @@
-<app-finance-input></app-finance-input><br>
+<div class="grid-container">
 
-<button (click)="getSearchResults()" >
-  getSearchResults
-</button>
-
-<div *ngFor="let item of searchResults">
-  {{item}}
-
+  <div class="column">
+   <app-finance-input></app-finance-input>
+  </div>
+  <div class="column">
+    <app-monthly-overview-chart style="width: 100%;"></app-monthly-overview-chart>
+  </div>
+  <div class="column">
+    <button (click)="getSearchResults()" >
+      getSearchResults
+    </button>
+    
+    <div *ngFor="let item of searchResults">
+      {{item}}
+    
+    </div>
+  </div>
 </div>

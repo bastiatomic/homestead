@@ -9,12 +9,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import { FinanceInputComponent } from './finance-input/finance-input.component';
-
+import { MonthlyOverviewChartComponent } from './monthly-overview-chart/monthly-overview-chart.component';
+ 
 
 @Component({
   selector: 'finance-dashboard',
   standalone: true,
-  imports: [FinanceInputComponent, CommonModule, HttpClientModule, MatInputModule, MatFormFieldModule, FormsModule, MatSelectModule],
+  imports: [MonthlyOverviewChartComponent, FinanceInputComponent, CommonModule, HttpClientModule, MatInputModule, MatFormFieldModule, FormsModule, MatSelectModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
