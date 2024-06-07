@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom,map } from 'rxjs';
+import { Observable, lastValueFrom,map } from 'rxjs';
 import { GoogleAuthService } from './google-auth.service';
 
 @Injectable({
@@ -21,23 +21,21 @@ export class GoogleSheetsApiService {
     console.log("GET: " + namedRange)
     return content
   }
+  
+  async updateByRange2(range: String, values: any){
 
-
-  //ALIGN ME [values]
-  /*async updateByRange(range: String, values: any){
-    console.log("UPDATE_sheetsAPI_by_cell("+range+")" )
     this.httpClient.put(`${this.sheets}/${this.spreadsheetId}/values/${range}?includeValuesInResponse=true&valueInputOption=RAW&key=${this.oAuthService.getApiKey()}`,
       { "values": [values] },
       { headers: this.oAuthService.authHeader() }).pipe()
       .subscribe((response: any) => {
         console.log(response); //value
       });
-  }*/
-  //TODO: allign me
+  }
+
+
   async appendByRange(range: String, values: any){
-    var valueInputOption = "RAW"
     return this.httpClient.post(
-      `${this.sheets}/${this.spreadsheetId}/values/${range}:append?valueInputOption=${valueInputOption}`,
+      `${this.sheets}/${this.spreadsheetId}/values/${range}:append?valueInputOption=RAW`,
       { "values": values},
       { headers: this.oAuthService.authHeader() })
       .pipe(
@@ -45,5 +43,16 @@ export class GoogleSheetsApiService {
         console.log('Data appended successfully:', response);
         return response;
       }))
+  }
+
+  async sheetsAPI_UPDATE_by_range(range: String, values: any){
+    console.log("UPDATE_sheetsAPI_by_cell("+range+")" )
+    this.httpClient.put(
+      `${this.sheets}/${this.spreadsheetId}/values/${range}?includeValuesInResponse=true&valueInputOption=RAW&key=${this.oAuthService.getApiKey()}`,
+      { values: [[values]] },
+      { headers: this.oAuthService.authHeader() }).pipe()
+      .subscribe((response) => {
+        console.log(response)
+      });
   }
 }

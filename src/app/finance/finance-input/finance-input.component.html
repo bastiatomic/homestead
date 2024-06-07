@@ -30,8 +30,8 @@
     <br>
     <p>Optional settings for manual input</p>
   
-    <mat-form-field appearance="fill">
-      <mat-label>Date (Leave empty for today)</mat-label>
+    <mat-form-field style="width: 70%">
+      <mat-label>Date</mat-label>
       <input matInput [matDatepicker]="picker" [(ngModel)]="transaction.date" [ngModelOptions]="{standalone: true}">
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -39,7 +39,7 @@
   
     <mat-form-field>
       <mat-label>Accounts</mat-label>
-      <mat-select [(ngModel)]="transaction.accounts" [ngModelOptions]="{standalone: true}">
+      <mat-select [(ngModel)]="transaction.account" [ngModelOptions]="{standalone: true}">
         @for (item of accounts; track item) {
           <mat-option [value]="item">{{item}}</mat-option>
         }

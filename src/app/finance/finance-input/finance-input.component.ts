@@ -28,34 +28,38 @@ export class FinanceInputComponent {
 
   transaction : any = {
     name: "",
-    value: 0,
+    value: null,
     counterpart: "",
     category: "",
     date:  new Date(),
-    account: "Deutsche Bank"
+    account: ""
   }
 
   async send(){
     this.error = false;
-    console.log(this.transaction)
     //this.sheetsAPI.appendByRange("mockDB", this.transaction)
     let a = this.transaction;
     if( Number.isNaN(Number(a.value))){
-      this.error = true;
+      this.error = true; // swap . y return Number(a.value.replace(",","."))
       return;
     } else {
       a.value = Number(a.value);
     }
 
-    //if(a.name == "" || a.category == "" || a.counterpart == "" || a.value == 0){return}
+    if(a.name == "" || a.category == "" || a.counterpart == "" || a.value == null){console.log(false);return}
+    if(a.account == ''){a.account = "Deutsche Bank"}
 
-    (await this.sheetsAPI.appendByRange("mockDB", [
-      [ this.GoogleDate(a.date),a.name, a.value,a.counterpart,a.category, a.account]])).subscribe(() => {
-      console.log('Data appended successfully, now continue with the code...');})
+    const transaction = [this.GoogleDate(a.date),a.name, a.value,a.counterpart,a.category, a.account];
+
+    (await this.sheetsAPI.appendByRange("mockDB", [transaction])).subscribe(() => {
+      this.transaction.name = "";
+      this.transaction.value = null;
+      this.transaction.counterpart = "";
+    })
 
   }
   GoogleDate( date : Date ) { 
-    var D = new Date(date) ;
+    var D = new Date(date);
     var Null = new Date(Date.UTC(1899,11,30,0,0,0,0)) ; // the starting value for Google
     return Math.floor ( ((D.getTime()  - Null.getTime())/60000 - D.getTimezoneOffset()) / 1440 );
   }

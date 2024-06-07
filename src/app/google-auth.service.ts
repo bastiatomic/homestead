@@ -90,4 +90,8 @@ export class GoogleAuthService {
       'Authorization': `Bearer ${this.oAuthService.getAccessToken()}`
     })
   }
+
+  getApiKey() : String{
+    return 'AIzaSyAp3YMbRj7IoOdTqIPB2PnQz_GqYtjJBL8';
+  }
 }

@@ -10,12 +10,13 @@ import {FormsModule} from '@angular/forms';
 import {MatSelectModule} from '@angular/material/select';
 import { FinanceInputComponent } from './finance-input/finance-input.component';
 import { MonthlyOverviewChartComponent } from './monthly-overview-chart/monthly-overview-chart.component';
+import { SearchComponent } from './search/search.component';
  
 
 @Component({
   selector: 'finance-dashboard',
   standalone: true,
-  imports: [MonthlyOverviewChartComponent, FinanceInputComponent, CommonModule, HttpClientModule, MatInputModule, MatFormFieldModule, FormsModule, MatSelectModule],
+  imports: [SearchComponent, MonthlyOverviewChartComponent, FinanceInputComponent, CommonModule, HttpClientModule, MatInputModule, MatFormFieldModule, FormsModule, MatSelectModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
@@ -26,14 +27,10 @@ export class FinanceComponent {
   userInfo?: UserInfo
   searchResults: string[][] = []
 
-  constructor(private readonly googleApi: GoogleAuthService, private readonly sheetsAPI : GoogleSheetsApiService) {
+  constructor(private readonly googleApi: GoogleAuthService) {
     googleApi.userProfileSubject.subscribe( info => {
       this.userInfo = info
     })
-  }
-  async getSearchResults(){
-    let results : any = await this.sheetsAPI.getNamedRange('search_results_max10')
-    this.searchResults = results.values
   }
 
   isLoggedIn(): boolean {
