@@ -61,6 +61,7 @@ export class PathbuildingComponent {
     41: 'a',
     42: 's',
     43: 'd',
+    44: "jump"
   };
 
   ngOnInit() {
@@ -70,7 +71,7 @@ export class PathbuildingComponent {
   }
 
   clickTile(row: number, column: number): void {
-    let map: { [key: string]: number } = { w: 40, a: 41, s: 42, d: 43 };
+    let map: { [key: string]: number } = { w: 40, a: 41, s: 42, d: 43, jump :44 };
 
     let tile: Tile = this.board.grid[column][row];
 

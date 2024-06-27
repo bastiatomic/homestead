@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
-import { KlotskiComponent } from './games/archive/klotski/board/klotski.component';
+import { KlotskiComponent } from './archive/klotski/board/klotski.component';
 import { MatButton } from '@angular/material/button';
 
 @Component({

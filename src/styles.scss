@@ -2,31 +2,3 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: rgba(48,48,48,255);}
-
-
-.designBorder{
-    border: 1px white solid;
-    border-radius: 10px;
-}
-mat-button{
-    border:2px solid rgb(176, 197, 164);
-    border-radius: 5px;
-    color: rgb(176, 197, 164);
-    background-color: rgba(48,48,48,255);
-    padding: 10px;
-    margin: 10px;
-
-}
-
-.pastel-button{
-    border:2px solid rgb(176, 197, 164);
-    border-radius: 5px;
-    color: rgb(176, 197, 164);
-    background-color: rgba(48,48,48,255);
-    padding: 10px;
-    margin: 10px;
-}
-.pastel-button:hover{
-    cursor: pointer;
-    filter: brightness(85%);
-}

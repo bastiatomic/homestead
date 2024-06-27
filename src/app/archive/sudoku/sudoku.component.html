@@ -1,0 +1,16 @@
+<div style="display: flex; justify-content: center; align-items: center">
+    <mat-grid-list [cols]="'9'" rowHeight="60px" [style.width]="'540px'">
+      <mat-grid-tile *ngFor="let position of board; let i = index">
+        <button
+          class="background-tile"
+          [ngStyle]="{ }"
+          mat-raised-button
+        >
+          <!--<img
+            src='/assets/legacy_assets/empty_tile_green_64x.png'
+          />-->
+        </button>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+  

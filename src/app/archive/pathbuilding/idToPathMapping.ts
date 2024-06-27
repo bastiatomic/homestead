@@ -12,4 +12,5 @@ export const LEGACY_mapping = {
     41: "arrow_a",
     42: "arrow_s",
     43: "arrow_d",
+    44: "arrow_jump"
 }
