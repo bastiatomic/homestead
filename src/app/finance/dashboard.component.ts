@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { GoogleAuthService, UserInfo } from '../google-auth.service';
+import { GoogleAuthService, UserInfo } from './google-auth.service';
 import { lastValueFrom } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { GoogleSheetsApiService } from '../google-sheets-api.service';
+import { GoogleSheetsApiService } from './google-sheets-api.service';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';

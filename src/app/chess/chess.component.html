@@ -1,18 +1,24 @@
 <div style="display: flex; justify-content: center; align-items: center">
   <mat-grid-list [cols]="'8'" rowHeight="60px" [style.width]="'480px'">
-    <mat-grid-tile *ngFor="let position of board; let i = index">
+    <mat-grid-tile *ngFor="let position of board.pieces; let i = index">
       <button
         class="background-tile"
-        [ngStyle]="{ 'background-image': 'url('+getPositionColor(i)+')' }"
+        [ngStyle]="{ 'background-color':getPositionColor(i), 'border': getBorderColor(i)}"
         mat-raised-button
         (click)="selectPosition(i)"
-      >
+      > 
+      
         <img
-          *ngIf="position.icon"
-          style="width: 45px; height: 45px;"
-          [src]="position.icon"
+          *ngIf="position.fenIdentifier"
+          style="width: 45px; height: 45px;margin: auto; display: block;"
+          [src]= "'assets/chess/' + Mapping[position.fenIdentifier] + '.png'"
         />
       </button>
     </mat-grid-tile>
   </mat-grid-list>
+</div>
+<div style="display: flex; justify-content: center; align-items: center">
+  <mat-card style="color: white;">
+    Missing: Rochade, en Passant, Pinned Piece, Checkmate?
+  </mat-card>
 </div>

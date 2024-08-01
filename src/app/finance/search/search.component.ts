@@ -5,7 +5,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
-import { GoogleSheetsApiService } from '../../google-sheets-api.service';
+import { GoogleSheetsApiService } from '../google-sheets-api.service';
 import {MatTableModule} from '@angular/material/table';
 import {  Transaction } from './Transaction';
 

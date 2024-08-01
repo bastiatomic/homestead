@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import Chart from 'chart.js/auto';
-import { GoogleSheetsApiService } from '../../google-sheets-api.service';
+import { GoogleSheetsApiService } from '../google-sheets-api.service';
 import { ChartData } from './ChartData';
 import { MatIcon } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
