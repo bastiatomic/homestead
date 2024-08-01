@@ -2,24 +2,27 @@ import { Component } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
-import { PLANTS_LIST } from '../../../assets/anno-1800-plants/plants';
+import { MatCardModule } from '@angular/material/card';
+import { PLANTS_LIST } from '../../assets/anno-1800-plants/plants';
 import { Card } from './Card';
+import { Game } from './Game';
 
 @Component({
-  selector: 'app-testing',
+  selector: 'app-memory',
   standalone: true,
-  imports: [CommonModule, MatGridListModule, MatButtonModule],
-  templateUrl: './testing.component.html',
-  styleUrl: './testing.component.scss',
+  imports: [CommonModule, MatGridListModule, MatButtonModule, MatCardModule],
+  templateUrl: './memory.component.html',
+  styleUrl: './memory.component.scss',
 })
-export class TestingComponent {
+export class MemoryComponent {
   WIDTH = 4;
   allHidden = false;
   localBoard: Card[] = [];
   firstChoice: number | null = null;
+  game: Game = {board: [], pairs: -1, timePlayed: -1, successRate: -1, pairsFound:0}
 
   ngOnInit() {
-    this.localBoard = this.newDeck(Math.pow(this.WIDTH, 2) / 2);
+    this.newGame()
   }
 
   newDeck(lengthRequirement: number): Card[] {
@@ -47,14 +50,14 @@ export class TestingComponent {
   }
 
   clickTile(index: number) {
+    this.localBoard[index].isVisible = true;
     if (this.firstChoice == null) {
-      this.localBoard[index].isVisible = true;
+      
       this.firstChoice = index;
     } else {
-      this.localBoard[index].isVisible = true;
 
-      //reset if not equal
-      if(this.localBoard[this.firstChoice!].element != this.localBoard[index].element){
+      //reset with timer if not equal
+      if(this.localBoard[this.firstChoice].element != this.localBoard[index].element){
         console.log("FALSE")
         setTimeout(()=>{
           this.localBoard[this.firstChoice!].isVisible = false;
@@ -62,11 +65,24 @@ export class TestingComponent {
           this.firstChoice = null;
         },2000)
       }
+
+      //pair found: reset without timer
       else {
         console.log("TRUE")
         this.firstChoice = null;
+        this.game.pairsFound += 1
+
+        if(this.game.pairs == this.game.pairsFound){
+          console.log("SUCCESS")
+          this.newGame()
+        }
       }
 
     }
+  }
+  newGame(){
+    this.localBoard = this.newDeck(Math.pow(this.WIDTH, 2) / 2);
+    this.game.board = this.localBoard;
+    this.game.pairs = this.game.board.length/2
   }
 }
