@@ -6,23 +6,24 @@ import { MatCardModule } from '@angular/material/card';
 import { PLANTS_LIST } from '../../assets/anno-1800-plants/plants';
 import { Card } from './Card';
 import { Game } from './Game';
+import { v4 as uuidv4 } from 'uuid';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-memory',
   standalone: true,
-  imports: [CommonModule, MatGridListModule, MatButtonModule, MatCardModule],
+  imports: [CommonModule, MatGridListModule, MatButtonModule, MatCardModule,MatIcon],
   templateUrl: './memory.component.html',
   styleUrl: './memory.component.scss',
 })
 export class MemoryComponent {
   WIDTH = 4;
   allHidden = false;
-  localBoard: Card[] = [];
   firstChoice: number | null = null;
-  game: Game = {board: [], pairs: -1, timePlayed: -1, successRate: -1, pairsFound:0}
+  game: Game = {board: [], pairs: 8, timePlayed: -1, successRate: -1, pairsFound:0, uuid: "-"}
 
   ngOnInit() {
-    this.newGame()
+    this.newGame(this.game.pairs)
   }
 
   newDeck(lengthRequirement: number): Card[] {
@@ -50,18 +51,18 @@ export class MemoryComponent {
   }
 
   clickTile(index: number) {
-    this.localBoard[index].isVisible = true;
+    this.game.board[index].isVisible = true;
     if (this.firstChoice == null) {
       
       this.firstChoice = index;
     } else {
 
       //reset with timer if not equal
-      if(this.localBoard[this.firstChoice].element != this.localBoard[index].element){
+      if(this.game.board[this.firstChoice].element != this.game.board[index].element){
         console.log("FALSE")
         setTimeout(()=>{
-          this.localBoard[this.firstChoice!].isVisible = false;
-          this.localBoard[index].isVisible = false;
+          this.game.board[this.firstChoice!].isVisible = false;
+          this.game.board[index].isVisible = false;
           this.firstChoice = null;
         },2000)
       }
@@ -74,15 +75,21 @@ export class MemoryComponent {
 
         if(this.game.pairs == this.game.pairsFound){
           console.log("SUCCESS")
-          this.newGame()
+          this.newGame(this.game.pairs)
         }
       }
 
     }
   }
-  newGame(){
-    this.localBoard = this.newDeck(Math.pow(this.WIDTH, 2) / 2);
-    this.game.board = this.localBoard;
+  newGame(pairs: number){
+    this.game.board = this.newDeck(pairs);
+    this.game.pairsFound = 0;
     this.game.pairs = this.game.board.length/2
+    this.game.uuid = uuidv4().slice(0,8)
+  }
+
+  changeCardAmount(a: number){
+    this.game.pairs += a;
+    this.newGame(this.game.pairs)
   }
 }

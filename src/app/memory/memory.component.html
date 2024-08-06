@@ -4,7 +4,7 @@
     rowHeight="100px"
     [style.width]="WIDTH + '00px'"
   >
-    <mat-grid-tile *ngFor="let card of localBoard; let i = index">
+    <mat-grid-tile *ngFor="let card of game.board; let i = index">
       <button class="background-tile" mat-raised-button (click)="clickTile(i)">
         <img
           *ngIf="card.isVisible"
@@ -28,8 +28,32 @@
   
 </div>
 
-<div style="display: flex; justify-content: center; align-items: center;">
+<div style="display: flex; justify-content: center; align-items: center; color: white; ">
+  <button mat-raised-button (click)="changeCardAmount(1)" style="font-size: xx-large;">
+   +
+  </button>
+
+  <a style="margin-right: 20px;"></a>
+
+  <button mat-raised-button (click)="changeCardAmount(-1)" style="font-size: xx-large;">
+    -
+  </button>
+</div>
+<br>
+
+<div style="display: flex; justify-content: center; align-items: center; color: white;">
   <mat-card  appearance="outlined">
-    <mat-card-content>firstChoice: {{firstChoice}}</mat-card-content>
+    <mat-card-header>
+      <mat-card-title>
+        Current Game
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      pairs: {{game.pairs}} <br>
+      timePlayed: {{game.timePlayed}} <br>
+      successRate: {{game.successRate}} <br>
+      pairsFound: {{game.pairsFound}} <br><br>
+      ID: {{game.uuid}}
+    </mat-card-content>
   </mat-card>
 </div >

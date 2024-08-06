@@ -26,8 +26,8 @@ export class ChessComponent {
 
   ngOnInit() {
     this.board.pieces = Array.from({ length: 64 }, (_, i) => ({ index: i, fenIdentifier: '' }));
-    this.board = this.fen.initFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",this.board); // w KQkq - 0 1
-    //this.board = this.fen.initFen("3K2nn/R3pBr1/5P1P/P1pQ4/4qb1P/2p1r1Pb/8/k4NB1", this.board); // w KQkq - 0 1
+    //this.board = this.fen.initFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",this.board); // w KQkq - 0 1
+    this.board = this.fen.initFen("r1bqkbnr/ppp2ppp/2n5/1B1pP3/4P3/8/PPPP2PP/RNBQK1NR", this.board); // w KQkq - 0 1
   }
 
   selectPosition(index: number): void {

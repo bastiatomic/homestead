@@ -80,37 +80,6 @@ export class LegalMovesService {
     return legalMoves;
   }
 
-  isLowerCase(a: string): boolean {
-    if (a === null) {
-      return true;
-    }
-    return a == a.toLowerCase();
-  }
-
-  isUpperCase(a: string): boolean {
-    if (a === null) {
-      return true;
-    }
-    return a == a.toUpperCase();
-  }
-
-  isOppositeCase(char1: string, char2:  string): boolean {
-
-    if(char1 == '' || char2 == ''){
-      console.log("ERROR")
-      return false;
-    }
-
-    if (
-      (char1 === char1.toLowerCase() && char2 === char2.toUpperCase()) ||
-      (char1 === char1.toUpperCase() && char2 === char2.toLowerCase())
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   getSlidingPositions(
     board: Board,
     startPieceIndex2: number,
@@ -216,5 +185,36 @@ export class LegalMovesService {
     })
 
     return localMoves;
+  }
+
+  isLowerCase(a: string): boolean {
+    if (a === null) {
+      return true;
+    }
+    return a == a.toLowerCase();
+  }
+
+  isUpperCase(a: string): boolean {
+    if (a === null) {
+      return true;
+    }
+    return a == a.toUpperCase();
+  }
+
+  isOppositeCase(char1: string, char2:  string): boolean {
+
+    if(char1 == '' || char2 == ''){
+      console.log("ERROR")
+      return false;
+    }
+
+    if (
+      (char1 === char1.toLowerCase() && char2 === char2.toUpperCase()) ||
+      (char1 === char1.toUpperCase() && char2 === char2.toLowerCase())
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
