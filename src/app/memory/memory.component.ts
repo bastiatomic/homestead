@@ -6,7 +6,6 @@ import { MatCardModule } from '@angular/material/card';
 import { PLANTS_LIST } from '../../assets/anno-1800-plants/plants';
 import { Card } from './Card';
 import { Game } from './Game';
-import { v4 as uuidv4 } from 'uuid';
 import { MatIcon } from '@angular/material/icon';
 
 @Component({
@@ -20,7 +19,10 @@ export class MemoryComponent {
   WIDTH = 4;
   allHidden = false;
   firstChoice: number | null = null;
-  game: Game = {board: [], pairs: 8, timePlayed: -1, successRate: -1, pairsFound:0, uuid: "-"}
+  game: Game = {board: [], pairs: 8, successRate: -1, pairsFound:0, uuid: "-"}
+  foundPiece : string[] = []
+  youKnowMe : boolean = false;
+  mistakes : number = 0
 
   ngOnInit() {
     this.newGame(this.game.pairs)
@@ -55,37 +57,55 @@ export class MemoryComponent {
     if (this.firstChoice == null) {
       
       this.firstChoice = index;
+
+      if(this.foundPiece.includes(this.game.board[index].element)){
+        //known element
+        this.youKnowMe = true;
+      } else{
+        this.foundPiece.push(this.game.board[index].element)
+      }
+
     } else {
+      
 
       //reset with timer if not equal
       if(this.game.board[this.firstChoice].element != this.game.board[index].element){
-        console.log("FALSE")
+        this.foundPiece.push(this.game.board[index].element)
+
+        if(this.youKnowMe == true){
+          //I should have known it, but didnt
+          console.log("I should have known it, but didnt")
+          this.mistakes += 1
+        }
+
         setTimeout(()=>{
           this.game.board[this.firstChoice!].isVisible = false;
           this.game.board[index].isVisible = false;
           this.firstChoice = null;
+
+          this.youKnowMe = false
         },2000)
       }
 
       //pair found: reset without timer
       else {
-        console.log("TRUE")
         this.firstChoice = null;
         this.game.pairsFound += 1
 
         if(this.game.pairs == this.game.pairsFound){
-          console.log("SUCCESS")
           this.newGame(this.game.pairs)
         }
       }
-
+      
+      console.log(this.foundPiece)
     }
   }
   newGame(pairs: number){
     this.game.board = this.newDeck(pairs);
     this.game.pairsFound = 0;
     this.game.pairs = this.game.board.length/2
-    this.game.uuid = uuidv4().slice(0,8)
+    this.foundPiece = []
+    this.mistakes = 0;
   }
 
   changeCardAmount(a: number){

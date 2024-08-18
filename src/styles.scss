@@ -1,4 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: Comfortaa-Regular; /*a name to be used later*/
+    src: url('assets/Comfortaa-Regular.ttf') format("opentype"); /*URL to font*/
+}
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: rgba(48,48,48,255);}
+body { margin: 0; font-family: Comfortaa-Regular; background-color: rgba(48,48,48,255);}
+
+*{
+    font-family: Comfortaa-Regular;
+}

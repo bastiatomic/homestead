@@ -3,9 +3,8 @@ import { Card } from "./Card";
 export interface Game {
     board: Card[];
     pairs: number; // derived from board.length/2
-    timePlayed: number;
+    timePlayed?: number;
     uuid?: string; //store a game in the cloud
-    successRate: number;
+    successRate?: number;
     pairsFound: number;
-
 }

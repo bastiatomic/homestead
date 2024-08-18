@@ -50,10 +50,9 @@
     </mat-card-header>
     <mat-card-content>
       pairs: {{game.pairs}} <br>
-      timePlayed: {{game.timePlayed}} <br>
-      successRate: {{game.successRate}} <br>
-      pairsFound: {{game.pairsFound}} <br><br>
-      ID: {{game.uuid}}
+      pairsFound: {{game.pairsFound}} <br>
+      mistakes: {{mistakes}} <br>
+      <span *ngIf="youKnowMe">You know me</span>
     </mat-card-content>
   </mat-card>
 </div >
