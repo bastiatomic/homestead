@@ -1,58 +1,48 @@
-<div style="display: flex; justify-content: center; align-items: center">
-  <mat-grid-list
-    [cols]="WIDTH"
-    rowHeight="100px"
-    [style.width]="WIDTH + '00px'"
-  >
-    <mat-grid-tile *ngFor="let card of game.board; let i = index">
-      <button class="background-tile" mat-raised-button (click)="clickTile(i)">
-        <img
-          *ngIf="card.isVisible"
-          style="width: 100%; height: 100%"
-          [src]="'assets/anno-1800-plants/' + card.element + '.png'"
-        />
-      </button>
-      <div
-        *ngIf="card.isVisible"
-        style="
-          position: absolute;
-          bottom: 10px;
-          color: white;
-          font-size: xx-small;
-        "
+<div class="center-align">
+  <div class="grid">
+    <minimalism-card
+      *ngFor="let card of game.board; let i = index"
+      (click)="clickTile(i)"
+      [ngStyle]="{ color: card.color === 'red' ? 'red' : 'black' }"
+      [symbol]="card.isVisible ? card.symbol : ''"
+      [value]="card.isVisible ? card.value : ''"
+    >
+    </minimalism-card>
+  </div>
+</div>
+
+<br />
+
+<div class="center-align">
+  <mat-card appearance="outlined">
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="changeCardAmount(1)"
+        style="font-size: xx-large; margin-right: 20px"
       >
-        {{ card.element }}
-      </div>
-    </mat-grid-tile>
-  </mat-grid-list>
-  
-</div>
+        +
+      </button>
 
-<div style="display: flex; justify-content: center; align-items: center; color: white; ">
-  <button mat-raised-button (click)="changeCardAmount(1)" style="font-size: xx-large;">
-   +
-  </button>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="changeCardAmount(-1)"
+        style="font-size: xx-large"
+      >
+        -
+      </button>
+    </mat-card-actions>
 
-  <a style="margin-right: 20px;"></a>
-
-  <button mat-raised-button (click)="changeCardAmount(-1)" style="font-size: xx-large;">
-    -
-  </button>
-</div>
-<br>
-
-<div style="display: flex; justify-content: center; align-items: center; color: white;">
-  <mat-card  appearance="outlined">
     <mat-card-header>
-      <mat-card-title>
-        Current Game
-      </mat-card-title>
+      <mat-card-title> Current Game </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      pairs: {{game.pairs}} <br>
-      pairsFound: {{game.pairsFound}} <br>
-      mistakes: {{mistakes}} <br>
+      pairs: {{ game.pairs }} <br />
+      pairsFound: {{ game.pairsFound }} <br />
+      mistakes: {{ mistakes }} <br />
       <span *ngIf="youKnowMe">You know me</span>
     </mat-card-content>
   </mat-card>
-</div >
+</div>

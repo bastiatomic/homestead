@@ -1,0 +1,10 @@
+<button mat-raised-button (click)="shuffle(cards)">Shuffle!</button>
+<div style="display: grid; grid-template-columns: repeat(4, 1fr)">
+  <minimalism-card
+    *ngFor="let card of cards; let i = index"
+    (click)="clickCard(i)"
+    [ngStyle]="{ color: card.color === 'red' ? 'red' : 'black' }"
+    [symbol]="card.symbol"
+    [value]="card.value"
+  ></minimalism-card>
+</div>

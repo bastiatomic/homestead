@@ -8,7 +8,8 @@
       [style.width]="WIDTH + 'px'"
     >
       <mat-grid-tile *ngFor="let position of board; let i = index">
-        <button class="position" [ngStyle]="getBorderStyle(i)" mat-raised-button >
+        <button class="position" [ngStyle]="getBorderStyle(i)" mat-raised-button 
+        (click)="selectPosition(i)">
           <a *ngIf="position !== 0">
             {{ position }}
           </a>
@@ -16,8 +17,19 @@
       </mat-grid-tile>
     </mat-grid-list>
   </div>
+  <br>
   <div class="center">
-    <p>You can choose peace.</p>
+   <button mat-raised-button
+   *ngFor="let item of numberSelector"
+   (click)="selectNumber(item)"
+   >  {{item}}
+  </button>
+  </div>
+
+  <br>
+
+  <div class="center">
+    <button mat-raised-button color="primary" (click)="newGame()">New Game</button>
   </div>
 
 </div>

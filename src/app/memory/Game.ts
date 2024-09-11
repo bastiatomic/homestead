@@ -1,4 +1,4 @@
-import { Card } from "./Card";
+import { Card } from "./../cards/CardType";
 
 export interface Game {
     board: Card[];
@@ -7,4 +7,5 @@ export interface Game {
     uuid?: string; //store a game in the cloud
     successRate?: number;
     pairsFound: number;
+    boardIndice: number[];
 }
