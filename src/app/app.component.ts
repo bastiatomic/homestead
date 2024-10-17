@@ -14,4 +14,7 @@ import { MatButton } from '@angular/material/button';
 })
 export class AppComponent {
   title = 'homestead';
+
+  apps = []
+
 }

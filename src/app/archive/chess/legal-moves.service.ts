@@ -42,13 +42,10 @@ export class LegalMovesService {
         return this.getSlidingPositions(board, startPieceIndex, 'queen');
       }
       case 'k': {
-        return this.getKingPositions(board, startPieceIndex, "black")
-
+        return this.getKingPositions(board, startPieceIndex, 'black');
       }
       case 'p': {
-
         return this.getPawnPositions(board, startPieceIndex, 'black');
-      
       }
       case 'R': {
         return this.getSlidingPositions(board, startPieceIndex, 'rook');
@@ -67,11 +64,10 @@ export class LegalMovesService {
         return this.getSlidingPositions(board, startPieceIndex, 'queen');
       }
       case 'K': {
-        return this.getKingPositions(board, startPieceIndex, "black")
+        return this.getKingPositions(board, startPieceIndex, 'black');
       }
       case 'P': {
-        return this.getPawnPositions(board, startPieceIndex, 'white')
-       
+        return this.getPawnPositions(board, startPieceIndex, 'white');
       }
     }
 
@@ -85,7 +81,7 @@ export class LegalMovesService {
     startPieceIndex2: number,
     type: string
   ): number[] {
-    const offset = [-8, 8, -1, 1,-9, -7, 7, 9];
+    const offset = [-8, 8, -1, 1, -9, -7, 7, 9];
     const startPieceIndex = startPieceIndex2;
 
     let startIndex = 0;
@@ -106,19 +102,18 @@ export class LegalMovesService {
         endIndex = 8;
         break;
       }
-      default: window.alert("Something went wrong :( ")
+      default:
+        window.alert('Something went wrong :( ');
     }
 
     let legalMoves: number[] = [];
 
     for (let i = startIndex; i < endIndex; i++) {
-
       const lengthToBorder = SlidingPiecesDistanceToBorder[startPieceIndex][i];
 
       for (let j = 1; j <= lengthToBorder; j++) {
-
-        const newPositionIndex : number = startPieceIndex + offset[i]*j
-        // empty 
+        const newPositionIndex: number = startPieceIndex + offset[i] * j;
+        // empty
         if (!board.pieces[newPositionIndex].fenIdentifier) {
           legalMoves.push(newPositionIndex);
         }
@@ -142,47 +137,59 @@ export class LegalMovesService {
     return legalMoves;
   }
 
-  getPawnPositions(board: Board, startPieceIndex : number, color: string): number[]{
-
+  getPawnPositions(
+    board: Board,
+    startPieceIndex: number,
+    color: string
+  ): number[] {
     const data = PawnMapping[color][startPieceIndex];
     let legalMoves: number[] = [];
 
     // in front
-    if(!board.pieces[data.move].fenIdentifier){
-      legalMoves.push(data.move)
+    if (!board.pieces[data.move].fenIdentifier) {
+      legalMoves.push(data.move);
     }
 
     //doubleMove, TODO: if data.move was false, we can skip this
-    if(data.doubleMove){
-      if(!board.pieces[data.move].fenIdentifier && !board.pieces[data.doubleMove].fenIdentifier){
-        legalMoves.push(data.doubleMove)
+    if (data.doubleMove) {
+      if (
+        !board.pieces[data.move].fenIdentifier &&
+        !board.pieces[data.doubleMove].fenIdentifier
+      ) {
+        legalMoves.push(data.doubleMove);
       }
     }
 
-    if(data.hits){
+    if (data.hits) {
       data.hits.forEach((element: number) => {
         //empty or enemy
-        if(
-          this.isOppositeCase(board.pieces[startPieceIndex].fenIdentifier, board.pieces[element].fenIdentifier)){
-            legalMoves.push(element)
-          }
+        if (
+          this.isOppositeCase(
+            board.pieces[startPieceIndex].fenIdentifier,
+            board.pieces[element].fenIdentifier
+          )
+        ) {
+          legalMoves.push(element);
+        }
       });
     }
     return legalMoves;
   }
 
-  getKingPositions(board: Board, startIndex: number, color: string): number[]{
+  getKingPositions(board: Board, startIndex: number, color: string): number[] {
     let localMoves: number[] = [];
-    KingMapping[startIndex].forEach((element)=>{
-
-      if(!board.pieces[element].fenIdentifier){
-        localMoves.push(element)
+    KingMapping[startIndex].forEach((element) => {
+      if (!board.pieces[element].fenIdentifier) {
+        localMoves.push(element);
+      } else if (
+        this.isOppositeCase(
+          board.pieces[startIndex].fenIdentifier,
+          board.pieces[element].fenIdentifier
+        )
+      ) {
+        localMoves.push(element);
       }
-
-      else if(this.isOppositeCase(board.pieces[startIndex].fenIdentifier, board.pieces[element].fenIdentifier)){
-        localMoves.push(element)
-      }
-    })
+    });
 
     return localMoves;
   }
@@ -201,10 +208,9 @@ export class LegalMovesService {
     return a == a.toUpperCase();
   }
 
-  isOppositeCase(char1: string, char2:  string): boolean {
-
-    if(char1 == '' || char2 == ''){
-      console.log("ERROR")
+  isOppositeCase(char1: string, char2: string): boolean {
+    if (char1 == '' || char2 == '') {
+      console.log('ERROR');
       return false;
     }
 

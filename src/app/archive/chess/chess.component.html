@@ -1,23 +1,35 @@
-<div style="display: flex; justify-content: center; align-items: center">
-  <mat-grid-list [cols]="'8'" rowHeight="60px" [style.width]="'480px'">
-    <mat-grid-tile *ngFor="let position of board.pieces; let i = index">
-      <button
-        class="background-tile"
+<div class="center">
+  <div class="grid">
+    <div *ngFor="let position of board.pieces; let i = index"
+        class="position"
         [ngStyle]="{ 'background-color':getPositionColor(i), 'border': getBorderColor(i)}"
         mat-raised-button
         (click)="selectPosition(i)"
       > 
       
-        <img
+        <img [ngClass]="position.fenIdentifier == position.fenIdentifier.toLowerCase() && flippedBlack? 'flippedBlack' : ''"
           *ngIf="position.fenIdentifier"
-          style="width: 45px; height: 45px;margin: auto; display: block;"
+          class="img"
           [src]= "'assets/chess/' + Mapping[position.fenIdentifier] + '.png'"
         />
-      </button>
-    </mat-grid-tile>
-  </mat-grid-list>
+      </div>
+  </div>
 </div>
-<div style="display: flex; justify-content: center; align-items: center">
+
+<br>
+<div class="center">
+  <button mat-raised-button color="primary" (click)="flipBlack()">Flip Black</button>
+
+  <button mat-raised-button color="primary" (click)="changePositionManually(-1)">
+    <mat-icon aria-hidden="false" fontIcon="arrow_back"></mat-icon>Back
+  </button>
+</div>
+<!--<button mat-raised-button color="primary" (click)="changePositionManually(1)">
+  <mat-icon aria-hidden="false" fontIcon="arrow_forward"></mat-icon>
+</button>
+-->
+<!--
+<div class="center">
   <mat-card style="color: white;">
     <mat-card-header><mat-card-title>
       ToDo's
@@ -44,5 +56,9 @@
     <mat-card-content>
       Idea: Tree search :P (Learning excercise)
     </mat-card-content>
+    <mat-card-content>
+      Moving back and forth on the board using arrows
+    </mat-card-content>
   </mat-card>
 </div>
+-->

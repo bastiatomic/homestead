@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Board } from './Board';
 import { Mapping } from './Board';
+import { Move } from './Move';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FenService {
 
-  constructor() { }
+  initFen(fen : String): Board {
 
-  initFen(fen : String, board:Board) {
+    let board: Board = {pieces: []}
+    board.pieces = Array.from({ length: 64 }, (_, i) => ({ index: i, fenIdentifier: '' }));
 
     let currentBoardIndex = 0;
     for (const char of fen) {
@@ -34,6 +36,11 @@ export class FenService {
     });
 
     return board;
+  }
+
+  boardToFen(board: Board) : Move {
+
+    return {fenString: ''}
   }
 
 

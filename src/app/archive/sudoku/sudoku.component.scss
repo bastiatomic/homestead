@@ -1,0 +1,30 @@
+.position {
+  background-color: rgba(20, 20, 20, 0.5);
+  border: 0.2vw solid rgba(20, 20, 20);
+  border-radius: 1px;
+  display: grid;
+  place-items: center;
+  font-size: 4vw;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  width: 100vw;
+  height: 100vw;
+}
+
+@media screen and (min-width: 900px) {
+  .grid {
+    width: 700px;
+    height: 700px;
+  }
+}

@@ -1,0 +1,46 @@
+<div class="center-align">
+  <div class="grid">
+    <minimalism-card
+      *ngFor="let card of game.board; let i = index"
+      (click)="clickTile(i)"
+      [ngStyle]="{ color: card.color === 'red' ? 'red' : 'black' }"
+      [symbol]="card.isVisible ? card.symbol : ''"
+      [value]="card.isVisible ? card.value : ''"
+    >
+    </minimalism-card>
+  </div>
+</div>
+
+<br />
+
+<div class="center-align">
+  <mat-card appearance="outlined">
+    <mat-card-actions>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="changeCardAmount(1)"
+        style="font-size: xx-large; margin-right: 20px"
+      >
+        +
+      </button>
+
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="changeCardAmount(-1)"
+        style="font-size: xx-large"
+      >
+        -
+      </button>
+    </mat-card-actions>
+
+    <mat-card-header>
+      <mat-card-title> Current Game </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      pairs: {{ game.pairs }} <br />
+      pairs found: {{ game.pairsFound }} <br />
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,36 @@
+.card{
+    width: 9vw; 
+    height: calc(9vw * 1.4); /* maintain 1.4 aspect ratio */
+    padding: 1vw; 
+    margin: 0.1vw;
+    background-color: rgb(200, 200, 200);
+    border: 0.5vw solid black; 
+    border-radius: 1vw;
+    display: grid;
+    place-items: center;
+    grid-template:
+    'value' 
+    'symbol';
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr;
+    font-size: 3vw; /* responsive base font size */
+    
+}
+.value {
+    grid-area: value;
+
+}
+
+.symbol {
+    grid-area: symbol;
+}
+
+@media (max-width: 768px) {
+    .card{
+        width: 17vw; 
+        height: calc(17vw * 1.4); /* maintain 1.4 aspect ratio */
+        padding: 1.0vw; 
+        border-radius: 2vw;
+        font-size: x-large;
+    }
+  }

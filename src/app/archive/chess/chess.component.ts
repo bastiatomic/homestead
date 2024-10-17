@@ -7,11 +7,13 @@ import { FenService } from './fen.service';
 import { LegalMovesService } from './legal-moves.service';
 import { Mapping } from './Board';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { Move } from './Move';
 
 @Component({
   selector: 'app-chess',
   standalone: true,
-  imports: [CommonModule, MatGridListModule, MatButtonModule,MatCardModule],
+  imports: [CommonModule, MatIconModule, MatGridListModule, MatButtonModule,MatCardModule],
   templateUrl: './chess.component.html',
   styleUrl: './chess.component.scss',
 })
@@ -23,11 +25,12 @@ export class ChessComponent {
   secondMove: any = null;
   Mapping : { [key: string]: string }= Mapping;
   legalMoves : number[] = []
+  flippedBlack: boolean = false;
+  moves : Move[] = []
 
   ngOnInit() {
-    this.board.pieces = Array.from({ length: 64 }, (_, i) => ({ index: i, fenIdentifier: '' }));
    //rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
-    this.board = this.fen.initFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR", this.board); // w KQkq - 0 1
+    this.board = this.fen.initFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"); // w KQkq - 0 1
   }
 
   selectPosition(index: number): void {
@@ -37,13 +40,15 @@ export class ChessComponent {
       this.legalMoves = this.legalMovesService.getLegalMoves(this.board, this.firstMove)
     } else {
       this.secondMove = index;
-      console.log(this.firstMove, this.secondMove);
 
-      if(this.legalMoves.includes(this.secondMove)){
+      // || true removes move validation
+      if(this.legalMoves.includes(this.secondMove) || true){
+        this.moves.push( this.getFenByBoard() );
         this.board = this.legalMovesService.getNewBoardState(this.board, this.firstMove, this.secondMove);
       } else {
         console.log("ILLEGAL MOVE")
       }
+
 
       this.firstMove = null;
       this.secondMove = null;
@@ -51,11 +56,9 @@ export class ChessComponent {
       
     }
   }
+
   getBorderColor(index: number): string{
-    if(this.legalMoves.includes(index)){
-      return "3px solid red"
-    }
-    return ""
+    return this.legalMoves.includes(index) ? "2px solid rgb(255, 138, 138)" : '';
   };
 
   getPositionColor(index: number): string {
@@ -65,9 +68,49 @@ export class ChessComponent {
       ? 'rgb(181, 207, 183)'
       : 'rgb(188, 159, 139)'
   }
-  getRowColumn(i: number): string {
-    const column = i % 8;
-    const row = Math.floor(i / 8);
-    return i+" "+row+","+column
+
+  flipBlack(){
+    this.flippedBlack = !this.flippedBlack
   }
+
+  changePositionManually(change : number){
+    console.log(this.moves)
+    const lastElIndex : number = this.moves.length -1;
+    this.board = this.fen.initFen(this.moves[lastElIndex].fenString);
+    this.moves.pop()
+  }
+
+  getFenByBoard(): Move{
+    let fenString: string = '';
+    let emptyCounter: number = 0;
+    this.board.pieces.forEach((item, index)=>{
+
+      if(item.fenIdentifier != ''){
+
+        if(emptyCounter > 0){
+          fenString += emptyCounter;
+          emptyCounter = 0;
+        }
+
+        fenString += item.fenIdentifier
+      }
+
+      if(item.fenIdentifier == ''){
+        emptyCounter+= 1
+
+        if(emptyCounter == 8){
+          fenString+= 8;
+          emptyCounter = 0;
+        }
+      }
+
+      if( (index+1)%8 == 0){
+        fenString+= "/"
+      }
+
+    })
+    fenString = fenString.slice(0, -1); 
+    return {fenString: fenString}
+  }
+
 }
