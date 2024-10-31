@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DEFAULT_GRID } from './example-boards';
+import { DEFAULT_GRID,DB118 } from './example-boards';
 import { MatButtonModule } from '@angular/material/button';
 import { MoveGeneratorService } from './move-generator.service';
 import { BoardMap } from './BoardMap';
@@ -24,7 +24,7 @@ export class SlidingComponent {
   blockColors = blockColors;
 
   ngOnInit(){
-    this.boardMap = DEFAULT_GRID.boardMap;
+    this.boardMap = DB118.boardMap;
     this.board = this.mapToBoard( this.boardMap)
 
   }

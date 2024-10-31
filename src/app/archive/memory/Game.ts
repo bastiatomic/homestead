@@ -1,5 +1,3 @@
-import { Card } from "../cards/CardType";
-
 export interface Game {
     board: Card[];
     pairs: number; // derived from board.length/2
@@ -8,4 +6,11 @@ export interface Game {
     successRate?: number;
     pairsFound: number;
     boardIndice: number[];
+}
+
+export interface Card {
+    element: string,
+    isVisible: boolean,
+    displayName: string,
+    isLocked?: boolean,
 }

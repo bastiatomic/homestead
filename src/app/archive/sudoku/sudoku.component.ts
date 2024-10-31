@@ -110,10 +110,9 @@ export class SudokuComponent {
       }
     }
 
-    if(this.board[i].isFixed){
+    if(false && this.board[i].isFixed){
       style['background-color'] = 'rgba(20,20,20,0.9)'
     }
-    
 
     return style;
   }

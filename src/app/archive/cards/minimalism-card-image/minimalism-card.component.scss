@@ -1,0 +1,29 @@
+.card{
+    width: 9vw; 
+    height: calc(9vw * 1.4); /* maintain 1.4 aspect ratio */
+    padding: 1vw; 
+    background-color: rgb(200, 200, 200);
+    border: 0.5vw solid black; 
+    border-radius: 1vw;
+    display: grid;
+    place-items: center;
+    color: rgb(20,20,20);
+    font-size: 2vw;   
+}
+
+.card-image {
+    width: 10vw;
+    height: 10vw;
+}
+
+@media (max-width: 600px) {
+    .card{
+        width: 17vw; 
+        height: calc(17vw * 1.4); /* maintain 1.4 aspect ratio */
+        border-radius: 2vw;
+    }
+    .card-image {
+        width: 12vw;
+        height: 12vw;
+    }
+  }

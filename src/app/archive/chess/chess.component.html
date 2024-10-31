@@ -1,28 +1,58 @@
 <div class="center">
   <div class="grid">
-    <div *ngFor="let position of board.pieces; let i = index"
-        class="position"
-        [ngStyle]="{ 'background-color':getPositionColor(i), 'border': getBorderColor(i)}"
-        mat-raised-button
-        (click)="selectPosition(i)"
-      > 
-      
-        <img [ngClass]="position.fenIdentifier == position.fenIdentifier.toLowerCase() && flippedBlack? 'flippedBlack' : ''"
-          *ngIf="position.fenIdentifier"
-          class="img"
-          [src]= "'assets/chess/' + Mapping[position.fenIdentifier] + '.png'"
-        />
-      </div>
+    <div
+      *ngFor="let position of board.pieces; let i = index"
+      class="position"
+      [ngStyle]="{
+        'background-color': getPositionColor(i),
+        border: getBorderColor(i)
+      }"
+      mat-raised-button
+      (click)="selectPosition(i)"
+    >
+      <img
+        [ngClass]="
+          position.fenIdentifier == position.fenIdentifier.toLowerCase() &&
+          flippedBlack
+            ? 'flippedBlack'
+            : ''
+        "
+        *ngIf="position.fenIdentifier"
+        class="img"
+        [src]="'assets/chess/' + Mapping[position.fenIdentifier] + '.png'"
+      />
+    </div>
   </div>
 </div>
 
-<br>
-<div class="center">
-  <button mat-raised-button color="primary" (click)="flipBlack()">Flip Black</button>
+<br />
 
-  <button mat-raised-button color="primary" (click)="changePositionManually(-1)">
+<div class="center" *ngIf="isPawnPromotion">
+  <app-pawn-promotion [visibleIdentifier]="isPawnPromotion" (newItemEvent)="onChildItemClicked($event)" ></app-pawn-promotion>
+</div>
+
+<div class="center">
+  <button mat-raised-button color="primary" (click)="flipBlack()">
+    Flip Black
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="changePositionManually(-1)"
+  >
     <mat-icon aria-hidden="false" fontIcon="arrow_back"></mat-icon>Back
   </button>
+</div>
+
+<div class="center">
+  <mat-form-field>
+    <mat-label>FEN</mat-label>
+    <input matInput type="text" [(ngModel)]="loadableFEN">
+    <button matSuffix mat-icon-button (click)="loadFen(loadableFEN)">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </mat-form-field>
 </div>
 <!--<button mat-raised-button color="primary" (click)="changePositionManually(1)">
   <mat-icon aria-hidden="false" fontIcon="arrow_forward"></mat-icon>

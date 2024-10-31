@@ -7,3 +7,8 @@
 .center-align{
     display: flex; justify-content: center; align-items: center; color: white;
 }
+.background-tile{
+    width:80%; height:80%;
+    place-items: center;
+    background-color: rgb(117, 164, 127);
+}

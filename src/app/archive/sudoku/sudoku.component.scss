@@ -1,10 +1,8 @@
 .position {
-  background-color: rgba(20, 20, 20, 0.5);
-  border: 0.2vw solid rgba(20, 20, 20);
   border-radius: 1px;
   display: grid;
   place-items: center;
-  font-size: 4vw;
+  font-size: 3vw;
 }
 
 .center {
@@ -22,7 +20,13 @@
   height: 100vw;
 }
 
-@media screen and (min-width: 900px) {
+.manualNumber{
+  border: 2px solid rgb(205, 193, 255);
+  border-radius: 20px;
+  padding: 10px;
+}
+
+@media screen and (min-width: 720px) {
   .grid {
     width: 700px;
     height: 700px;

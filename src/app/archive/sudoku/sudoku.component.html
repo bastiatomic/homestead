@@ -6,7 +6,9 @@
       [ngStyle]="getBorderStyle(i)"
       (click)="selectPosition(i)"
     >
-      <a *ngIf="position.value !== 0">
+      <a *ngIf="position.value !== 0"
+        [ngClass]="{'manualNumber': position.isFixed === false}">
+
         {{ position.value }}
       </a>
     </div>

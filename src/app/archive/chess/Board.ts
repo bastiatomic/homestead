@@ -10,10 +10,10 @@ export interface Board {
     blackKingSide: Boolean;
     blackQueenSide: Boolean;
   };
+  pawnPromotionService: string;
 }
 
-interface Piece {
-  index: number;
+export interface Piece {
   fenIdentifier: string;
 }
 

@@ -13,9 +13,22 @@ export class LegalMovesService {
 
   getNewBoardState(board: Board, moveA: number, moveB: number): Board {
     let array = board.pieces;
+    board.pawnPromotionService = '';
 
     array[moveB].fenIdentifier = array[moveA].fenIdentifier;
     array[moveA].fenIdentifier = '';
+
+    //check for pawn promotion
+    for(let i = 0; i<= 7; i++){
+      if(board.pieces[i].fenIdentifier == 'P'){
+        board.pawnPromotionService = 'white';
+      }
+    }
+    for(let i = 56; i<= 63; i++){
+      if(board.pieces[i].fenIdentifier == 'p'){
+        board.pawnPromotionService = 'black';
+      }
+    }
 
     return board;
   }
@@ -194,6 +207,7 @@ export class LegalMovesService {
     return localMoves;
   }
 
+  //can be killed by using isOppositeCase !?
   isLowerCase(a: string): boolean {
     if (a === null) {
       return true;
@@ -213,14 +227,10 @@ export class LegalMovesService {
       console.log('ERROR');
       return false;
     }
-
-    if (
+    return (
       (char1 === char1.toLowerCase() && char2 === char2.toUpperCase()) ||
       (char1 === char1.toUpperCase() && char2 === char2.toLowerCase())
-    ) {
-      return true;
-    } else {
-      return false;
-    }
+    )
+    
   }
 }

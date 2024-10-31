@@ -61,4 +61,9 @@ export class CardGenService {
   
     return Array.from(randomNumbers);
   }
+
+  getRandomNumbers_2(listLength: number, amountToBeFetched: number) : number[]{
+    return Array.from({ length: listLength }, (_, i) => i + 1).sort(() => 0.5 - Math.random()).slice(0, amountToBeFetched);
+  }
+  
 }

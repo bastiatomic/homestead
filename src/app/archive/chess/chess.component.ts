@@ -9,24 +9,32 @@ import { Mapping } from './Board';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { Move } from './Move';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FormsModule} from '@angular/forms';
+import { PawnPromotionComponent } from './pawn-promotion/pawn-promotion.component';
 
 @Component({
   selector: 'app-chess',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatGridListModule, MatButtonModule,MatCardModule],
+  imports: [PawnPromotionComponent, FormsModule, MatInputModule, MatFormFieldModule, CommonModule, MatIconModule, MatGridListModule, MatButtonModule,MatCardModule],
   templateUrl: './chess.component.html',
   styleUrl: './chess.component.scss',
 })
 export class ChessComponent {
+sendableFEN: any;
 
   constructor (private fen : FenService, private legalMovesService : LegalMovesService){}
-  board: Board = {pieces: []}
+  board: Board = {pieces: [], pawnPromotionService: ''}
   firstMove: any = null;
   secondMove: any = null;
-  Mapping : { [key: string]: string }= Mapping;
+  Mapping = Mapping;
   legalMoves : number[] = []
   flippedBlack: boolean = false;
   moves : Move[] = []
+  loadableFEN : string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
+  isPawnPromotion: string = '';
+  pawnIndex: number = -1;
 
   ngOnInit() {
    //rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
@@ -45,6 +53,14 @@ export class ChessComponent {
       if(this.legalMoves.includes(this.secondMove) || true){
         this.moves.push( this.getFenByBoard() );
         this.board = this.legalMovesService.getNewBoardState(this.board, this.firstMove, this.secondMove);
+
+        //pawn promotion service
+        if( this.board.pawnPromotionService != ''){
+          this.isPawnPromotion = this.board.pawnPromotionService;
+          this.pawnIndex = this.secondMove;
+        }
+        
+
       } else {
         console.log("ILLEGAL MOVE")
       }
@@ -74,10 +90,11 @@ export class ChessComponent {
   }
 
   changePositionManually(change : number){
-    console.log(this.moves)
-    const lastElIndex : number = this.moves.length -1;
-    this.board = this.fen.initFen(this.moves[lastElIndex].fenString);
-    this.moves.pop()
+    if(this.moves.length > 0){
+      const lastElIndex : number = this.moves.length -1;
+      this.board = this.fen.initFen(this.moves[lastElIndex].fenString);
+      this.moves.pop();
+    }
   }
 
   getFenByBoard(): Move{
@@ -111,6 +128,18 @@ export class ChessComponent {
     })
     fenString = fenString.slice(0, -1); 
     return {fenString: fenString}
+  }
+
+  loadFen(a:string){
+    this.board = this.fen.initFen(a);
+  }
+
+  onChildItemClicked(piece: string){
+    console.log("PROMOTING", piece);
+    this.board.pieces[this.pawnIndex].fenIdentifier = piece;
+    this.board.pawnPromotionService = '';
+    this.isPawnPromotion = '';
+
   }
 
 }

@@ -1,0 +1,21 @@
+<table *ngIf="visibleIdentifier == 'white'">
+  <tr>
+    <td *ngFor="let item of whitePromotionFenIdentifier">
+      <img
+        (click)="addNewItem(item)"
+        [src]="'assets/chess/' + Mapping[item] + '.png'"
+      />
+    </td>
+  </tr>
+</table>
+
+<table *ngIf="visibleIdentifier == 'black'">
+  <tr>
+    <td *ngFor="let item of blackPromotionFenIdentifier">
+      <img
+        (click)="addNewItem(item)"
+        [src]="'assets/chess/' + Mapping[item] + '.png'"
+      />
+    </td>
+  </tr>
+</table>

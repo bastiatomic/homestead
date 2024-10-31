@@ -10,8 +10,8 @@ export class FenService {
 
   initFen(fen : String): Board {
 
-    let board: Board = {pieces: []}
-    board.pieces = Array.from({ length: 64 }, (_, i) => ({ index: i, fenIdentifier: '' }));
+    let board: Board = {pieces: [], pawnPromotionService: ''}
+    board.pieces = Array.from({ length: 64 }, (_, i) => ({ fenIdentifier: '' }));
 
     let currentBoardIndex = 0;
     for (const char of fen) {
@@ -37,11 +37,5 @@ export class FenService {
 
     return board;
   }
-
-  boardToFen(board: Board) : Move {
-
-    return {fenString: ''}
-  }
-
 
 }
