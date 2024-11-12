@@ -1,0 +1,3 @@
+- Every cell has a up-down-left-right class which adds border.
+- When the neighor is the same number, removes the respective class
+- make it negative case: Add border class if number is different

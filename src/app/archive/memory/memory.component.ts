@@ -11,85 +11,102 @@ import { MinimalismCardImageComponent } from '../cards/minimalism-card-image/min
 @Component({
   selector: 'app-memory',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatCardModule, MatIcon, MinimalismCardImageComponent],
+  imports: [
+    CommonModule,
+    MatButtonModule,
+    MatCardModule
+  ],
   templateUrl: './memory.component.html',
   styleUrl: './memory.component.scss',
 })
 export class MemoryComponent {
-
-  constructor( private playingCardService : CardGenService) { }
-  allHidden = false;
+  constructor(private playingCardService: CardGenService) {}
   firstChoice: number | null = null;
-  game: Game = {board: [], pairs: 8, successRate: -1, pairsFound:0, uuid: "-", boardIndice: []}
-  foundPiece : string[] = []
+  board: Card[] = []
+  pairs : number = 8;
+  isLockedBoard: boolean = false;
+  gridTemplateRows: number = 4;
 
   ngOnInit() {
-    this.newDeck(this.game.pairs)
-
-    //force the loading of all images on init (offline hack)
-    for(const variable of [true, false]){
-      setTimeout(()=>{
-        this.game.board.forEach((item)=> {item.isVisible = variable})
-      },0.1)
-    }
-    
+    this.newDeck(this.pairs);
   }
 
   newDeck(lengthRequirement: number): void {
+    this.board = [];
     const plantsLength: number = PLANTS_LIST.length - 1;
-    const indiceList : number[] = this.playingCardService.getRandomNumbers_2(plantsLength, lengthRequirement)
+    const indiceList: number[] = this.playingCardService.getRandomNumbers_2(
+      plantsLength,
+      lengthRequirement
+    );
 
     for (const randomIndex of indiceList) {
       const elementName = PLANTS_LIST[randomIndex];
+      const displayName = elementName
+        .replace(/_/g, ' ')
+        .split(' ')
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(' ');
 
-      for(let _ = 0; _<2; _++){
-        this.game.board.push({ element: elementName, displayName: elementName.replace(/_/g, ' '), isVisible: false, isLocked: false });
+      for (let _ = 0; _ < 2; _++) {
+        this.board.push({
+          element: elementName,
+          displayName: displayName,
+          isVisible: false,
+        });
       }
-     
     }
 
-    this.game.board.sort(() => 0.5 - Math.random());
+    //force the loading of all images on init (offline hack)
+    for (const variable of [true, false]) {
+      setTimeout(() => {
+        this.board.forEach((item) => {
+          item.isVisible = variable;
+        });
+      }, 0.1);
+    }
+
+    this.board.sort(() => 0.5 - Math.random());
   }
 
   clickTile(index: number): void {
-    let tile: Card = this.game.board[index];
-    if(tile.isLocked){return}
+    const TIMEOUT_DELAY: number = 2000; //delay after click in ms
+    if (this.isLockedBoard || this.board[index].isVisible) {
+      return;
+    }
+
+    let tile: Card = this.board[index];
 
     tile.isVisible = true;
-    
-    if (this.firstChoice == null) {
+
+    if (this.firstChoice === null) {
       this.firstChoice = index;
     } else {
-     
-
+      let secondTile = this.board[this.firstChoice];
       //reset if not equal
-      if(this.game.board[this.firstChoice!].element != tile.element){
-
-        this.lockBoard(true)
-
-        setTimeout(()=>{
-          this.game.board[this.firstChoice!].isVisible = false;
+      if (secondTile.element != tile.element) {
+        this.isLockedBoard = true;
+        setTimeout(() => {
+          secondTile.isVisible = false;
           tile.isVisible = false;
-          this.firstChoice = null;
-          this.lockBoard(false)
-        },2000)
-      }
-      else {
-        //success case
-        this.firstChoice = null;
+          this.isLockedBoard = false;
+        }, TIMEOUT_DELAY);
       }
 
+      this.firstChoice = null;
     }
   }
 
-  changeCardAmount(a: number): void{
-    this.game.pairs += a;
-    this.newDeck(this.game.pairs)
+  changeCardAmount(a: number): void {
+    this.pairs += a;
+    this.newDeck(this.pairs);
+    this.gridTemplateRows = Math.ceil((this.pairs * 2) / 4);
   }
 
-  lockBoard(lockMode: boolean){
-    for(const item of this.game.board){
-          item.isLocked = lockMode
+  onOff() {
+    for (const item of this.board) {
+      item.isVisible = !item.isVisible;
     }
   }
 
@@ -99,9 +116,9 @@ export class MemoryComponent {
     indexList = indexList.concat(indexList);
     indexList = this.playingCardService.shuffle(indexList);
 
-    this.game.board = []
+    this.board = []
     indexList.forEach((item)=>{
-      this.game.board.push({
+      this.board.push({
         value: this.cards[item].value,
         symbol: this.cards[item].symbol,
         color: this.cards[item].color,
@@ -110,16 +127,15 @@ export class MemoryComponent {
       })
     })
 
-    this.game.pairsFound = 0;
-    this.game.pairs = this.game.board.length/2
+    this.pairsFound = 0;
+    this.pairs = this.board.length/2
     this.foundPiece = []
 
     setTimeout(()=>{
-      this.game.board.forEach((item)=>{
+      this.board.forEach((item)=>{
         item.isVisible = false;
       })
 
     },1)
   }*/
-
 }

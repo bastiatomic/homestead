@@ -35,6 +35,7 @@ export class SlidingComponent {
       this.firstSelection = index
     } else {
       const tmpDirection : string = this.getDirectionByIndice(this.firstSelection, index)
+      console.log(tmpDirection);
       this.boardMap = this.moveGenerator.moveBlock(this.boardMap, this.board[this.firstSelection], Directions[tmpDirection])
       this.board = this.mapToBoard(this.boardMap)
       this.firstSelection = null;
@@ -42,7 +43,7 @@ export class SlidingComponent {
 
   }
 
-  getDirectionByIndice(first: number, second: number, width : number = 7) : string{
+  getDirectionByIndice(first: number, second: number, width : number = 8) : string{
     if(first == second){return '';}
 
     const firstRowIndex : number = Math.floor((first)/width);
@@ -65,7 +66,7 @@ export class SlidingComponent {
   }
 
   solve(){
-    this.boardMap = this.moveGenerator.moveBlock(this.boardMap, 4, -7)
+    this.boardMap = this.moveGenerator.moveBlock(this.boardMap, 4, -8)
     this.board = this.mapToBoard(this.boardMap);
   }
 
@@ -78,6 +79,25 @@ export class SlidingComponent {
       }
     }
     return board;
+  }
+  getDynamicStyle(tileNumber: number, index: number): {[key: string]: any} {
+    let borderString : {[key: string]: any} = {};
+    borderString['background-color'] = this.blockColors[tileNumber]
+    const directions = [
+      {value: -1, border_position: 'border-left'},
+      {value: +1, border_position: 'border-right'},
+      {value: -8, border_position: 'border-top'},
+      {value: +8, border_position: 'border-bottom'}
+    ];
+
+    if(this.board[index] !== 9 ){
+      for(const direction of directions){
+        if(this.board[index] !== this.board[index+direction.value]){
+          borderString[direction.border_position] = "1px solid black"
+        }
+      }
+    }
+    return borderString;
   }
 
 }

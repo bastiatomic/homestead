@@ -10,5 +10,5 @@ export const routes: Routes = [
   { path: 'sliding', component: SlidingComponent, title: 'Sliding' },
   { path: 'memory', component: MemoryComponent, title: 'Memory' },
   { path: 'sudoku', component: SudokuComponent, title: 'Sudoku' },
-  { path: 'chess', component: ChessComponent, title: 'chess' },
+  { path: 'chess', component: ChessComponent, title: 'chess' }
 ];

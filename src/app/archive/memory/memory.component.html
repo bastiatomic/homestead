@@ -1,37 +1,42 @@
-<div class="center-align">
-  <div class="grid">
-    <minimalism-card-image
-      *ngFor="let card of game.board; let i = index"
+<div class="center">
+  <mat-card>
+    <mat-card-actions>
+      <button
+        *ngFor="let item of [+1, -1]"
+        mat-raised-button
+        color="primary"
+        (click)="changeCardAmount(item)"
+      >
+        {{ item > 0 ? "+"+item : item }}
+      </button>
+      <button mat-raised-button color="primary" (click)="onOff()">
+        On/Off
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
+<br />
+<div class="center">
+  <div
+    class="grid"
+    [ngStyle]="{
+      'grid-template-rows': 'repeat(' + gridTemplateRows + ', 1fr)'
+    }"
+  >
+    <div
+      class="position"
+      *ngFor="let card of board; let i = index"
       (click)="clickTile(i)"
-      [image]="card.isVisible? 'assets/anno-1800-plants/'+card.element+'.png' : ''"
-      [text]="card.isVisible? card.displayName! : ''"
     >
-    </minimalism-card-image>
+      <img
+        *ngIf="card.isVisible"
+        [src]="'assets/anno-1800-plants/' + card.element + '.png'"
+      />
+      <div *ngIf="card.isVisible">
+        {{ card.displayName }}
+      </div>
+    </div>
   </div>
 </div>
 
 <br />
-
-<div class="center-align">
-  <mat-card>
-    <mat-card-actions>
-      <button *ngFor="let item of [+1,-1]"
-        mat-raised-button
-        color="primary"
-        (click)="changeCardAmount(item)"
-        style="font-size: large; margin: 10px"
-      >
-        {{item}}
-      </button>
-
-    </mat-card-actions>
-<!--
-    <mat-card-header>
-      <mat-card-title> Current Game </mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      pairs: {{ game.pairs }} <br />
-      pairs found: {{ game.pairsFound }} <br />
-    </mat-card-content>-->
-  </mat-card>
-</div>

@@ -35,6 +35,7 @@ sendableFEN: any;
   loadableFEN : string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
   isPawnPromotion: string = '';
   pawnIndex: number = -1;
+  selectedPosition: number|null = null
 
   ngOnInit() {
    //rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
@@ -42,12 +43,13 @@ sendableFEN: any;
   }
 
   selectPosition(index: number): void {
-
     if (this.firstMove == null && this.board.pieces[index].fenIdentifier) {
+      this.selectedPosition = index;
       this.firstMove = index;
       this.legalMoves = this.legalMovesService.getLegalMoves(this.board, this.firstMove)
-    } else {
+    } else if (this.firstMove != null){
       this.secondMove = index;
+      this.selectedPosition = null;
 
       // || true removes move validation
       if(this.legalMoves.includes(this.secondMove) || true){
@@ -74,7 +76,7 @@ sendableFEN: any;
   }
 
   getBorderColor(index: number): string{
-    return this.legalMoves.includes(index) ? "2px solid rgb(255, 138, 138)" : '';
+    return ""; this.legalMoves.includes(index) ? "2px solid rgb(255, 138, 138)" : '';
   };
 
   getPositionColor(index: number): string {

@@ -7,5 +7,5 @@ export const blockColors : {[key: string]: string} = {
     '5': 'rgb(199, 206, 234)',   // Pastel Blue
     '6': 'rgb(215, 189, 226)',   // Pastel Purple
     '7': 'rgb(191, 252, 198)',   // Pastel Mint
-    '9': 'rgb(210, 180, 140)',   // Pastel Brown (Obstacles)
+    '9': 'rgba(210, 180, 140,0.0)',   // Pastel Brown (Obstacles)
   };
