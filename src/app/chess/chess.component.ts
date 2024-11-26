@@ -13,6 +13,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { PawnPromotionComponent } from './pawn-promotion/pawn-promotion.component';
+import { PuzzleExtractorService } from './puzzle-extractor.service';
 
 @Component({
   selector: 'app-chess',
@@ -24,7 +25,7 @@ import { PawnPromotionComponent } from './pawn-promotion/pawn-promotion.componen
 export class ChessComponent {
 sendableFEN: any;
 
-  constructor (private fen : FenService, private legalMovesService : LegalMovesService){}
+  constructor (private fen : FenService, private legalMovesService : LegalMovesService, private puzzleService: PuzzleExtractorService){}
   board: Board = {pieces: [], pawnPromotionService: ''}
   firstMove: any = null;
   secondMove: any = null;
@@ -134,6 +135,7 @@ sendableFEN: any;
 
   loadFen(a:string){
     this.board = this.fen.initFen(a);
+    this.loadableFEN = a
   }
 
   onChildItemClicked(piece: string){
@@ -142,6 +144,11 @@ sendableFEN: any;
     this.board.pawnPromotionService = '';
     this.isPawnPromotion = '';
 
+  }
+
+  newRandomPuzzle(){
+    const FEN = this.puzzleService.newRandom()
+    this.loadFen(FEN.toString())
   }
 
 }

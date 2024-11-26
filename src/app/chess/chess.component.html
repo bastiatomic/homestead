@@ -44,6 +44,22 @@
   >
     <mat-icon aria-hidden="false" fontIcon="arrow_back"></mat-icon>Back
   </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="newRandomPuzzle()"
+  >
+    <mat-icon aria-hidden="false" fontIcon="shuffle"></mat-icon>Random
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
+   disabled
+  >
+    <mat-icon aria-hidden="false" fontIcon="person"></mat-icon>{{board.activeColor}}
+  </button>
 </div>
 
 <div class="center">

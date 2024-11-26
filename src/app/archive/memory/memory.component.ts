@@ -2,11 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatIcon } from '@angular/material/icon';
 import { CardGenService } from './card-gen.service';
 import { PLANTS_LIST } from '../../../assets/anno-1800-plants/plants';
-import { Card, Game } from './Game';
-import { MinimalismCardImageComponent } from '../cards/minimalism-card-image/minimalism-card.component';
+import { CardType } from './CardType';
 
 @Component({
   selector: 'app-memory',
@@ -22,16 +20,17 @@ import { MinimalismCardImageComponent } from '../cards/minimalism-card-image/min
 export class MemoryComponent {
   constructor(private playingCardService: CardGenService) {}
   firstChoice: number | null = null;
-  board: Card[] = []
+  board: CardType[] = []
   pairs : number = 8;
-  isLockedBoard: boolean = false;
+  isLocked: boolean = false;
   gridTemplateRows: number = 4;
 
   ngOnInit() {
-    this.newDeck(this.pairs);
+    this.newBoard(this.pairs);
   }
 
-  newDeck(lengthRequirement: number): void {
+  newBoard(lengthRequirement: number): void {
+    //TODO: Move me to firebase-enabled-service + take care of timeout. A better solution?
     this.board = [];
     const plantsLength: number = PLANTS_LIST.length - 1;
     const indiceList: number[] = this.playingCardService.getRandomNumbers_2(
@@ -72,11 +71,11 @@ export class MemoryComponent {
 
   clickTile(index: number): void {
     const TIMEOUT_DELAY: number = 2000; //delay after click in ms
-    if (this.isLockedBoard || this.board[index].isVisible) {
+    if (this.isLocked || this.board[index].isVisible) {
       return;
     }
 
-    let tile: Card = this.board[index];
+    let tile: CardType = this.board[index];
 
     tile.isVisible = true;
 
@@ -86,11 +85,11 @@ export class MemoryComponent {
       let secondTile = this.board[this.firstChoice];
       //reset if not equal
       if (secondTile.element != tile.element) {
-        this.isLockedBoard = true;
+        this.isLocked = true;
         setTimeout(() => {
           secondTile.isVisible = false;
           tile.isVisible = false;
-          this.isLockedBoard = false;
+          this.isLocked = false;
         }, TIMEOUT_DELAY);
       }
 
@@ -99,8 +98,9 @@ export class MemoryComponent {
   }
 
   changeCardAmount(a: number): void {
+    //TODO: Don't re-render the board, just add/remove a pair and re-shuffle
     this.pairs += a;
-    this.newDeck(this.pairs);
+    this.newBoard(this.pairs);
     this.gridTemplateRows = Math.ceil((this.pairs * 2) / 4);
   }
 
@@ -109,33 +109,4 @@ export class MemoryComponent {
       item.isVisible = !item.isVisible;
     }
   }
-
-  /*
-  newGame(pairs: number) {
-    let indexList = this.playingCardService.getRandomNumbers(pairs);
-    indexList = indexList.concat(indexList);
-    indexList = this.playingCardService.shuffle(indexList);
-
-    this.board = []
-    indexList.forEach((item)=>{
-      this.board.push({
-        value: this.cards[item].value,
-        symbol: this.cards[item].symbol,
-        color: this.cards[item].color,
-        isVisible: true,
-        id: this.cards[item].value+this.cards[item].symbol+this.cards[item].color
-      })
-    })
-
-    this.pairsFound = 0;
-    this.pairs = this.board.length/2
-    this.foundPiece = []
-
-    setTimeout(()=>{
-      this.board.forEach((item)=>{
-        item.isVisible = false;
-      })
-
-    },1)
-  }*/
 }

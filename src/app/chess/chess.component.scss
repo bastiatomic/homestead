@@ -33,6 +33,10 @@
   transform: rotate(-180deg);
 }
 
+button{
+  margin: 5px 2.5px 5px 2.5px;
+}
+
 @media screen and (min-width: 600px) {
   .grid {
     width: 600px;

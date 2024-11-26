@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { KlotskiComponent } from './archive/klotski/board/klotski.component';
 import { MemoryComponent } from './archive/memory/memory.component';
-import { ChessComponent } from './archive/chess/chess.component';
+import { ChessComponent } from './chess/chess.component';
 import { SudokuComponent } from './archive/sudoku/sudoku.component';
 import { SlidingComponent } from './sliding/sliding.component';
 
