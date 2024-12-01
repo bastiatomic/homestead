@@ -1,11 +1,22 @@
 import csv
 
 # Define the path to your CSV file
-file_path = 'src/app/archive/chess/puzzles.csv'
 
-# Read the CSV and convert rows to a list of strings
-with open(file_path, mode='r') as file:
-    reader = csv.reader(file)
-    list_of_strings = [' '.join(row) for row in reader]  # Join each row's elements into a single string
+input_file = 'src/app/chess/puzzles.csv'
+output_file = 'src/app/chess/puzzles.ts'
 
-print(list_of_strings)
+# Open the input and output files
+# Read and modify the CSV file
+with open(input_file, mode='r', newline='', encoding='utf-8') as infile, \
+     open(output_file, mode='w', newline='', encoding='utf-8') as outfile:
+    
+    reader = csv.reader(infile)
+    writer = csv.writer(outfile)
+    for row in reader:
+        row_as_string = ','.join(row)  # Converts the row (list) to a string
+        new_row = "'" + row_as_string + "',"
+        print(new_row)
+
+        outfile.write(new_row)
+
+print("Modification complete. Check the output file.")

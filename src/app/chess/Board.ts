@@ -1,16 +1,19 @@
 export interface Board {
   //define a board for a service
   pieces: Piece[];
+  fen? : string;
   activeColor?: String;
   halfmoveClock?: Number;
   enPassant?: String;
-  castling?: {
+  castling: {
     whiteKingSide: Boolean;
     whiteQueenSide: Boolean;
     blackKingSide: Boolean;
     blackQueenSide: Boolean;
   };
   pawnPromotionService: string;
+  solutionPath?: string;
+  rating? : number
 }
 
 export interface Piece {

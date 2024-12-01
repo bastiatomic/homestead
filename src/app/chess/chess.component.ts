@@ -26,21 +26,21 @@ export class ChessComponent {
 sendableFEN: any;
 
   constructor (private fen : FenService, private legalMovesService : LegalMovesService, private puzzleService: PuzzleExtractorService){}
-  board: Board = {pieces: [], pawnPromotionService: ''}
+  board: Board = {pieces: [], pawnPromotionService: '', castling : {whiteKingSide: true, whiteQueenSide: true, blackKingSide: true, blackQueenSide: true}}
   firstMove: any = null;
   secondMove: any = null;
   Mapping = Mapping;
   legalMoves : number[] = []
   flippedBlack: boolean = false;
   moves : Move[] = []
-  loadableFEN : string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
+  loadableFEN : string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
   isPawnPromotion: string = '';
   pawnIndex: number = -1;
   selectedPosition: number|null = null
 
   ngOnInit() {
    //rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
-    this.board = this.fen.initFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"); // w KQkq - 0 1
+    this.board = this.fen.initFen(this.loadableFEN); // w KQkq - 0 1
   }
 
   selectPosition(index: number): void {
@@ -147,8 +147,11 @@ sendableFEN: any;
   }
 
   newRandomPuzzle(){
-    const FEN = this.puzzleService.newRandom()
-    this.loadFen(FEN.toString())
+    this.board = this.puzzleService.newRandom()
+    this.loadableFEN = this.board.fen!
+  }
+  showSolutionPath(){
+    window.alert(this.board.solutionPath)
   }
 
 }

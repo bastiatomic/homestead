@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Board } from './Board';
 import { PUZZLES } from './Puzzles';
+import { BoardMap } from '../archive/sliding/boardmap';
+import { FenService } from './fen.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PuzzleExtractorService {
 
-  constructor() { }
+  constructor(private fenService: FenService) { }
 
-  puzzleToBoard(puzzleString: string) : Board | false{
-
-    console.log(puzzleString)
-    return false
-  }
-
-  newRandom() : string {
+  newRandom() : Board{
+    
     const randomString = PUZZLES[Math.floor(Math.random()*PUZZLES.length)]
-    const attributes : any[] = randomString.split(" ") 
-    return attributes.slice(1,7).join(" ")
+    const attributes : any[] = randomString.split(",") 
+    let board : Board = this.fenService.initFen(attributes[1]);
+    board.solutionPath = attributes[2]
+    board.rating = attributes[3]
+    return board
   }
 }

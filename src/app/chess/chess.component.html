@@ -56,10 +56,21 @@
   <button
     mat-raised-button
     color="primary"
+    (click)="showSolutionPath()"
+  >
+    <mat-icon aria-hidden="false" fontIcon="check"></mat-icon>Solution
+  </button>
+
+  <button
+    mat-raised-button
+    color="primary"
    disabled
   >
     <mat-icon aria-hidden="false" fontIcon="person"></mat-icon>{{board.activeColor}}
   </button>
+
+  <p>{{board.rating}}</p>
+
 </div>
 
 <div class="center">
