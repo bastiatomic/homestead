@@ -2,7 +2,7 @@ export interface Board {
   //define a board for a service
   pieces: Piece[];
   fen? : string;
-  activeColor?: String;
+  activeColor: string;
   halfmoveClock?: Number;
   enPassant?: String;
   castling: {
@@ -34,3 +34,7 @@ export const Mapping: { [key: string]: string } = {
   K: 'K_white_king',
   P: 'P_white_pawn',
 };
+
+export interface Move {
+  board: Board;
+}

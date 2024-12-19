@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Board } from './Board';
 import { PUZZLES } from './Puzzles';
-import { BoardMap } from '../archive/sliding/boardmap';
 import { FenService } from './fen.service';
 
 @Injectable({

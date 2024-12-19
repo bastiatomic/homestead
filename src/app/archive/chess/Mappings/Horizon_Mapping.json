@@ -1,0 +1,11 @@
+{
+    "mapping": {
+      "pawn": "Watcher",
+      "rook": "Thunderjaw",
+      "knight": "Stalker",
+      "bishop": "Stormbird",
+      "queen": "Tallneck",
+      "king": "HADES"
+    },
+    "description": "This JSON maps chess pieces to Horizon machines based on their roles and characteristics."
+  }

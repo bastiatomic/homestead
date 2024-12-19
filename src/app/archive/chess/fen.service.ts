@@ -9,7 +9,8 @@ export class FenService {
   initFen(fen : string): Board {
     const splittedAttributes = fen.split(" ")
 
-    let board: Board = {pieces: [], pawnPromotionService: '', castling : {whiteKingSide: true, whiteQueenSide: true, blackKingSide: true, blackQueenSide: true}}
+    let board: Board = 
+    {pieces: [], pawnPromotionService: '', castling : {whiteKingSide: true, whiteQueenSide: true, blackKingSide: true, blackQueenSide: true}, activeColor: 'w'}
     board.pieces = Array.from({ length: 64 }, (_, i) => ({ fenIdentifier: '' }));
 
     let currentBoardIndex = 0;

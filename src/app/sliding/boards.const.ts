@@ -1,4 +1,4 @@
-import { SlidingBoard } from './boardmap';
+import { SlidingBoard, SlidingBoard2 } from './boardmap';
 
 export const TESTING_BOARD: SlidingBoard = {
   boardMap: {
@@ -101,4 +101,25 @@ export const DIABOLICAL_BOX : SlidingBoard = {
   victoryIndex: 84,
   
   name: "[DB153] The Diabolical Box",
+};
+
+export const V4_GET_BALL_OUT: SlidingBoard2 = {
+  board: [
+    [  -1,-1, -1, 1, -1, -1, -1 ],
+    [  -1,7, 3, 3, 0, 0, -1 ],
+    [  -1,7, 3, 3, 4, 4, -1 ],
+    [ -1, 0, 0, 5, 5, 6, -1 ],
+    [ -1, 0, 0, 5, 5, 8, -1 ],
+    [  -1,-1, -1, 0, -1, -1, -1 ]
+  ],
+  lookupTable: {
+    1: [ [ 0, 3 ] ],
+    3: [ [ 1, 2 ], [ 1, 3 ], [ 2, 2 ], [ 2, 3 ] ],
+    4: [ [ 2, 4 ], [ 2, 5 ] ],
+    5: [ [ 3, 3 ], [ 3, 4 ], [ 4, 3 ], [ 4, 4 ] ],
+    6: [ [ 3, 5 ] ],
+    7: [ [ 1, 1 ], [ 2, 1 ] ],
+    8: [ [ 4, 5 ] ],
+  },
+  victoryIndex: [ 5, 3 ] // 5, 3
 };

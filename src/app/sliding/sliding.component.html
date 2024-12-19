@@ -1,0 +1,26 @@
+<div class="center">
+  <table>
+    <tr class="row" *ngFor="let row of selectedMap.board; index as i">
+      <td
+        class="tile"
+        *ngFor="let tile of row; index as j"
+        [ngStyle]="getDynamicStyle(i, j, tile)"
+        [style.background-color]="blockColors[tile]"
+        (click)="clickPosition(i,j)"
+      >
+       <!--{{tile + " "+ i +" "+j }}-->
+      </td>
+    </tr>
+  </table>
+  <table class="position">
+    <tr><button mat-raised-button color="primary" (click)="solve()">
+      Solve {{ NAME }}
+    </button></tr>
+    <tr *ngFor="let board of boardList">
+      <br>
+      <button mat-raised-button color="primary" (click)="selectBoard(board)">
+        Board_Name
+      </button>
+    </tr>
+  </table>
+</div>

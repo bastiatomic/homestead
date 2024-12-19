@@ -8,7 +8,6 @@ import { LegalMovesService } from './legal-moves.service';
 import { Mapping } from './Board';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { Move } from './Move';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
@@ -26,21 +25,20 @@ export class ChessComponent {
 sendableFEN: any;
 
   constructor (private fen : FenService, private legalMovesService : LegalMovesService, private puzzleService: PuzzleExtractorService){}
-  board: Board = {pieces: [], pawnPromotionService: '', castling : {whiteKingSide: true, whiteQueenSide: true, blackKingSide: true, blackQueenSide: true}}
+  board: Board = {pieces: [], pawnPromotionService: '', castling : {whiteKingSide: true, whiteQueenSide: true, blackKingSide: true, blackQueenSide: true}, activeColor: 'w'}
   firstMove: any = null;
   secondMove: any = null;
   Mapping = Mapping;
   legalMoves : number[] = []
   flippedBlack: boolean = false;
-  moves : Move[] = []
-  loadableFEN : string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+  moves : Board[] = []
+  currentFEN : string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
   isPawnPromotion: string = '';
   pawnIndex: number = -1;
   selectedPosition: number|null = null
 
   ngOnInit() {
-   //rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
-    this.board = this.fen.initFen(this.loadableFEN); // w KQkq - 0 1
+    this.board = this.fen.initFen(this.currentFEN); // w KQkq - 0 1
   }
 
   selectPosition(index: number): void {
@@ -54,8 +52,9 @@ sendableFEN: any;
 
       // || true removes move validation
       if(this.legalMoves.includes(this.secondMove) || true){
-        this.moves.push( this.getFenByBoard() );
+        this.moves.push( this.board );
         this.board = this.legalMovesService.getNewBoardState(this.board, this.firstMove, this.secondMove);
+        this.board.activeColor === 'w'?  this.board.activeColor='b':  this.board.activeColor='w'
 
         //pawn promotion service
         if( this.board.pawnPromotionService != ''){
@@ -76,16 +75,16 @@ sendableFEN: any;
     }
   }
 
-  getBorderColor(index: number): string{
-    return ""; this.legalMoves.includes(index) ? "2px solid rgb(255, 138, 138)" : '';
-  };
+  getPositionColor(index: number, darkness:number = 1): string {
+    //TODO: This should be a JSON to promote performance
 
-  getPositionColor(index: number): string {
+    darkness = (this.legalMoves.includes(index)? 0.8 : (index == this.selectedPosition? 0.5 : 1))
+
     const row = Math.floor(index / 8);
     const col = index % 8;
     return (row + col) % 2 === 0
-      ? 'rgb(181, 207, 183)'
-      : 'rgb(188, 159, 139)'
+      ? 'rgb(181, 207, 183, '+darkness+')'
+      : 'rgb(188, 159, 139, '+darkness+')'
   }
 
   flipBlack(){
@@ -95,47 +94,14 @@ sendableFEN: any;
   changePositionManually(change : number){
     if(this.moves.length > 0){
       const lastElIndex : number = this.moves.length -1;
-      this.board = this.fen.initFen(this.moves[lastElIndex].fenString);
+      this.board = this.fen.initFen(this.moves[lastElIndex].fen!);
       this.moves.pop();
     }
   }
 
-  getFenByBoard(): Move{
-    let fenString: string = '';
-    let emptyCounter: number = 0;
-    this.board.pieces.forEach((item, index)=>{
-
-      if(item.fenIdentifier != ''){
-
-        if(emptyCounter > 0){
-          fenString += emptyCounter;
-          emptyCounter = 0;
-        }
-
-        fenString += item.fenIdentifier
-      }
-
-      if(item.fenIdentifier == ''){
-        emptyCounter+= 1
-
-        if(emptyCounter == 8){
-          fenString+= 8;
-          emptyCounter = 0;
-        }
-      }
-
-      if( (index+1)%8 == 0){
-        fenString+= "/"
-      }
-
-    })
-    fenString = fenString.slice(0, -1); 
-    return {fenString: fenString}
-  }
-
   loadFen(a:string){
     this.board = this.fen.initFen(a);
-    this.loadableFEN = a
+    this.currentFEN = a
   }
 
   onChildItemClicked(piece: string){
@@ -148,7 +114,7 @@ sendableFEN: any;
 
   newRandomPuzzle(){
     this.board = this.puzzleService.newRandom()
-    this.loadableFEN = this.board.fen!
+    this.currentFEN = this.board.fen!
   }
   showSolutionPath(){
     window.alert(this.board.solutionPath)

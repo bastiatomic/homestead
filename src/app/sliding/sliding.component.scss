@@ -1,0 +1,25 @@
+.center {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.row {
+  display: flex;
+}
+
+.tile {
+  border: 1px solid #ddd;
+  width: 8vw;
+  height: 8vw;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+}
+
+.position {
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+}
