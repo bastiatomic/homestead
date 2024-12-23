@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MoveGeneratorService } from './move-generator.service';
 import { SlidingBoard2 } from './boardmap';
 import { blockColors } from './colors.const';
-import { V4_GET_BALL_OUT } from './boards.const';
+import { V4_DIABOLICAL_BOX, V4_GET_BALL_OUT } from './boards.const';
 
 @Component({
   selector: 'app-sliding',
@@ -22,7 +22,7 @@ export class SlidingComponent {
   blockColors = blockColors;
 
   NAME = '';
-  boardList: SlidingBoard2[] = [V4_GET_BALL_OUT];
+  boardList: SlidingBoard2[] = [V4_DIABOLICAL_BOX, V4_GET_BALL_OUT];
 
   DirectionsMap: { [key: string]: number[] } = {
     up: [1, 0],
@@ -40,7 +40,8 @@ export class SlidingComponent {
   blockDesigns: { [key: number]: { [key: string]: string } } = {};
 
   ngOnInit() {
-    //this.selectBoard(TESTING_BOARD)
+    this.selectedMap.lookupTable = this.moveGenerator.createLookupTable(this.selectedMap.board)
+    console.log(this.selectedMap)
   }
 
   clickPosition(row: number, column: number) {
@@ -115,5 +116,7 @@ export class SlidingComponent {
     return borderString;
   }
 
-  selectBoard(board: SlidingBoard2) {}
+  selectBoard(board: SlidingBoard2) {
+    this.selectedMap = board
+  }
 }

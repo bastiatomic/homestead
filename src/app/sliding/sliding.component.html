@@ -8,7 +8,7 @@
         [style.background-color]="blockColors[tile]"
         (click)="clickPosition(i,j)"
       >
-       <!--{{tile + " "+ i +" "+j }}-->
+       {{tile + " "+ i +" "+j }}
       </td>
     </tr>
   </table>
@@ -19,7 +19,7 @@
     <tr *ngFor="let board of boardList">
       <br>
       <button mat-raised-button color="primary" (click)="selectBoard(board)">
-        Board_Name
+        {{board.name}}
       </button>
     </tr>
   </table>

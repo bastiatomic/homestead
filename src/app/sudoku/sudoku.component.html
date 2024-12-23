@@ -1,0 +1,66 @@
+<div class="center">
+  <div class="grid bg-image">
+    <div
+      class="position"
+      *ngFor="let position of board; let i = index"
+      [ngStyle]="getBorderStyle(i)"
+      (click)="selectPosition(i)"
+    >
+      <a *ngIf="position.value !== 0"
+        [ngClass]="{'manualNumber': position.isFixed === false}">
+
+        {{ position.value }}
+      </a>
+    </div>
+  </div>
+</div>
+<br />
+
+<div class="center" *ngIf="!gameNotStarted">
+  <button
+    mat-raised-button
+    *ngFor="let item of numberSelector1"
+    (click)="selectNumber(item)"
+  >
+    {{ item }}
+  </button>
+</div>
+<div class="center" *ngIf="!gameNotStarted">
+  <button
+    mat-raised-button
+    *ngFor="let item of numberSelector2"
+    (click)="selectNumber(item)"
+  >
+    {{ item }}
+  </button>
+</div>
+
+<div class="center" *ngIf="gameNotStarted">
+
+  <button mat-raised-button color="primary" *ngFor="let difficulty of difficulties"
+  (click)="newGame(difficulty)">
+  {{difficulty}}</button>
+
+</div>
+
+<br />
+
+<div class="center">
+  <button mat-raised-button color="primary" (click)="reset()">Reset</button>
+  <button mat-raised-button color="primary" (click)="verify()">Verify</button>
+</div>
+<br />
+
+<div class="center">
+  <button mat-raised-button color="primary" (click)="signIn()">Login</button>
+  <button mat-raised-button color="primary" (click)="saveDocument()">
+    Save Progress
+  </button>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="getDocument('finance', 's6FCNqIxXLaRC8PDp2Ql')"
+  >
+    Get last game
+  </button>
+</div>

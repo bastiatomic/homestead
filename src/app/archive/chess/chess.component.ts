@@ -22,7 +22,6 @@ import { PuzzleExtractorService } from './puzzle-extractor.service';
   styleUrl: './chess.component.scss',
 })
 export class ChessComponent {
-sendableFEN: any;
 
   constructor (private fen : FenService, private legalMovesService : LegalMovesService, private puzzleService: PuzzleExtractorService){}
   board: Board = {pieces: [], pawnPromotionService: '', castling : {whiteKingSide: true, whiteQueenSide: true, blackKingSide: true, blackQueenSide: true}, activeColor: 'w'}
@@ -36,8 +35,10 @@ sendableFEN: any;
   isPawnPromotion: string = '';
   pawnIndex: number = -1;
   selectedPosition: number|null = null
+  sendableFEN: any;
 
   ngOnInit() {
+    //TODO: The first move of the database gets played always!
     this.board = this.fen.initFen(this.currentFEN); // w KQkq - 0 1
   }
 

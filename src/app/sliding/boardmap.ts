@@ -12,7 +12,8 @@ export interface SlidingBoard {
  export interface SlidingBoard2{
   board: number[][]; // list of lists
   lookupTable: {[key: number] : number[][]}; // list of all
-  victoryIndex: number[] // y,x coordinates
+  victoryIndex: number[]; // y,x coordinates
+  name: string;
  }
   
 export interface BoardMap {
