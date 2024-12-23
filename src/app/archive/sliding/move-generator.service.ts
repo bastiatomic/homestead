@@ -63,7 +63,7 @@ export class MoveGeneratorService {
     console.log("starting: Breadth-first search")
     let solutionFound: boolean = false;
     const startBoard = JSON.parse(JSON.stringify(slidingBoard))
-    const failsafeThreshold: number = 20000; // THE SHERE KNOWLEDGE
+    const failsafeThreshold: number = 300_000; // THE SHERE KNOWLEDGE
     // THAT TIMELINE-BASED BUGS EXISTS MAKES THIS A VERY UNSAFE LANGUAGE
     let failsafe: number = 0;
     let frontierBoard: SlidingBoard2 = slidingBoard;
@@ -119,6 +119,7 @@ export class MoveGeneratorService {
       }
     }
    
+    console.log("bfs", false)
     return [slidingBoard];
   }
 
@@ -167,8 +168,9 @@ export class MoveGeneratorService {
       const row = board[i]
       for(let j = 0; j<row.length; j++){
           const item = board[i][j];
-          lookupTable[item] ? lookupTable[item].push([i,j]) : lookupTable[item] = [ [i,j] ]
-      
+          if(item != -1 && item != 0){
+            lookupTable[item] ? lookupTable[item].push([i,j]) : lookupTable[item] = [ [i,j] ]
+          }
       }
   }
   return lookupTable

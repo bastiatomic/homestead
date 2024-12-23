@@ -118,5 +118,7 @@ export class SlidingComponent {
 
   selectBoard(board: SlidingBoard2) {
     this.selectedMap = board
+    this.selectedMap.lookupTable = this.moveGenerator.createLookupTable(this.selectedMap.board)
+    console.log(this.selectedMap)
   }
 }

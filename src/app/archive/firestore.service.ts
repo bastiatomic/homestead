@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
-import { Firestore, doc, getDoc, setDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, doc, getDoc, setDoc,collection } from '@angular/fire/firestore';
+import { Transaction } from './finance/Transaction';
 
 @Injectable({
   providedIn: 'root'
@@ -23,14 +24,48 @@ export class FirestoreService {
       });
   }
 
-  async saveDocument(data: any) {
+  async saveDocument(collection: string, document: string, data: any) {
     try {
-      await setDoc(doc(this.firestore, 'sudoku', 'bastiatomic'), data);
+      await setDoc(doc(this.firestore, collection, document), data);
       console.log("Success!");
     } catch (e) {
       console.error('Error adding document: ', e);
     }
   }
+  async newDocument(collectionName: string, data: any) {
+    try {
+      const docRef = await addDoc(collection(this.firestore, collectionName), data);
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error('Error adding document: ', e);
+    }
+  }
+
+  async addTransaction(data: Transaction){
+    console.log(data)
+    //TODO: convert me to a standalone cloud function
+
+    //Step 1: Add to finance-transactions
+    this.newDocument("finance-transactions", data)
+
+    //Step 2: Add to finance-sums
+
+    let currentBalance = await this.getDocument("finance-sums", "DeutscheBank")
+    currentBalance = currentBalance.value;
+    data.value += currentBalance;
+
+    this.saveDocument("finance-sums", data.account, {value: data.value})
+
+
+    //Step 1: Add to finance-history
+  }
+  async editTransaction(){
+    //convert me to a standalone cloud function
+  }
+  async removeTransaction(){
+    //convert me to a standalone cloud function
+  }
+
   async getDocument(collection: string, document: string): Promise<any | null> {
     try {
       const docRef = doc(this.firestore, collection, document);

@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
 import { MemoryComponent } from './archive/memory/memory.component';
-import { ChessComponent } from './archive/chess/chess.component';
-import { SlidingComponent } from './sliding/sliding.component';
-import { FinanceComponent } from './finance/finance.component';
-import { SudokuComponent } from './sudoku/sudoku.component';
+import { ChessComponent } from './chess/chess.component';
+import { SlidingComponent } from './archive/sliding/sliding.component';
+import { FinanceComponent } from './archive/finance/finance.component';
 
 export const routes: Routes = [
   { path: '', component: MemoryComponent, title: 'Memory' },
@@ -11,5 +10,4 @@ export const routes: Routes = [
   { path: 'chess', component: ChessComponent, title: 'chess' },
   { path: 'sliding', component: SlidingComponent, title: 'sliding' },
   { path: 'finance', component: FinanceComponent, title: 'finance' },
-  {path: 'sudoku', component: SudokuComponent, title: 'sudoku'}
 ];
