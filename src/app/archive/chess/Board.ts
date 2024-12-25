@@ -12,7 +12,7 @@ export interface Board {
     blackQueenSide: Boolean;
   };
   pawnPromotionService: string;
-  solutionPath?: string;
+  solutionPath?: string[];
   rating? : number
 }
 

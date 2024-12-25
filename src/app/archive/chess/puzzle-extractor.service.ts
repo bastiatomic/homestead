@@ -15,7 +15,7 @@ export class PuzzleExtractorService {
     const randomString = PUZZLES[Math.floor(Math.random()*PUZZLES.length)]
     const attributes : any[] = randomString.split(",") 
     let board : Board = this.fenService.initFen(attributes[1]);
-    board.solutionPath = attributes[2]
+    board.solutionPath = attributes[2].split(" ")
     board.rating = attributes[3]
     return board
   }

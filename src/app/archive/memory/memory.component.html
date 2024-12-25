@@ -1,18 +1,36 @@
 <div class="center">
-  <mat-card>
-    <mat-card-actions>
-      <button
-        *ngFor="let item of [+1, -1]"
-        mat-raised-button
-        color="primary"
-        (click)="changeCardAmount(item)"
-      >
-        {{ item > 0 ? "+"+item : item }}
-      </button>
-      <button mat-raised-button color="primary" (click)="onOff()">
-        On/Off
-      </button>
-    </mat-card-actions>
+  <mat-card style="background-color: rgb(129, 116, 160); padding: 5px">
+    <table>
+      <tr>
+        <td>
+          <button
+            *ngFor="let item of [+1, -1]"
+            mat-raised-button
+            color="primary"
+            (click)="changeCardAmount(item)"
+          >
+            {{ item > 0 ? "+" + item : item }}
+          </button>
+
+          <button mat-raised-button color="primary" (click)="onOff()">
+            On/Off
+          </button>
+        </td>
+      </tr>
+      <br />
+      <tr>
+        <td>
+          <mat-form-field>
+            <mat-label>Mode</mat-label>
+            <mat-select (selectionChange)="onModeChange($event)">
+              @for (item of gameModes; track item) {
+              <mat-option [value]="item">{{ item }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
   </mat-card>
 </div>
 <br />
@@ -20,7 +38,8 @@
   <div
     class="grid"
     [ngStyle]="{
-      'grid-template-rows': 'repeat(' + gridTemplateRows + ', 1fr)'
+      'grid-template-rows': 'repeat(' + gridTemplateRows + ', 1fr)',
+      height: 25 * gridTemplateRows + 'vw'
     }"
   >
     <div
@@ -29,14 +48,15 @@
       (click)="clickTile(i)"
     >
       <img
-        *ngIf="card.isVisible"
-        [src]="'assets/anno-1800-plants/' + card.element + '.png'"
+        *ngIf="card.isVisible && card.hasImage"
+        [src]="'assets/' + iconPath + '/' + card.element + '.png'"
       />
-      <div *ngIf="card.isVisible">
+      <div
+        *ngIf="card.isVisible"
+        [style]="card.hasImage ? '' : 'font-size: 300%'"
+      >
         {{ card.displayName }}
       </div>
     </div>
   </div>
 </div>
-
-<br />

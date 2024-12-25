@@ -1,5 +1,6 @@
 export interface CardType {
-    element: string,
+    element: string | number,
     isVisible: boolean,
-    displayName: string
+    displayName: string | number,
+    hasImage: boolean
 }

@@ -8,7 +8,7 @@ import { KingMapping } from './Mappings/King';
 @Injectable({
   providedIn: 'root',
 })
-export class LegalMovesService {
+export class MoveGeneratorService {
   constructor() {}
 
   getNewBoardState(board: Board, moveA: number, moveB: number): Board {

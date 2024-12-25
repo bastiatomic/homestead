@@ -4,7 +4,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { Board } from './Board';
 import { FenService } from './fen.service';
-import { LegalMovesService } from './legal-moves.service';
+import { MoveGeneratorService } from './move-generator.service';
 import { Mapping } from './Board';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,6 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { PawnPromotionComponent } from './pawn-promotion/pawn-promotion.component';
 import { PuzzleExtractorService } from './puzzle-extractor.service';
+import { first } from 'rxjs';
 
 @Component({
   selector: 'app-chess',
@@ -23,7 +24,7 @@ import { PuzzleExtractorService } from './puzzle-extractor.service';
 })
 export class ChessComponent {
 
-  constructor (private fen : FenService, private legalMovesService : LegalMovesService, private puzzleService: PuzzleExtractorService){}
+  constructor (private fen : FenService, private moveGeneratorService : MoveGeneratorService, private puzzleService: PuzzleExtractorService){}
   board: Board = {pieces: [], pawnPromotionService: '', castling : {whiteKingSide: true, whiteQueenSide: true, blackKingSide: true, blackQueenSide: true}, activeColor: 'w'}
   firstMove: any = null;
   secondMove: any = null;
@@ -40,13 +41,14 @@ export class ChessComponent {
   ngOnInit() {
     //TODO: The first move of the database gets played always!
     this.board = this.fen.initFen(this.currentFEN); // w KQkq - 0 1
+    console.log(this.board)
   }
 
   selectPosition(index: number): void {
     if (this.firstMove == null && this.board.pieces[index].fenIdentifier) {
       this.selectedPosition = index;
       this.firstMove = index;
-      this.legalMoves = this.legalMovesService.getLegalMoves(this.board, this.firstMove)
+      this.legalMoves = this.moveGeneratorService.getLegalMoves(this.board, this.firstMove)
     } else if (this.firstMove != null){
       this.secondMove = index;
       this.selectedPosition = null;
@@ -54,7 +56,7 @@ export class ChessComponent {
       // || true removes move validation
       if(this.legalMoves.includes(this.secondMove) || true){
         this.moves.push( this.board );
-        this.board = this.legalMovesService.getNewBoardState(this.board, this.firstMove, this.secondMove);
+        this.board = this.moveGeneratorService.getNewBoardState(this.board, this.firstMove, this.secondMove);
         this.board.activeColor === 'w'?  this.board.activeColor='b':  this.board.activeColor='w'
 
         //pawn promotion service
@@ -116,6 +118,19 @@ export class ChessComponent {
   newRandomPuzzle(){
     this.board = this.puzzleService.newRandom()
     this.currentFEN = this.board.fen!
+    console.log(this.board)
+    
+    //make first move
+    console.log(this.board.solutionPath![0])
+
+    let firstIndex : number = this.board.solutionPath![0][0].charCodeAt(0) - 'a'.charCodeAt(0) + 1
+    firstIndex += 64- (Number(this.board.solutionPath![0][1])*8)-1;
+    let secondIndex : number= this.board.solutionPath![0][2].charCodeAt(0) - 'a'.charCodeAt(0) + 1
+    secondIndex += 64- (Number(this.board.solutionPath![0][3])*8)-1;
+    console.log(firstIndex, secondIndex)
+    this.moveGeneratorService.getNewBoardState(this.board, firstIndex, secondIndex)
+    this.board.activeColor === 'w'?  this.board.activeColor='b':  this.board.activeColor='w'
+
   }
   showSolutionPath(){
     window.alert(this.board.solutionPath)
