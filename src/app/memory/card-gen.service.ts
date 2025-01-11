@@ -1,10 +1,10 @@
 //create a new list of cards based on input params (e.g. amount and shuffled)
 
 import { Injectable } from '@angular/core';
-import { Card } from '../cards/CardType';
-import { Symbol, ValueType } from '../cards/CardType';
+import { Card } from '../archive/cards/CardType';
+import { Symbol, ValueType } from '../archive/cards/CardType';
 import { CardType } from './CardType';
-import { PLANTS_LIST } from '../../../assets/anno-1800-plants/plants';
+import { PLANTS_LIST } from '../../assets/anno-1800-plants/plants';
 
 @Injectable({
   providedIn: 'root',

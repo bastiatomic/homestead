@@ -6,3 +6,6 @@
 - 0: empty
 - 1: victoryId (assumptions)
 - no borders allowed (historical the 9)
+
+- everything is scaled to the 8x8 chess board and this is used for scaling
+- MINIMIZE MINIMIZE

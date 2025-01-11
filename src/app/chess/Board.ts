@@ -13,10 +13,10 @@ export interface Board {
   };
   pawnPromotionService: string;
   solutionPath?: string[];
-  rating? : number
+  rating? : number;
 }
 
-export interface Piece {
+interface Piece {
   fenIdentifier: string;
 }
 
@@ -34,7 +34,3 @@ export const Mapping: { [key: string]: string } = {
   K: 'K_white_king',
   P: 'P_white_pawn',
 };
-
-export interface Move {
-  board: Board;
-}

@@ -10,7 +10,6 @@
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 2px;
   width: 100vw;
-  height: 100vw;
 }
 
 .position {
@@ -21,6 +20,8 @@
   border-radius: 10px;
   background-color: rgb(128, 188, 189);
   font-size: x-small;
+  height: 23vw;
+  width: 23vw;
 }
 
 button {
@@ -35,10 +36,14 @@ img {
 @media screen and (min-width: 600px) {
   .grid {
     width: 600px;
-    height: 600px;
+    height: auto;
   }
   img {
     width: 12vh;
     height: 12vh;
+  }
+  .position{
+    width: 150px;
+    height: 150px;
   }
 }

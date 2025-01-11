@@ -5,6 +5,8 @@ import { MoveGeneratorService } from './move-generator.service';
 import { SlidingBoard2 } from './boardmap';
 import { blockColors } from './colors.const';
 import { V4_DIABOLICAL_BOX, V4_GET_BALL_OUT } from './boards.const';
+import { BoardGeneratorService } from './board-generator.service';
+import { Piece } from './Pieces';
 
 @Component({
   selector: 'app-sliding',
@@ -14,7 +16,7 @@ import { V4_DIABOLICAL_BOX, V4_GET_BALL_OUT } from './boards.const';
   styleUrl: './sliding.component.scss',
 })
 export class SlidingComponent {
-  constructor(private moveGenerator: MoveGeneratorService) {}
+  constructor(private moveGenerator: MoveGeneratorService, private boardGeneratorService: BoardGeneratorService) {}
 
   selectedMap: SlidingBoard2 = V4_GET_BALL_OUT;
 
@@ -38,14 +40,25 @@ export class SlidingComponent {
   ];
 
   blockDesigns: { [key: number]: { [key: string]: string } } = {};
+  pieces = Piece
 
   ngOnInit() {
-    this.selectedMap.lookupTable = this.moveGenerator.createLookupTable(this.selectedMap.board)
-    console.log(this.selectedMap)
+    //this.selectedMap.lookupTable = this.moveGenerator.createLookupTable(this.selectedMap.board)
+    this.newBoard()
   }
 
-  clickPosition(row: number, column: number) {
-    if (this.firstSelection == null) {
+  clickPosition(row1: number, column1: number) : void{
+    console.log(this.pieces[8])
+
+    this.pieces.map((row, rowIndex) => {
+      row.map((item, columnIndex)=> {
+        this.selectedMap.board[row1][column1] = item[0]
+      })
+    })
+
+
+    return
+    /*if (this.firstSelection == null) {
       this.firstSelection = [row, column];
     } else {
       const tmpDirection: string = this.getDirectionByIndice(
@@ -63,7 +76,7 @@ export class SlidingComponent {
       }
 
       this.firstSelection = null;
-    }
+    }*/
   }
 
   getDirectionByIndice(first: number[], second: number[]): string {
@@ -79,6 +92,7 @@ export class SlidingComponent {
   }
 
   solve() {
+    return
     const result : SlidingBoard2[] = this.moveGenerator.bfs(this.selectedMap);
 
     if(result){
@@ -120,5 +134,9 @@ export class SlidingComponent {
     this.selectedMap = board
     this.selectedMap.lookupTable = this.moveGenerator.createLookupTable(this.selectedMap.board)
     console.log(this.selectedMap)
+  }
+
+  newBoard(){
+    this.selectedMap = this.boardGeneratorService.newBoard()
   }
 }

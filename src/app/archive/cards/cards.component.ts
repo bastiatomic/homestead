@@ -4,7 +4,7 @@ import { Card, Symbol, ValueType } from './CardType';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MinimalismCardComponent } from "./minimalism-card/minimalism-card.component";
-import { CardGenService } from '../memory/card-gen.service';
+import { CardGenService } from '../../memory/card-gen.service';
 
 @Component({
   selector: 'app-cards',

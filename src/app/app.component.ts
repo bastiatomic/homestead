@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
-import { SlidingComponent } from "./sliding/sliding.component";
+import { SlidingComponent } from "./archive/sliding/sliding.component";
 
 @Component({
   selector: 'app-root',

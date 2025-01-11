@@ -2,8 +2,8 @@ import csv
 
 # Define the path to your CSV file
 
-input_file = 'src/app/chess/puzzles.csv'
-output_file = 'src/app/chess/puzzles.ts'
+input_file = 'src/app/chess/database.csv'
+output_file = 'src/app/chess/puzzles2.ts'
 
 # Open the input and output files
 # Read and modify the CSV file

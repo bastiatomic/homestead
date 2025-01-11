@@ -10,8 +10,8 @@ export class FenService {
     const splittedAttributes = fen.split(" ")
 
     let board: Board = 
-    {pieces: [], pawnPromotionService: '', castling : {whiteKingSide: true, whiteQueenSide: true, blackKingSide: true, blackQueenSide: true}, activeColor: 'w'}
-    board.pieces = Array.from({ length: 64 }, (_, i) => ({ fenIdentifier: '' }));
+    {pieces: [], pawnPromotionService: '', castling : {whiteKingSide: false, whiteQueenSide: false, blackKingSide: false, blackQueenSide: false}, activeColor: 'w'}
+    board.pieces = Array.from({ length: 64 }, (_) => ({ fenIdentifier: '' }));
 
     let currentBoardIndex = 0;
     for (const char of splittedAttributes[0]) {

@@ -1,0 +1,17 @@
+{
+  "name": "Homestead",
+  "short_name": "Homestead",
+  "theme_color": "#3C3836",
+  "background_color": "#3C3836",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "assets/cauldron_kappa_rounded.png",
+      "sizes": "400x400",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
+}

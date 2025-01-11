@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { CardGenService } from './card-gen.service';
-import { PLANTS_LIST } from '../../../assets/anno-1800-plants/plants';
+import { PLANTS_LIST } from '../../assets/anno-1800-plants/plants';
 import { CardType } from './CardType';
-import { MACHINES_LIST } from '../../../assets/horizon-machines/machines';
+import { MACHINES_LIST } from '../../assets/horizon-machines/machines';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -136,6 +136,8 @@ export class MemoryComponent {
     this.gameMode = a.value;
     if (a.value == 'ascending numbers') {
       this.newAscendingNumbersGame(this.pairs);
+    } else{
+      this.newBoard(this.pairs, "memory")
     }
   }
 

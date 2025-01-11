@@ -34,7 +34,7 @@
 <div class="center">
   <table>
     <tr>
-      <button mat-raised-button color="primary" (click)="flipBlack()">
+      <button mat-raised-button color="primary" (click)="flipBlack()"><mat-icon aria-hidden="false" fontIcon="swap_vert"></mat-icon>
         Flip Black
       </button>
 
@@ -43,7 +43,7 @@
         color="primary"
         (click)="changePositionManually(-1)"
       >
-        <mat-icon aria-hidden="false" fontIcon="arrow_back"></mat-icon>Back
+        <mat-icon aria-hidden="false" fontIcon="undo"></mat-icon>Back
       </button>
 
       <button mat-raised-button color="primary" (click)="newRandomPuzzle()">
@@ -51,24 +51,19 @@
       </button>
 
       <button mat-raised-button color="primary" (click)="showSolutionPath()">
-        <mat-icon aria-hidden="false" fontIcon="check"></mat-icon>Solution
+        <mat-icon aria-hidden="false" fontIcon="visibility_off"></mat-icon>Solution
       </button>
     </tr>
 
     <tr>
       {{board.activeColor == 'w'? 'White': 'Black'}} |
       Rating: {{ board.rating? board.rating : 0 }} | 
-      Castling: ?
+      Castling: 
+      {{ board.castling.whiteKingSide ? 'WK': ''}} 
+      {{ board.castling.whiteQueenSide ? 'WQ': ''}}
+      {{ board.castling.blackKingSide ? 'BK': ''}}
+      {{ board.castling.blackQueenSide? 'BK': '' }}
     </tr>
+    <tr *ngIf="isSolutionPathVisible">{{board.solutionPath}}</tr>
   </table>
-</div>
-
-<div class="center">
-  <mat-form-field>
-    <mat-label>FEN</mat-label>
-    <input matInput type="text" [(ngModel)]="currentFEN" />
-    <button matSuffix mat-icon-button (click)="loadFen(currentFEN)">
-      <mat-icon>arrow_forward</mat-icon>
-    </button>
-  </mat-form-field>
 </div>

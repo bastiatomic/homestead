@@ -11,15 +11,16 @@
 
 .tile {
   border: 1px solid #ddd;
-  width: 8vw;
-  height: 8vw;
+  width: 12vw;
+  height: 12vw;
   display: grid;
   place-items: center;
-  border: 1px solid transparent;
 }
 
-.position {
-  display: grid;
-  place-items: center;
-  border: 1px solid transparent;
+
+@media screen and (min-width: 600px) {
+  .tile{
+    width: 6vw;
+    height: 6vw;
+  }
 }

@@ -13,7 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { PawnPromotionComponent } from './pawn-promotion/pawn-promotion.component';
 import { PuzzleExtractorService } from './puzzle-extractor.service';
-import { first } from 'rxjs';
+import { MoveFinderService } from './move-finder';
 
 @Component({
   selector: 'app-chess',
@@ -24,7 +24,7 @@ import { first } from 'rxjs';
 })
 export class ChessComponent {
 
-  constructor (private fen : FenService, private moveGeneratorService : MoveGeneratorService, private puzzleService: PuzzleExtractorService){}
+  constructor (private fen : FenService, private moveGeneratorService : MoveGeneratorService, private puzzleService: PuzzleExtractorService, private moveFinder: MoveFinderService){}
   board: Board = {pieces: [], pawnPromotionService: '', castling : {whiteKingSide: true, whiteQueenSide: true, blackKingSide: true, blackQueenSide: true}, activeColor: 'w'}
   firstMove: any = null;
   secondMove: any = null;
@@ -32,44 +32,35 @@ export class ChessComponent {
   legalMoves : number[] = []
   flippedBlack: boolean = false;
   moves : Board[] = []
-  currentFEN : string = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
   isPawnPromotion: string = '';
   pawnIndex: number = -1;
-  selectedPosition: number|null = null
-  sendableFEN: any;
+  selectedPosition: number|null = null //used to mark position on board
+  isSolutionPathVisible: boolean = false
 
   ngOnInit() {
-    //TODO: The first move of the database gets played always!
-    this.board = this.fen.initFen(this.currentFEN); // w KQkq - 0 1
-    console.log(this.board)
+    this.board = this.fen.initFen('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+    this.moveFinder.getValidMoves(this.board);
   }
 
   selectPosition(index: number): void {
     if (this.firstMove == null && this.board.pieces[index].fenIdentifier) {
       this.selectedPosition = index;
       this.firstMove = index;
-      this.legalMoves = this.moveGeneratorService.getLegalMoves(this.board, this.firstMove)
+      //this.legalMoves = this.moveGeneratorService.getLegalMoves(this.board, this.firstMove)
     } else if (this.firstMove != null){
       this.secondMove = index;
       this.selectedPosition = null;
 
-      // || true removes move validation
-      if(this.legalMoves.includes(this.secondMove) || true){
-        this.moves.push( this.board );
-        this.board = this.moveGeneratorService.getNewBoardState(this.board, this.firstMove, this.secondMove);
-        this.board.activeColor === 'w'?  this.board.activeColor='b':  this.board.activeColor='w'
+      // NO MOVE VALIDATION
+      this.moves.push( JSON.parse(JSON.stringify(this.board )));
+      this.board = this.moveGeneratorService.getNewBoardState(this.board, this.firstMove, this.secondMove);
+      this.board.activeColor === 'w'?  this.board.activeColor='b':  this.board.activeColor='w'
 
-        //pawn promotion service
-        if( this.board.pawnPromotionService != ''){
-          this.isPawnPromotion = this.board.pawnPromotionService;
-          this.pawnIndex = this.secondMove;
-        }
-        
-
-      } else {
-        console.log("ILLEGAL MOVE")
+      //pawn promotion service
+      if( this.board.pawnPromotionService != ''){
+        this.isPawnPromotion = this.board.pawnPromotionService;
+        this.pawnIndex = this.secondMove;
       }
-
 
       this.firstMove = null;
       this.secondMove = null;
@@ -97,14 +88,10 @@ export class ChessComponent {
   changePositionManually(change : number){
     if(this.moves.length > 0){
       const lastElIndex : number = this.moves.length -1;
-      this.board = this.fen.initFen(this.moves[lastElIndex].fen!);
+      this.board = this.moves[lastElIndex];
       this.moves.pop();
+      console.log(this.moves)
     }
-  }
-
-  loadFen(a:string){
-    this.board = this.fen.initFen(a);
-    this.currentFEN = a
   }
 
   onChildItemClicked(piece: string){
@@ -117,23 +104,25 @@ export class ChessComponent {
 
   newRandomPuzzle(){
     this.board = this.puzzleService.newRandom()
-    this.currentFEN = this.board.fen!
-    console.log(this.board)
-    
-    //make first move
-    console.log(this.board.solutionPath![0])
+    let promotionPiece: string = ''
 
     let firstIndex : number = this.board.solutionPath![0][0].charCodeAt(0) - 'a'.charCodeAt(0) + 1
     firstIndex += 64- (Number(this.board.solutionPath![0][1])*8)-1;
     let secondIndex : number= this.board.solutionPath![0][2].charCodeAt(0) - 'a'.charCodeAt(0) + 1
     secondIndex += 64- (Number(this.board.solutionPath![0][3])*8)-1;
-    console.log(firstIndex, secondIndex)
-    this.moveGeneratorService.getNewBoardState(this.board, firstIndex, secondIndex)
+
+    //advancement happend
+    if(this.board.solutionPath![0][4]){
+      promotionPiece =this.board.solutionPath![0][4]
+    }
+
+    this.moveGeneratorService.getNewBoardState(this.board, firstIndex, secondIndex,promotionPiece)
     this.board.activeColor === 'w'?  this.board.activeColor='b':  this.board.activeColor='w'
+    this.isSolutionPathVisible = false;
 
   }
   showSolutionPath(){
-    window.alert(this.board.solutionPath)
+    this.isSolutionPathVisible = !this.isSolutionPathVisible
   }
 
 }

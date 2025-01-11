@@ -11,7 +11,7 @@ import { KingMapping } from './Mappings/King';
 export class MoveGeneratorService {
   constructor() {}
 
-  getNewBoardState(board: Board, moveA: number, moveB: number): Board {
+  getNewBoardState(board: Board, moveA: number, moveB: number, enforceNewPieceForB: string = ''): Board {
     let array = board.pieces;
     board.pawnPromotionService = '';
 
@@ -19,16 +19,21 @@ export class MoveGeneratorService {
     array[moveA].fenIdentifier = '';
 
     //check for pawn promotion
-    for(let i = 0; i<= 7; i++){
-      if(board.pieces[i].fenIdentifier == 'P'){
-        board.pawnPromotionService = 'white';
+    if(!enforceNewPieceForB){
+      for(let i = 0; i<= 7; i++){
+        if(board.pieces[i].fenIdentifier == 'P'){
+          board.pawnPromotionService = 'white';
+        }
       }
-    }
-    for(let i = 56; i<= 63; i++){
-      if(board.pieces[i].fenIdentifier == 'p'){
-        board.pawnPromotionService = 'black';
+      for(let i = 56; i<= 63; i++){
+        if(board.pieces[i].fenIdentifier == 'p'){
+          board.pawnPromotionService = 'black';
+        }
       }
+    } else {
+      array[moveB].fenIdentifier = enforceNewPieceForB
     }
+   
 
     return board;
   }
