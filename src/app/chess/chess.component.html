@@ -55,15 +55,16 @@
       </button>
     </tr>
 
-    <tr>
-      {{board.activeColor == 'w'? 'White': 'Black'}} |
-      Rating: {{ board.rating? board.rating : 0 }} | 
-      Castling: 
-      {{ board.castling.whiteKingSide ? 'WK': ''}} 
-      {{ board.castling.whiteQueenSide ? 'WQ': ''}}
-      {{ board.castling.blackKingSide ? 'BK': ''}}
-      {{ board.castling.blackQueenSide? 'BK': '' }}
-    </tr>
-    <tr *ngIf="isSolutionPathVisible">{{board.solutionPath}}</tr>
+    <mat-list role="list">
+      <mat-list-item role="listitem"> {{isSolutionPathVisible? board.solutionPath : "/"}}</mat-list-item>
+      <mat-list-item role="listitem"> {{board.activeColor == 'w'? 'White': 'Black'}} |
+        Rating: {{ board.rating? board.rating : 0 }} | 
+        Castling: 
+        {{ board.castling.whiteKingSide ? 'WK': ''}} 
+        {{ board.castling.whiteQueenSide ? 'WQ': ''}}
+        {{ board.castling.blackKingSide ? 'BK': ''}}
+        {{ board.castling.blackQueenSide? 'BK': '' }}</mat-list-item>
+      <mat-list-item role="listitem">Theme:  {{board.theme}}</mat-list-item>
+    </mat-list>
   </table>
 </div>

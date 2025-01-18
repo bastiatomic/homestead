@@ -14,15 +14,23 @@ import {FormsModule} from '@angular/forms';
 import { PawnPromotionComponent } from './pawn-promotion/pawn-promotion.component';
 import { PuzzleExtractorService } from './puzzle-extractor.service';
 import { MoveFinderService } from './move-finder';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
   selector: 'app-chess',
   standalone: true,
-  imports: [PawnPromotionComponent, FormsModule, MatInputModule, MatFormFieldModule, CommonModule, MatIconModule, MatGridListModule, MatButtonModule,MatCardModule],
+  imports: [MatListModule, PawnPromotionComponent, FormsModule, MatInputModule, MatFormFieldModule, CommonModule, MatIconModule, MatGridListModule, MatButtonModule,MatCardModule],
   templateUrl: './chess.component.html',
   styleUrl: './chess.component.scss',
 })
 export class ChessComponent {
+
+  // REFACTOR ME INTO MORE SERVICES. COMPONENTS IS JUST FOR DISPLAY/GATHERING DATA
+  // USE CHESS.JS FOR MOVE GENERATION. BUT EXATRACT ALL FUNCTIONS. MAYBE USE FIREBASE FUNCTIONS?
+  // FIREBASE FUNCTION: GIVEN A POSITION, RETURN ALL VALID MOVES.
+  // ADD NOTES TO EACH CHESS RIDDLE. 100% MOBILE-FIRST
+  // USE FIREBASE FILTERING TO GATHER RIDDLES BASED ON SEARCH QUERY.
+  // USE HORIZON FIGURES, BUT ALLOW RESEMBLENCE TO 
 
   constructor (private fen : FenService, private moveGeneratorService : MoveGeneratorService, private puzzleService: PuzzleExtractorService, private moveFinder: MoveFinderService){}
   board: Board = {pieces: [], pawnPromotionService: '', castling : {whiteKingSide: true, whiteQueenSide: true, blackKingSide: true, blackQueenSide: true}, activeColor: 'w'}

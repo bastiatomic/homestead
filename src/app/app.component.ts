@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
@@ -16,4 +16,9 @@ import { SlidingComponent } from "./archive/sliding/sliding.component";
 export class AppComponent {
   title = 'Homestead';
 
+  constructor(private router: Router){}
+
+  navigateTo(a: string){
+    this.router.navigateByUrl("/"+a)
+  }
 }

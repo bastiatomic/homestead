@@ -1,8 +1,9 @@
 <p
-  style="background-color: rgb(165, 182, 141);font-size: xx-small; color: rgba(60,56,54,255);text-align: center;"
+  style="background-color: rgba(60,44,90,255);font-size: xx-small; color: white;text-align: center;"
 >
   You can choose peace.
 </p>
-
+<button mat-raised-button color="primary" (click)="navigateTo('memory')">Memory</button>
+<button mat-raised-button color="primary" (click)="navigateTo('chess')">Chess</button>
 <div style="margin-top: 5px"></div>
 <router-outlet></router-outlet>

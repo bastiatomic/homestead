@@ -17,6 +17,7 @@ export class PuzzleExtractorService {
     let board : Board = this.fenService.initFen(attributes[1]);
     board.solutionPath = attributes[2].split(" ")
     board.rating = attributes[3]
+    board.theme = attributes[7]
     console.log("PuzzleId,FEN,Moves,Rating,RatingDeviation,Popularity,NbPlays,Themes,GameUrl,OpeningTags")
     const chessRiddleObject = {
       fen: attributes[1],
