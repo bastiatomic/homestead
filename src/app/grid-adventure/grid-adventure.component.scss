@@ -1,0 +1,55 @@
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.grid{
+    width: 100vw;
+    height: 100vw;
+    display: grid;
+    grid-template-columns:repeat(8, 1fr);
+    grid-template-rows:repeat(8, 1fr)
+}
+
+.tile{
+   
+    place-items: center;
+    display: grid;
+    background-blend-mode: darken;
+
+    background-size: cover; 
+
+}
+img{
+    width: 6vw;
+    height: 6vw;
+}
+
+.lightColor{
+    background-color: rgb(181, 207, 183)
+}
+
+.darkColor{
+    background-color: rgb(188, 159, 139)
+}
+
+@media screen and (min-width: 600px) {
+    .grid {
+      width: 600px;
+      height: 600px;
+    }
+    .tile{
+        width: 75px;
+        height: 75px;
+    }
+    img{
+        width: 60px;
+        height: 60px;
+    }
+  }
+
+.x{
+    background: rgba(0, 0, 0, .2) url('../../assets/legacy_assets/empty_tile_green_64x.png');
+}

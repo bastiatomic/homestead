@@ -1,23 +1,14 @@
 <div class="center">
   <div class="grid">
-    <div
-      *ngFor="let position of board.pieces; let i = index"
-      class="position"
-      [style.background-color]="getPositionColor(i)"
-      mat-raised-button
-      (click)="selectPosition(i)"
-    >
-     <img
-        [ngClass]="
+    <div *ngFor="let position of board.pieces; let i = index" class="position"
+      [style.background-color]="getPositionColor(i)" mat-raised-button (click)="selectPosition(i)">
+      <img [ngClass]="
           position.fenIdentifier == position.fenIdentifier.toLowerCase() &&
           flippedBlack
             ? 'flippedBlack'
             : ''
-        "
-        *ngIf="position.fenIdentifier"
-        class="img"
-        [src]="'assets/chess/' + Mapping[position.fenIdentifier] + '.png'"
-      />
+        " *ngIf="position.fenIdentifier" class="img"
+        [src]="'assets/chess/' + Mapping[position.fenIdentifier] + '.png'" />
     </div>
   </div>
 </div>
@@ -25,24 +16,19 @@
 <br />
 
 <div class="center" *ngIf="isPawnPromotion">
-  <app-pawn-promotion
-    [visibleIdentifier]="isPawnPromotion"
-    (newItemEvent)="onChildItemClicked($event)"
-  ></app-pawn-promotion>
+  <app-pawn-promotion [visibleIdentifier]="isPawnPromotion"
+    (newItemEvent)="onChildItemClicked($event)"></app-pawn-promotion>
 </div>
 
 <div class="center">
   <table>
     <tr>
-      <button mat-raised-button color="primary" (click)="flipBlack()"><mat-icon aria-hidden="false" fontIcon="swap_vert"></mat-icon>
+      <button mat-raised-button color="primary" (click)="flipBlack()"><mat-icon aria-hidden="false"
+          fontIcon="swap_vert"></mat-icon>
         Flip Black
       </button>
 
-      <button
-        mat-raised-button
-        color="primary"
-        (click)="changePositionManually(-1)"
-      >
+      <button mat-raised-button color="primary" (click)="changePositionManually(-1)">
         <mat-icon aria-hidden="false" fontIcon="undo"></mat-icon>Back
       </button>
 
@@ -58,13 +44,14 @@
     <mat-list role="list">
       <mat-list-item role="listitem"> {{isSolutionPathVisible? board.solutionPath : "/"}}</mat-list-item>
       <mat-list-item role="listitem"> {{board.activeColor == 'w'? 'White': 'Black'}} |
-        Rating: {{ board.rating? board.rating : 0 }} | 
-        Castling: 
-        {{ board.castling.whiteKingSide ? 'WK': ''}} 
+        Rating: {{ board.rating? board.rating : 0 }} |
+        Castling:
+        {{ board.castling.whiteKingSide ? 'WK': ''}}
         {{ board.castling.whiteQueenSide ? 'WQ': ''}}
         {{ board.castling.blackKingSide ? 'BK': ''}}
         {{ board.castling.blackQueenSide? 'BK': '' }}</mat-list-item>
-      <mat-list-item role="listitem">Theme:  {{board.theme}}</mat-list-item>
+      <mat-list-item role="listitem">{{board.theme!.slice(0, 3).join(', ')}}</mat-list-item>
+      <mat-list-item role="listitem">{{board.theme!.slice(3).join(', ')}}</mat-list-item>
     </mat-list>
   </table>
 </div>

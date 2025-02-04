@@ -14,7 +14,7 @@ export interface Board {
   pawnPromotionService: string;
   solutionPath?: string[];
   rating? : number;
-  theme?: string;
+  theme?: string[];
 }
 
 interface Piece {

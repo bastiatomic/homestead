@@ -20,23 +20,6 @@ export class MoveFinderService {
     console.log(board)
 
     let boardMapping = {}
-    
-
-    /**
-     * I'm mapping a function that returns all valid moves from a given board. 
-     * The following things are relevant:
-     * 1. Map the board for faster access to the pieces
-     * 1.1 Who's turn is it?
-     * 2. Movement of pawns (including double move, en passant and advancement of pawns)
-     * 3. Movement of rooks, bishops, knights, queen, kings
-     * 3.1 Castling with rook
-     * 4. Deal with pinned pieces
-     * 5. Deal with check
-     * 6. Specials
-     * 6.1 Validate checkmate
-     * 6.2 Stalemate
-     * 6.3 Draw (e.g. 50 move rule)
-     */
 
     return {};
   }
