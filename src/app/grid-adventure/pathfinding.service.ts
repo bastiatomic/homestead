@@ -2,72 +2,134 @@ import { Injectable } from '@angular/core';
 import { Tile } from './Tile';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PathfindingService {
+  constructor() {}
 
-  constructor() { }
+  //TODO: Try recursion: Should work great with searchRangeLimit & specificTargetOnly:
+  //Or use double while loop (one enournmus function!)
 
-  findNearestObjects(board: Tile[][], startNode: number[]) : Tile[][]{
-    console.log("findNearestObjects")
+  startAgent(
+    board: Tile[][],
+    startNode: number[],
+    searchRangeLimit: number | false = 3,
+    specificTargetOnly: string | null = null
+  ) {
+    console.log('startAgent');
+
+    const objectsFoundFailsafeThreshold = 25;
+    let failsafe = 0;
+    let solutionFound: boolean = false;
+
+    while (failsafe < objectsFoundFailsafeThreshold && !solutionFound) {
+      failsafe += 1;
+      let path = this.findNearestObjects(board, startNode);
+    }
+  }
+
+  findNearestObjects(
+    board: Tile[][],
+    startNode: number[],
+    searchRangeLimit: number | false = 3,
+    specificTargetOnly: string | null = null
+  ): string[] {
+    console.log('findNearestObjects');
+
+    if (searchRangeLimit == false) {
+      searchRangeLimit = 1000;
+    }
 
     //find all nodes within 3 walk distance (manhattan distance)
-    let frontier: any[] = []
+    let frontier: number[][] = [];
     let failsafe: number = 0;
-    const failsafeThreshold : number = 2;
+    const failsafeThreshold: number = 100;
     frontier.push(startNode);
-    const neighborIndice = [[0,1],[0,-1],[1,0],[-1,0]];
-    let visitedList : {[key: string]: string}= {}
+    const neighborIndice = [
+      [0, 1],
+      [0, -1],
+      [1, 0],
+      [-1, 0],
+    ];
+    let visitedList = new Set([startNode.toString()]);
+    let targets: { [key: string]: Tile } = {};
+    let backtrackingMap: { [key: string]: string } = {};
 
-    //winningCondition: find a .image != ''
+    while (frontier.length > 0 && failsafe < failsafeThreshold) {
+      failsafe += 1;
 
-    while (frontier.length > 0 && failsafe < failsafeThreshold){
-      failsafe+=1
+      let currentNode = frontier.shift()!;
 
-      let currentNode = frontier.shift();
-      //get all 4 neighbors of the current node
-      for(let i = 0; i < neighborIndice.length; i++){
-        let neighbor : number[]= [currentNode[0] + neighborIndice[i][0], currentNode[1] + neighborIndice[i][1]];
-        //check if the neighbor is within the board
-        if(neighbor[0] >= 0 && neighbor[0] < board[0].length && neighbor[1] >= 0 && neighbor[1] < board.length){
-          let neighborTile = board[neighbor[0]][neighbor[1]];
-          console.log(neighbor, neighborTile.image, neighborTile.visited)
+      for (let i = 0; i < neighborIndice.length; i++) {
+        let neighbor: number[] = [
+          currentNode[0] + neighborIndice[i][0],
+          currentNode[1] + neighborIndice[i][1],
+        ];
 
-          //check if the neighbor is not a wall
-          if(neighborTile.image != 'FEATURE_TODO'){
-            //check if the neighbor has not been visited
-            if(neighborTile.visited == false){
-              //check if the neighbor is the winning condition
-              if(neighborTile.image == 'DBHamsterApple.png'){
-                return this.backTracking(startNode, [currentNode[0] + neighborIndice[i][0], currentNode[1] + neighborIndice[i][1]], visitedList);
-              }
-              //mark the neighbor as visited
-              neighborTile.visited = true;
-              
-              //visitedList[neighbor.toString()] = currentNode.toString();
+        const distance =
+          Math.abs(neighbor[0] - startNode[0]) +
+          Math.abs(neighbor[1] - startNode[1]);
+        if (
+          neighbor[0] >= 0 &&
+          neighbor[0] < board[0].length &&
+          neighbor[1] >= 0 &&
+          neighbor[1] < board.length &&
+          distance <= searchRangeLimit
+        ) {
+          let neighborTile: Tile = board[neighbor[0]][neighbor[1]];
 
-              //add the neighbor to the frontier
-              frontier.push(neighbor);
+          if (neighborTile.visited == false) {
+            frontier.push(neighbor);
+            neighborTile.visited = true;
+            visitedList.add(neighbor.toString());
+            backtrackingMap[neighbor.toString()] = (
+              currentNode[0] +
+              ',' +
+              currentNode[1]
+            ).toString();
+
+            if (neighborTile.image != '') {
+              targets[neighbor.toString()] = neighborTile;
             }
           }
         }
       }
-
-
     }
-    console.log(frontier)
 
-    return [];
-  }
+    console.log(targets);
+    console.log(backtrackingMap);
+    //return [];
 
-  backTracking(startId: number[], endId: number[], visitedList: {}): Tile[][]{
-    console.log(startId, endId, visitedList);
+    //select best target
 
-    // a list of Boards
-    let path: Tile[][][] = [];
+    const startIndice: string = '0,0';
+    const bestTargetIndice: string = Object.keys(targets)[0];
 
+    // BFS
+    let shortestPath: string[] = [];
 
+    let solutionFound = false;
+    const backTrackingSafetyThreshold = 10;
+    failsafe = 0;
 
-    return [];
+    let currentIndex: string = bestTargetIndice;
+    shortestPath.push(bestTargetIndice);
+
+    while (!solutionFound && failsafe < backTrackingSafetyThreshold) {
+      failsafe += 1;
+
+      const newParent = backtrackingMap[currentIndex];
+
+      if (!newParent) {
+        solutionFound = true;
+        break;
+      }
+
+      shortestPath.push(newParent);
+      currentIndex = newParent;
+    }
+    shortestPath = shortestPath.reverse();
+    console.log(shortestPath);
+    return shortestPath;
   }
 }

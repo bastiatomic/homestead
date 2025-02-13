@@ -1,9 +1,13 @@
 <div class="center">
     <div class="grid">
         <div *ngFor="let row of grid; let i = index">
-            <div [ngClass]="(j + i) % 2 === 0 ? 'lightColor' : 'darkColor'" class="tile"
+            <div 
+            [ngClass]="((j + i) % 2 === 0 ? 'lightColor' : 'darkColor')" class="tile"
                 *ngFor="let tile of row; let j = index">
-                <img *ngIf="tile.image" [src]="'assets/hamster/'+tile.image" style="position: absolute;">
+                <img 
+                *ngIf="tile.image"
+                [style.transform]="'rotate(' + tile.rotation + 'deg)'"
+                 [src]="'assets/hamster/'+tile.image" style="position: absolute;">
                 {{i+" "+j}}
             </div>
 

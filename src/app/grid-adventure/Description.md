@@ -6,3 +6,15 @@ The player has to find the Hamster toys by solving puzzles, and use them to exer
 Every time the hamster achieves a certain goal of steps, it gets skinnier and its level changes. The hamster's level begins at 5, and goes downwards as the hamster achieves more step goals. Once the hamster's level reaches 0, then the minigame is complete, and the Animal Lover's House is added to Layton's Challenges.
 
 SIMULATED ANNEALING 
+
+
+# Modifications for BFS
+- Function arguments
+    - searchRangeLimit: number | boolean
+    - specificTargetOnly : Figurine
+
+- Behavior changes
+    - it first chooses distance
+    - same distance: number of rotations to visit target position
+    - same also: anti-clockwise figurines first
+    
