@@ -16,8 +16,11 @@
 .tile{
     place-items: center;
     display: grid;
-    width: 12.5vw;
     height: 12.5vw;
+    border: 0.1vw solid rgba(20, 20, 20, 0.5);
+    border-radius: 1px;
+    display: grid;
+    place-items: center;
 }
 .tile img {
     transition: transform 0.3s ease-in-out;
@@ -52,5 +55,5 @@ img{
   }
 
 .x{
-    background: rgba(0, 0, 0, .2) url('../../assets/legacy_assets/empty_tile_green_64x.png');
+    background: rgba(0, 0, 0, .2) url('../../../assets/legacy_assets/empty_tile_green_64x.png');
 }

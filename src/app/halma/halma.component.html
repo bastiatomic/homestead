@@ -1,0 +1,33 @@
+<div style="display: grid; grid-template-columns: repeat(2, 500px)">
+  <div>
+    <button
+      [style.background-color]="agentColorMapping[item]"
+      [ngStyle]="marbleStyle[i]"
+      style="position: absolute"
+      class="marble"
+      (click)="getNeighbors(i, item)"
+      *ngFor="let item of board; let i = index"
+    >
+      {{ indexToString[i] }}
+    </button>
+  </div>
+  <div>
+    <button mat-raised-button color="default"><mat-icon fontIcon="arrow_left"></mat-icon>Reset Default</button>
+    <br /><br />
+    <button mat-raised-button color="default">
+      <mat-icon fontIcon="shuffle"></mat-icon>Random
+    </button>
+    <br /><br />
+    <button mat-raised-button color="default"  (click)="getNeighbors(22, 2)">
+      <mat-icon fontIcon="touch_app"></mat-icon>Start
+    </button>
+    <br /><br />
+    <button mat-raised-button color="default">
+      <mat-icon fontIcon="checklist"></mat-icon>Evaluate Board
+    </button>
+    <br /><br />
+
+    <button mat-raised-button color="default">+</button>
+    <button mat-raised-button color="default">-</button>
+  </div>
+</div>

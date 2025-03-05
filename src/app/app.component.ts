@@ -4,12 +4,11 @@ import { Router, RouterOutlet } from '@angular/router';
 
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
-import { SlidingComponent } from "./archive/sliding/sliding.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatButton, CommonModule, RouterOutlet, FormsModule, SlidingComponent],
+  imports: [MatButton, CommonModule, RouterOutlet, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
