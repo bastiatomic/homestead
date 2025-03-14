@@ -1,29 +1,34 @@
 import { Injectable } from '@angular/core';
-//import { neighborMarbles } from './NeighborMarbles';
-import { Move, TraversalPath, TraversalPath2 } from './Move';
-import { indexToString } from './IndexToString';
 import { jumpIndice } from './JumpIndice';
-import { neighborMarbles } from './NeighborMarbles';
+import { basicBoardSetup } from './BasicBoardSetup';
+import { indexToString } from './IndexToString';
+import { BoardState, PlayerId, goalDistances } from './Interfaces';
+import { BehaviorSubject, Observable, Subscription, interval } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MoveGeneratorService {
-  //variables
+  private boardStateSubject$ = new BehaviorSubject<number[]>([]);
+  private updateSubscription: Subscription | null = null;
 
   constructor() {}
 
-  /*TODO:
-   * board (arbitrary word) to coordinates => index of 0 => '[0,12]' => {left: '176.47058823529412px',top: '100px', neighbors: [1,2] }
-   */
+  generateEligibleMovesByIndex(
+    board: BoardState,
+    startIndex: number
+  ): number[][] {
+    const finalBasicMoves: number[][] = basicBoardSetup[startIndex].neighbors
+      .filter((neighbor) => !board.occupied.has(neighbor))
+      .map((neighbor) => [startIndex, neighbor]);
 
-  getJumpMovesByIndex(board: number[], startIndex: number): number[][] {
     let jumpTraversalPaths: number[][] = [];
 
+    //TODO: KILL ME (duplicate) AND JUST START WITH AN EMPTY LIST
     jumpIndice[startIndex].forEach((jumpIndex) => {
       if (
-        board[jumpIndex.neighbor] !== 0 &&
-        board[jumpIndex.targetLocation] === 0
+        board.occupied.has(jumpIndex.neighbor) &&
+        !board.occupied.has(jumpIndex.targetLocation)
       ) {
         jumpTraversalPaths.push([startIndex, jumpIndex.targetLocation]);
       }
@@ -47,11 +52,10 @@ export class MoveGeneratorService {
       }
 
       const newFrontierIndex: number = currentTraversalPath.at(-1)!;
-
       jumpIndice[newFrontierIndex].forEach((jumpIndex) => {
         if (
-          board[jumpIndex.neighbor] !== 0 &&
-          board[jumpIndex.targetLocation] === 0 &&
+          board.occupied.has(jumpIndex.neighbor) &&
+          !board.occupied.has(jumpIndex.targetLocation) &&
           !visistedIndice.has(jumpIndex.targetLocation) //prevent triangle loop
         ) {
           jumpTraversalPaths.push([
@@ -65,48 +69,168 @@ export class MoveGeneratorService {
       visistedIndice.add(currentTraversalPath[currentTraversalPath.length - 1]);
       finalTraversalPaths.push(currentTraversalPath);
     }
-    return finalTraversalPaths;
+    return finalTraversalPaths.concat(finalBasicMoves);
   }
 
-  generateEligibleMovesById(
-    board: number[],
-    index: number,
-    playerId: number
-  ): number[][] {
-    //TODO: remove any
-    let jumpableMoves: number[][] = [];
+  getDistanceToSpecificIndex(startIndex: number, endIndex: number): number {
+    //HOW-TO: Needed for basic evaluation function
+    //TODO: Map this to a const for more efficiency
+    //TODO: There has to be a way more efficient way!
+    //TODO: The pure index is not a valid distance evaluator!!
+    //TODO: create mapping!!
+    const [x1, y1] = indexToString[startIndex].split(',').map(Number);
+    const [x2, y2] = indexToString[endIndex].split(',').map(Number);
 
-    const neighbors: number[][] = neighborMarbles[index]
-      .filter((neighbor) => board[neighbor] === 0)
-      .map((neighbor) => [index, neighbor]);
+    const xOffset = Math.abs(x1 - x2);
+    const yOffSet = Math.abs(y1 - y2);
 
-    jumpableMoves = this.getJumpMovesByIndex(board, index);
-
-    const finalTraversalPaths = neighbors.concat(jumpableMoves);
-
-    return finalTraversalPaths;
+    return xOffset + yOffSet;
   }
 
-  evaluateBoard(board: number[]): number {
-    //using the heuristic of the sum of the distances of the marbles to the goal
+  initBoardByBoardState(): BoardState {
+    let a: BoardState = {
+      1: new Set(),
+      2: new Set(),
+      3: new Set(),
+      4: new Set(),
+      5: new Set(),
+      6: new Set(),
+      occupied: new Set(),
+    };
 
+    [0, 1, 2, 29, 42, 5, 6, 7, 8, 51].forEach((i) => a[1].add(i));
+
+    [19, 20, 21, 22, 32, 33, 34, 44, 45, 55].forEach((i) => a[2].add(i));
+
+    [74, 84, 85, 95, 96, 97, 107, 108, 109, 110].forEach((i) => a[3].add(i));
+
+    [111, 112, 113, 114, 115, 116, 117, 118, 119, 120].forEach((i) =>
+      a[4].add(i)
+    );
+    [65, 75, 76, 86, 87, 88, 98, 99, 100, 101].forEach((i) => a[5].add(i));
+    [10, 11, 12, 13, 23, 24, 25, 35, 36, 46].forEach((i) => a[6].add(i));
+
+    for (const index of ['1', '2', '3', '4', '5', '6'] as const) {
+      for (const value of a[index]) {
+        a.occupied.add(value);
+      }
+    }
+
+    return a;
+  }
+
+  evaluateBoardState(board: BoardState): number {
     return -Infinity;
   }
 
-  //TODO: PlayerID is overall useless here
-  initBoard(board: number[]): number[] {
-    for (let i = 0; i < 10; i++) {
-      board[i] = 1;
-    }
-    [19, 20, 21, 22, 32, 33, 34, 44, 45, 55].forEach((i) => (board[i] = 2));
-
-    [74, 84, 85, 95, 96, 97, 107, 108, 109, 110].forEach((i) => (board[i] = 3));
-
-    [111, 112, 113, 114, 115, 116, 117, 118, 119, 120].forEach(
-      (i) => (board[i] = 4)
+  basicNewMoveDistanceEvaluation(playerId: PlayerId, move: number[]): number {
+    const goalIndex = goalDistances[playerId];
+    const oldDistance = this.getDistanceToSpecificIndex(goalIndex, move[0]);
+    const newDistance = this.getDistanceToSpecificIndex(
+      goalIndex,
+      move[move.length - 1]
     );
-    [65, 75, 76, 86, 87, 88, 98, 99, 100, 101].forEach((i) => (board[i] = 5));
-    [10, 11, 12, 13, 23, 24, 25, 35, 36, 46].forEach((i) => (board[i] = 6));
+
+    return oldDistance - newDistance;
+  }
+
+  //TODO expects a valid move! Will not check illegal moves
+  handleMove(board: BoardState, move: number[], undo?: boolean): BoardState {
+    const oldIndex = undo ? move[move.length - 1] : move[0];
+    const newIndex = undo ? move[0] : move[move.length - 1];
+    for (const index of ['1', '2', '3', '4', '5', '6'] as const) {
+      if (board[index].has(oldIndex)) {
+        board[index].delete(oldIndex);
+        board[index].add(newIndex);
+        board['occupied'].delete(oldIndex);
+        board['occupied'].add(newIndex);
+        break;
+      }
+    }
     return board;
   }
+
+  getValidMovesByBoardState(playerId: PlayerId) {
+    //Get all values from board[key.toString() as keyof BoardState];
+    //We can substitute the board[index] with the set().has(index) function !?
+    //const moves = this.generateEligibleMovesById(null, playerId);
+
+    const initBoard = this.initBoardByBoardState();
+
+    let currentPlayerId = playerId;
+
+    let moves: number[][] = [];
+    let bestEvaluation: number = -1;
+    let bestMove: number[] = [];
+
+    let currentBoard = initBoard;
+
+    if (!this.updateSubscription) {
+      this.updateSubscription = interval(750).subscribe(() => {
+        //loop over all requested playerIds
+
+        for (const currentIndex of currentBoard[currentPlayerId]) {
+          // loop over all marbles of requested playerId
+          moves.push(
+            ...this.generateEligibleMovesByIndex(currentBoard, currentIndex)
+          );
+        }
+
+        bestEvaluation = -Infinity // pesky bug found: The best evaluation never gets reseted :(
+        for(const move of moves){
+          const evaluation = this.basicNewMoveDistanceEvaluation(playerId, move);
+
+          if (evaluation > bestEvaluation) {
+            bestEvaluation = evaluation;
+            bestMove = move;
+          }
+        }
+
+        moves = []
+        currentPlayerId = ((currentPlayerId % 6) + 1) as PlayerId;
+
+        currentBoard = this.handleMove(currentBoard, bestMove, false);
+
+        this.boardStateSubject$.next(this.genDrawableBoard(currentBoard));
+
+        this.simpleHash(this.genDrawableBoard(currentBoard))
+
+        //currentBoard = this.handleMove(currentBoard, bestMove, true);
+
+        //Add the move to the global move list => Use observables who call the function each 500ms!!!
+
+      });
+    }
+  }
+
+  startReactiveTest(): Observable<number[]> {
+    return this.boardStateSubject$.asObservable();
+  }
+
+  stopUpdatingBoardState() {
+    this.updateSubscription?.unsubscribe();
+    this.updateSubscription = null;
+  }
+  genDrawableBoard(board?: BoardState): number[] {
+    if (!board) {
+      board = this.initBoardByBoardState();
+    }
+
+    let drawableBoard = Array.from({ length: 121 }, (_) => 0);
+
+    for (const playerId of ['1', '2', '3', '4', '5', '6'] as const) {
+      for (const index of board[playerId]) {
+        drawableBoard[index] = Number(playerId);
+      }
+    }
+    return drawableBoard;
+  }
+
+  simpleHash(numbers: number[]) : number{
+    let hash = 0;
+    for (let i = 0; i < numbers.length; i++) {
+        hash = (hash * 31 + numbers[i]) % 121;
+    }
+    return hash;
+}
 }

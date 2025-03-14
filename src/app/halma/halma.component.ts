@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { pixelLocations } from './PixelLocations';
 import { MoveGeneratorService } from './move-generator.service';
 import { indexToString } from './IndexToString';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { basicBoardSetup } from './BasicBoardSetup';
+import { zip, from, interval, BehaviorSubject, Observable, of } from 'rxjs';
+import { BoardState } from './Interfaces';
 
 @Component({
   selector: 'app0,halma',
@@ -17,7 +19,8 @@ export class HalmaComponent {
   //TODO: the key of each NeighborMarbles is a x,y coordinate useful to draw the marbles later
 
   marbleStyle: { [key: string]: any } = {};
-  board = Array.from({ length: 121 }, (_) => 0);
+  board$: Observable<number[]> = new Observable<[]>();
+  currentPlayerId: number = 1;
 
   agentColorMapping: { [key: number]: string } = {
     1: 'rgb(255, 179, 186)', // Pastel Red
@@ -33,33 +36,41 @@ export class HalmaComponent {
   constructor(private readonly moveGenerator: MoveGeneratorService) {}
 
   ngOnInit() {
-    this.marbleStyle = pixelLocations;
+    this.marbleStyle = basicBoardSetup;
     this.initAgentColors();
   }
 
-  getNeighbors(index: number, playerId: number) {
-    //console.log(neighborMarbles[index]);
-    const eligibleMoves = this.moveGenerator.generateEligibleMovesById(
-      this.board,
-      index,
-      playerId
-    );
+  start() {
 
-    //this.playMoves(eligibleMoves[eligibleMoves.length - 1], playerId, 0);
+    //start service
+    this.moveGenerator.getValidMovesByBoardState(2);
+
+    this.board$ = this.moveGenerator.startReactiveTest();
+
   }
 
-  initAgentColors() {
-    this.board = this.moveGenerator.initBoard(this.board);
-  }
+  clickMarble(index: number, playerId: number) {}
 
-  playMoves(moves: number[], playerId: number, depth: number = 0) {
-    setTimeout(() => {
-      if (depth + 1 >= moves.length) {
-        return;
+  initAgentColors(board?: BoardState) {
+    if (!board) {
+      board = this.moveGenerator.initBoardByBoardState();
+    }
+
+    let drawableBoard = Array.from({ length: 121 }, (_, i) => 0);
+
+    for (const playerId of ['1', '2', '3', '4', '5', '6'] as const) {
+      for (const index of board[playerId]) {
+        drawableBoard[index] = Number(playerId);
       }
-      this.board[moves[depth]] = 0;
-      this.board[moves[depth + 1]] = playerId;
-      this.playMoves(moves, playerId, depth + 1);
-    }, 750);
+    }
+    this.board$ = of(drawableBoard);
+  }
+
+  stopGame() {
+    this.moveGenerator.stopUpdatingBoardState();
+  }
+
+  resetDefault(){
+    this.initAgentColors()
   }
 }

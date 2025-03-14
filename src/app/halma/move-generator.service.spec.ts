@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { MoveGeneratorService } from './move-generator.service';
+import { BoardState } from './Interfaces';
 
 describe('MoveGeneratorService', () => {
   let service: MoveGeneratorService;
@@ -10,23 +11,40 @@ describe('MoveGeneratorService', () => {
     service = TestBed.inject(MoveGeneratorService);
   });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
   it('shold return a specific list of jump moves given a specific board', () => {
-    const startIndex = 32;
+    const startIndex = 5;
     const expectedJumps = [
-      [32, 31],
-      [32, 43],
+      [5, 16],
+      [5, 16, 3],
+      [5, 16, 41],
+      [5, 16, 3, 14],
+      [5, 16, 41, 43],
+      [5, 16, 41, 60],
+      [5, 4],
+      [5, 9],
     ];
 
-    const initBoard = service.initBoard(Array.from({ length: 121 }, (_) => 0));
-    const response = service.generateEligibleMovesById(
+    const initBoard = service.initBoardByBoardState();
+    const response = service.generateEligibleMovesByIndex(
       initBoard,
-      startIndex,
-      1
+      startIndex
     );
     expect(response).toEqual(expectedJumps);
+  });
+
+  it('the BoardState "occupied" should contain all of the single playerId`s indice', () => {
+    let a: BoardState = {
+      1: new Set([1, 2, 3, 4]),
+      2: new Set([5, 6, 7, 8]),
+      3: new Set(),
+      4: new Set(),
+      5: new Set(),
+      6: new Set(),
+      occupied: new Set([1, 2, 3, 4, 5, 6, 7, 8]),
+    };
+
+    const expectedResponse = service.getOccupiedByPlayerId(a, 1);
+
+    console.log(expectedResponse);
   });
 });

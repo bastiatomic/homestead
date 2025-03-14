@@ -1,4 +1,10 @@
-export const a = [
+export const basicBoardSetup: {
+  x: number;
+  y: number;
+  neighbors: number[];
+  leftPixel: number;
+  topPixel: number;
+}[] = [
   {
     x: 0,
     y: 12,
