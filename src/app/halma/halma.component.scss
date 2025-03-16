@@ -2,16 +2,17 @@
     border-radius:20px;
     width: 35px;
     height: 35px;
-    border: 2px solid rgb(188, 159, 139);
-    background-color: rgb(230,230,230);
+    border: 1.5px solid rgba(22,22,22,1);
+    background-color: transparent;
     font-size: xx-small;
 }
 
-.red {
-    background-color: rgb(255, 0, 0);
-}
 .mat-default {
     background-color: rgb(181, 207, 183);
     color: black;
     border: 2px solid black
+}
+
+.marker{
+    border-color: red;
 }

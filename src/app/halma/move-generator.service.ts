@@ -2,24 +2,30 @@ import { Injectable } from '@angular/core';
 import { jumpIndice } from './JumpIndice';
 import { basicBoardSetup } from './BasicBoardSetup';
 import { indexToString } from './IndexToString';
-import { BoardState, PlayerId, goalDistances } from './Interfaces';
+import { distanceToTargets, goalDistances } from './Interfaces';
 import { BehaviorSubject, Observable, Subscription, interval } from 'rxjs';
+import {
+  BoardType,
+  initialBoard,
+  onePlayerBoard,
+  twoPlayerBoard,
+} from './BoardStates';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MoveGeneratorService {
-  private boardStateSubject$ = new BehaviorSubject<number[]>([]);
+  private boardStateSubject$ = new BehaviorSubject<BoardType>({});
   private updateSubscription: Subscription | null = null;
 
   constructor() {}
 
   generateEligibleMovesByIndex(
-    board: BoardState,
+    board: BoardType,
     startIndex: number
   ): number[][] {
     const finalBasicMoves: number[][] = basicBoardSetup[startIndex].neighbors
-      .filter((neighbor) => !board.occupied.has(neighbor))
+      .filter((neighbor) => !board['occupied'].has(neighbor))
       .map((neighbor) => [startIndex, neighbor]);
 
     let jumpTraversalPaths: number[][] = [];
@@ -27,8 +33,8 @@ export class MoveGeneratorService {
     //TODO: KILL ME (duplicate) AND JUST START WITH AN EMPTY LIST
     jumpIndice[startIndex].forEach((jumpIndex) => {
       if (
-        board.occupied.has(jumpIndex.neighbor) &&
-        !board.occupied.has(jumpIndex.targetLocation)
+        board['occupied'].has(jumpIndex.neighbor) &&
+        !board['occupied'].has(jumpIndex.targetLocation)
       ) {
         jumpTraversalPaths.push([startIndex, jumpIndex.targetLocation]);
       }
@@ -54,8 +60,8 @@ export class MoveGeneratorService {
       const newFrontierIndex: number = currentTraversalPath.at(-1)!;
       jumpIndice[newFrontierIndex].forEach((jumpIndex) => {
         if (
-          board.occupied.has(jumpIndex.neighbor) &&
-          !board.occupied.has(jumpIndex.targetLocation) &&
+          board['occupied'].has(jumpIndex.neighbor) &&
+          !board['occupied'].has(jumpIndex.targetLocation) &&
           !visistedIndice.has(jumpIndex.targetLocation) //prevent triangle loop
         ) {
           jumpTraversalPaths.push([
@@ -72,7 +78,7 @@ export class MoveGeneratorService {
     return finalTraversalPaths.concat(finalBasicMoves);
   }
 
-  getDistanceToSpecificIndex(startIndex: number, endIndex: number): number {
+  getDistanceToSpecificIndexXXX(startIndex: number, endIndex: number): number {
     //HOW-TO: Needed for basic evaluation function
     //TODO: Map this to a const for more efficiency
     //TODO: There has to be a way more efficient way!
@@ -87,58 +93,31 @@ export class MoveGeneratorService {
     return xOffset + yOffSet;
   }
 
-  initBoardByBoardState(): BoardState {
-    let a: BoardState = {
-      1: new Set(),
-      2: new Set(),
-      3: new Set(),
-      4: new Set(),
-      5: new Set(),
-      6: new Set(),
-      occupied: new Set(),
-    };
+  basicNewMoveDistanceEvaluation(playerId: number, move: number[]): number {
+    const targetIndexForPlayerId = goalDistances[playerId];
 
-    [0, 1, 2, 29, 42, 5, 6, 7, 8, 51].forEach((i) => a[1].add(i));
-
-    [19, 20, 21, 22, 32, 33, 34, 44, 45, 55].forEach((i) => a[2].add(i));
-
-    [74, 84, 85, 95, 96, 97, 107, 108, 109, 110].forEach((i) => a[3].add(i));
-
-    [111, 112, 113, 114, 115, 116, 117, 118, 119, 120].forEach((i) =>
-      a[4].add(i)
+    return (
+      distanceToTargets[targetIndexForPlayerId][move[0]] -
+      distanceToTargets[targetIndexForPlayerId][move[move.length - 1]]
     );
-    [65, 75, 76, 86, 87, 88, 98, 99, 100, 101].forEach((i) => a[5].add(i));
-    [10, 11, 12, 13, 23, 24, 25, 35, 36, 46].forEach((i) => a[6].add(i));
-
-    for (const index of ['1', '2', '3', '4', '5', '6'] as const) {
-      for (const value of a[index]) {
-        a.occupied.add(value);
-      }
-    }
-
-    return a;
   }
 
-  evaluateBoardState(board: BoardState): number {
-    return -Infinity;
-  }
+  handleMove2(move: number[]) {
+    const board = this.boardStateSubject$.getValue()
 
-  basicNewMoveDistanceEvaluation(playerId: PlayerId, move: number[]): number {
-    const goalIndex = goalDistances[playerId];
-    const oldDistance = this.getDistanceToSpecificIndex(goalIndex, move[0]);
-    const newDistance = this.getDistanceToSpecificIndex(
-      goalIndex,
-      move[move.length - 1]
-    );
-
-    return oldDistance - newDistance;
+    this.boardStateSubject$.next(this.handleMove(board, move))
   }
 
   //TODO expects a valid move! Will not check illegal moves
-  handleMove(board: BoardState, move: number[], undo?: boolean): BoardState {
+  handleMove(board: BoardType, move: number[], undo?: boolean): BoardType {
     const oldIndex = undo ? move[move.length - 1] : move[0];
     const newIndex = undo ? move[0] : move[move.length - 1];
-    for (const index of ['1', '2', '3', '4', '5', '6'] as const) {
+
+    const allPlayerIds: string[] = Object.keys(board).filter(
+      (item) => item !== 'occupied'
+    );
+
+    for (const index of allPlayerIds) {
       if (board[index].has(oldIndex)) {
         board[index].delete(oldIndex);
         board[index].add(newIndex);
@@ -150,35 +129,40 @@ export class MoveGeneratorService {
     return board;
   }
 
-  getValidMovesByBoardState(playerId: PlayerId) {
+  getValidMovesByBoardState() {
     //Get all values from board[key.toString() as keyof BoardState];
     //We can substitute the board[index] with the set().has(index) function !?
     //const moves = this.generateEligibleMovesById(null, playerId);
-
-    const initBoard = this.initBoardByBoardState();
-
-    let currentPlayerId = playerId;
 
     let moves: number[][] = [];
     let bestEvaluation: number = -1;
     let bestMove: number[] = [];
 
-    let currentBoard = initBoard;
+    let currentBoard = initialBoard;
+    const allPlayerIds: string[] = Object.keys(currentBoard).filter(
+      (item) => item !== 'occupied'
+    );
+    let currentAllPlayerIdsIndex: number = 0;
 
     if (!this.updateSubscription) {
-      this.updateSubscription = interval(750).subscribe(() => {
+      this.updateSubscription = interval(150).subscribe(() => {
         //loop over all requested playerIds
-
-        for (const currentIndex of currentBoard[currentPlayerId]) {
+        for (const currentIndex of currentBoard[
+          allPlayerIds[currentAllPlayerIdsIndex]
+        ]) {
           // loop over all marbles of requested playerId
+
           moves.push(
             ...this.generateEligibleMovesByIndex(currentBoard, currentIndex)
           );
         }
 
-        bestEvaluation = -Infinity // pesky bug found: The best evaluation never gets reseted :(
-        for(const move of moves){
-          const evaluation = this.basicNewMoveDistanceEvaluation(playerId, move);
+        bestEvaluation = -Infinity; // pesky bug found: The best evaluation never gets reseted :(
+        for (const move of moves) {
+          const evaluation = this.basicNewMoveDistanceEvaluation(
+            Number(allPlayerIds[currentAllPlayerIdsIndex]),
+            move
+          );
 
           if (evaluation > bestEvaluation) {
             bestEvaluation = evaluation;
@@ -186,24 +170,25 @@ export class MoveGeneratorService {
           }
         }
 
-        moves = []
-        currentPlayerId = ((currentPlayerId % 6) + 1) as PlayerId;
+        moves = [];
+        currentAllPlayerIdsIndex =
+          (currentAllPlayerIdsIndex + 1) % allPlayerIds.length;
 
         currentBoard = this.handleMove(currentBoard, bestMove, false);
 
-        this.boardStateSubject$.next(this.genDrawableBoard(currentBoard));
 
-        this.simpleHash(this.genDrawableBoard(currentBoard))
+        this.boardStateSubject$.next(currentBoard);
+
+        this.simpleHash(this.genDrawableBoard(currentBoard));
 
         //currentBoard = this.handleMove(currentBoard, bestMove, true);
 
         //Add the move to the global move list => Use observables who call the function each 500ms!!!
-
       });
     }
   }
 
-  startReactiveTest(): Observable<number[]> {
+  startReactiveTest(): Observable<BoardType> {
     return this.boardStateSubject$.asObservable();
   }
 
@@ -211,14 +196,18 @@ export class MoveGeneratorService {
     this.updateSubscription?.unsubscribe();
     this.updateSubscription = null;
   }
-  genDrawableBoard(board?: BoardState): number[] {
+  genDrawableBoard(board?: BoardType): number[] {
     if (!board) {
-      board = this.initBoardByBoardState();
+      board = initialBoard;
     }
 
     let drawableBoard = Array.from({ length: 121 }, (_) => 0);
 
-    for (const playerId of ['1', '2', '3', '4', '5', '6'] as const) {
+    const allPlayerIds: string[] = Object.keys(board).filter(
+      (item) => item !== 'occupied'
+    );
+
+    for (const playerId of allPlayerIds) {
       for (const index of board[playerId]) {
         drawableBoard[index] = Number(playerId);
       }
@@ -226,11 +215,27 @@ export class MoveGeneratorService {
     return drawableBoard;
   }
 
-  simpleHash(numbers: number[]) : number{
+  mapListToSet(a: number[]): BoardType {
+    let newBoardType: BoardType = {};
+    newBoardType['occupied'] = new Set();
+
+    a.forEach((item, index) => {
+      if (item >= 1 && item <= 6) {
+        newBoardType[item]
+          ? newBoardType[item].add(index)
+          : (newBoardType[item] = new Set([index]));
+
+        newBoardType['occupied'].add(index);
+      }
+    });
+    return newBoardType;
+  }
+
+  simpleHash(numbers: number[]): number {
     let hash = 0;
     for (let i = 0; i < numbers.length; i++) {
-        hash = (hash * 31 + numbers[i]) % 121;
+      hash = (hash * 31 + numbers[i]) % 121;
     }
     return hash;
-}
+  }
 }
