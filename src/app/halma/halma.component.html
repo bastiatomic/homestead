@@ -1,9 +1,9 @@
-<div style="display: grid; grid-template-columns: repeat(2, 500px)">
-  <div>
+<div class="twoGrids">
+  <div style="position: relative">
     <button
       [style.background-color]="agentColorMapping[item]"
-      [style.left]="marbleStyle[i].leftPixel * 1.2 + 'px'"
-      [style.top]="marbleStyle[i].topPixel * 1.2 + 'px'"
+      [style.left]="marbleStyle[i].leftPixel * scaleFactor + 'px'"
+      [style.top]="marbleStyle[i].topPixel * scaleFactor + 'px'"
       style="position: absolute"
       class="marble"
       [ngClass]="canBeTargetLocation.has(i) ? 'marker' : ''"
@@ -13,12 +13,12 @@
       {{ i }}
     </button>
   </div>
-  <div>
+  <div style="position: relative">
     <button mat-raised-button color="default" (click)="resetDefault()">
       <mat-icon fontIcon="arrow_left"></mat-icon>Reset Default
     </button>
     <br /><br />
-    <button mat-raised-button color="default">
+    <button mat-raised-button color="default" (click)="randomBoard()">
       <mat-icon fontIcon="shuffle"></mat-icon>Random
     </button>
     <br /><br />
@@ -26,7 +26,7 @@
       <mat-icon fontIcon="touch_app"></mat-icon>Start
     </button>
     <br /><br />
-    <button mat-raised-button color="default">
+    <button mat-raised-button color="default" (click)="evaluate()">
       <mat-icon fontIcon="checklist"></mat-icon>Evaluate Board
     </button>
     <br /><br />
@@ -36,7 +36,11 @@
     </button>
     <br /><br />
 
-    <button mat-raised-button color="default">+</button>
-    <button mat-raised-button color="default">-</button>
+    <button mat-raised-button color="default" (click)="changePlayerAmount(1)">
+      +
+    </button>
+    <button mat-raised-button color="default" (click)="changePlayerAmount(-1)">
+      -
+    </button>
   </div>
 </div>

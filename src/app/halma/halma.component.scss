@@ -16,3 +16,19 @@
 .marker{
     border-color: red;
 }
+
+.twoGrids{
+    display: grid;
+    grid-template-columns: repeat(2, 500px)
+}
+@media screen and (max-width: 600px) {
+    .twoGrids {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows:  repeat(2, 500px);
+    }
+    .marble{
+        width: 30px;
+        height: 30px;
+    }
+  }

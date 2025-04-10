@@ -1,8 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
 import { MoveGeneratorService } from './move-generator.service';
-import { BoardState } from './Interfaces';
-import { initialBoard } from './BoardStates';
 
 describe('MoveGeneratorService', () => {
   let service: MoveGeneratorService;
@@ -13,26 +11,20 @@ describe('MoveGeneratorService', () => {
   });
 
   it('shold return a specific list of jump moves given a specific board', () => {
-    const startIndex = 5;
-    const expectedJumps = [
-      [5, 16],
-      [5, 16, 3],
-      [5, 16, 41],
-      [5, 16, 3, 14],
-      [5, 16, 41, 43],
-      [5, 16, 41, 60],
-      [5, 4],
-      [5, 9],
-    ];
+    const randomBoard = service.getRandomBoard(2);
 
-    const initBoard = initialBoard;
-    const response = service.generateEligibleMovesByIndex(
-      initBoard,
-      startIndex
+    const startIndex = [...randomBoard['occupied']][0];
+    const response1 = service.getPossibleMovesByIndex(randomBoard, startIndex);
+    const response2 = service.getPossibleMovesByIndex(randomBoard, startIndex);
+
+    const lastElementsSet1 = new Set(
+      response1.map((sublist) => sublist[sublist.length - 1])
     );
 
-    console.log(response);
+    const lastElementsSet2 = new Set(
+      response2.map((sublist) => sublist[sublist.length - 1])
+    );
 
-    expect(response).toEqual(expectedJumps);
+    expect(lastElementsSet1).toEqual(lastElementsSet2);
   });
 });

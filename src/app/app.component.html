@@ -1,10 +1,21 @@
 <p
-  style="background-color: rgba(60,44,90,255);font-size: xx-small; color: white;text-align: center;"
+  style="
+    background-color: rgba(60, 44, 90, 255);
+    font-size: xx-small;
+    color: white;
+    text-align: center;
+  "
 >
   You can choose peace.
 </p>
-<button mat-raised-button color="primary" (click)="navigateTo('memory')">Memory</button>
-<button mat-raised-button color="primary" (click)="navigateTo('chess')">Chess</button>
-<button mat-raised-button color="primary" (click)="navigateTo('halma')">Halma</button>
+<button mat-raised-button color="default2" (click)="navigateTo('memory')">
+  Memory
+</button>
+<button mat-raised-button color="default2" (click)="navigateTo('chess')">
+  Chess
+</button>
+<button mat-raised-button color="default2" (click)="navigateTo('halma')">
+  Halma
+</button>
 <div style="margin-top: 5px"></div>
 <router-outlet></router-outlet>

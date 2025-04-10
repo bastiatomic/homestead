@@ -5,7 +5,6 @@ import { MatCardModule } from '@angular/material/card';
 import { CardGenService } from './card-gen.service';
 import { PLANTS_LIST } from '../../assets/anno-1800-plants/plants';
 import { CardType } from './CardType';
-import { MACHINES_LIST } from '../../assets/horizon-machines/machines';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';

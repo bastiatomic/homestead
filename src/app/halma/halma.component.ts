@@ -1,12 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MoveGeneratorService } from './move-generator.service';
-import { indexToString } from './IndexToString';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { basicBoardSetup } from './BasicBoardSetup';
 import { Observable, map } from 'rxjs';
-import { BoardType, initialBoard } from './BoardStates';
+import {
+  BoardType,
+  initialBoard,
+  onePlayerBoard,
+  twoPlayerBoard,
+} from './BoardStates';
+import { agentColorMapping } from './Interfaces';
 
 @Component({
   selector: 'app0,halma',
@@ -17,90 +22,63 @@ import { BoardType, initialBoard } from './BoardStates';
 })
 export class HalmaComponent {
   //TODO: the key of each NeighborMarbles is a x,y coordinate useful to draw the marbles later
+  scaleFactor = 1.2;
 
   marbleStyle: { [key: string]: any } = {};
-  board$: Observable<BoardType> = new Observable<{}>();
-  currentPlayerId: number = 1;
-
-  agentColorMappingXX: { [key: number]: string } = {
-    1: 'rgb(255, 179, 186)', // Pastel Red
-    2: 'rgb(179, 205, 224)', // Pastel Blue
-    3: 'rgb(186, 255, 201)', // Pastel Green
-    4: 'rgb(255, 255, 186)', // Pastel Yellow
-    5: 'rgb(218, 179, 255)', // Pastel Purple
-    6: 'rgb(255, 204, 153)', // Pastel Orange
-  };
-  agentColorMapping: { [key: number]: string } = {
-    1: 'rgb(255, 0, 102)', // Neon Pink
-    2: 'rgb(0, 204, 255)', // Electric Cyan
-    3: 'rgb(0, 255, 128)', // Neon Green
-    4: 'rgb(255, 255, 0)', // Vivid Yellow
-    5: 'rgb(153, 51, 255)', // Deep Purple
-    6: 'rgb(255, 102, 0)', // Bright Orange
-  };
 
   canBeTargetLocation = new Set();
-
-  indexToString = indexToString;
 
   selectedMarble: number | null = null;
 
   drawableBoard$: Observable<number[]> = new Observable<[]>();
 
+  playerAmount = 2;
+
+  firstIndexClicked: number | null = null;
+
+  agentColorMapping = agentColorMapping;
+
   constructor(private readonly moveGenerator: MoveGeneratorService) {}
 
   ngOnInit() {
-    this.board$ = this.moveGenerator.startReactiveTest();
+    this.moveGenerator.boardStateSubject$.next(twoPlayerBoard);
+
     this.marbleStyle = basicBoardSetup;
-    //this.initAgentColors();
-  }
 
-  start() {
-    //start service
-    this.moveGenerator.getValidMovesByBoardState(); //changes the observable board$
-
-    this.drawableBoard$ = this.board$.pipe(
+    this.drawableBoard$ = this.moveGenerator.boardStateSubject$.pipe(
       map((board) => this.transformBoard(board)) //change detection
     );
   }
+
+  start() {
+    this.moveGenerator.getBestMoveByPlayerId();
+  }
   clickMarble(i: number) {
-    //TODO: What happens when I click a non-occupied?
     if (!this.selectedMarble) {
       this.selectedMarble = i;
     } else {
-      this.moveGenerator.handleMove2([this.selectedMarble, i]);
+      this.moveGenerator.handleMove2([this.selectedMarble!, i]);
       this.selectedMarble = null;
     }
   }
 
-  initAgentColors(board?: BoardType) {
-    if (!board) {
-      board = initialBoard;
-    }
-
-    /*let drawableBoard = Array.from({ length: 121 }, (_) => 0);
-
-    for (const playerId of ['1', '2', '3', '4', '5', '6'] as const) {
-      for (const index of board[playerId]) {
-        drawableBoard[index] = Number(playerId);
-      }
-    }
-    this.board$ = of(drawableBoard);*/
-  }
-
   stopGame() {
+    this.moveGenerator.continueWorkflow$.next(false);
     this.moveGenerator.stopUpdatingBoardState();
   }
 
   resetDefault() {
-    this.initAgentColors();
+    console.log('reset');
+
+    //WARNING: initialBoard gets overwritten. Long live call by reference
+    this.moveGenerator.setNewBoard(onePlayerBoard);
   }
   transformBoard(board: BoardType): number[] {
     if (!board) {
       return [];
     }
 
-    let drawableBoard = Array.from({ length: 121 }, (_) => 0);
+    let drawableBoard = Array.from({ length: 121 }, (_) => 10);
 
     const allPlayerIds: string[] = Object.keys(board).filter(
       (item) => item !== 'occupied'
@@ -114,4 +92,18 @@ export class HalmaComponent {
 
     return drawableBoard;
   }
+
+  randomBoard() {
+    this.moveGenerator.getRandomBoard(this.playerAmount);
+  }
+
+  evaluate() {
+    console.log(null);
+  }
+  changePlayerAmount(amount: number) {
+    this.playerAmount += amount;
+    this.randomBoard();
+  }
+
+  recursivelyCallBoards() {}
 }

@@ -6,7 +6,7 @@ import { GridAdventureComponent } from './archive/grid-adventure/grid-adventure.
 import { HalmaComponent } from './halma/halma.component';
 
 export const routes: Routes = [
-  { path: '', component: MemoryComponent, title: 'Memory' },
+  { path: '', component: HalmaComponent, title: 'halma' },
   { path: 'memory', component: MemoryComponent, title: 'Memory' },
   { path: 'chess', component: ChessComponent, title: 'chess' },
   { path: 'sliding', component: SlidingComponent, title: 'sliding' },
